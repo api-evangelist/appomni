@@ -1,0 +1,33 @@
+aid: appomni
+name: AppOmni
+description: >-
+  AppOmni is a SaaS security management platform providing continuous monitoring, threat detection, and compliance for enterprise SaaS applications.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - SaaS Security
+  - Compliance
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/appomni/refs/heads/main/apis.yml
+created: '2026-03-27'
+modified: '2026-03-27'
+specificationVersion: '0.19'
+apis:
+  - aid: appomni:appomni
+    name: AppOmni
+    description: >-
+      AppOmni is a SaaS security management platform providing continuous monitoring, threat detection, and compliance for enterprise SaaS applications.
+    humanURL: https://www.appomni.com
+    tags:
+      - SaaS Security
+    properties:
+      - type: Documentation
+        url: https://www.appomni.com/resources
+common:
+  - type: Website
+    url: https://www.appomni.com
+  - type: Documentation
+    url: https://www.appomni.com/resources
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
