@@ -1,0 +1,10 @@
+{
+  "eventId": "EVT-2026-00042",
+  "severity": "high",
+  "type": "anomaly",
+  "application": "Salesforce",
+  "description": "Unusual bulk data export detected - user exported 50,000 records outside business hours",
+  "detectedAt": "2026-04-19T02:15:00Z",
+  "status": "open",
+  "userId": "user@example.com"
+}

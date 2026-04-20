@@ -1,0 +1,22 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "appomni": "https://www.appomni.com/vocab#",
+    "eventId": "schema:identifier",
+    "severity": "appomni:severity",
+    "type": "schema:category",
+    "application": "schema:applicationCategory",
+    "description": "schema:description",
+    "detectedAt": "schema:dateCreated",
+    "status": "appomni:status",
+    "userId": "schema:identifier",
+    "policyId": "schema:identifier",
+    "name": "schema:name",
+    "enabled": "appomni:enabled",
+    "reportId": "schema:identifier",
+    "framework": "appomni:framework",
+    "period": "appomni:period",
+    "generatedAt": "schema:dateCreated"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/appomni/main/json-schema/security-event-schema.json",
+  "title": "SecurityEvent",
+  "description": "A security event detected by AppOmni in a SaaS application",
+  "type": "object",
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "description": "Unique security event identifier"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low",
+        "info"
+      ],
+      "description": "Event severity level"
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of security event (anomaly, policy-violation, threat, etc.)"
+    },
+    "application": {
+      "type": "string",
+      "description": "SaaS application where the event occurred"
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of the security event"
+    },
+    "detectedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the event was detected"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "investigating",
+        "resolved",
+        "dismissed"
+      ],
+      "description": "Event investigation status"
+    },
+    "userId": {
+      "type": "string",
+      "description": "User associated with the event"
+    }
+  },
+  "required": [
+    "eventId",
+    "severity",
+    "type",
+    "application",
+    "detectedAt",
+    "status"
+  ]
+}

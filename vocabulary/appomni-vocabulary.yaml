@@ -1,0 +1,132 @@
+vocabulary: "1.0.0"
+
+info:
+  provider: AppOmni
+  description: >-
+    Vocabulary for the AppOmni SaaS security management platform, covering
+    security event monitoring, threat detection, policy management, and
+    compliance reporting for enterprise SaaS applications.
+  created: "2026-04-19"
+  modified: "2026-04-19"
+
+operational:
+  apis:
+    - name: AppOmni API
+      namespace: appomni
+      version: "1.0.0"
+      baseUrl: "https://api.appomni.com/v1"
+      status: active
+
+  resources:
+    - name: events
+      description: Security events detected in monitored SaaS applications
+      api: AppOmni API
+      actions:
+        - list
+        - get
+    - name: policies
+      description: Security policies for SaaS application monitoring
+      api: AppOmni API
+      actions:
+        - list
+        - create
+        - get
+        - update
+    - name: compliance-reports
+      description: Compliance reports for regulatory frameworks
+      api: AppOmni API
+      actions:
+        - list
+        - get
+
+  actions:
+    - name: list
+      httpMethod: GET
+      pattern: read
+    - name: get
+      httpMethod: GET
+      pattern: read
+    - name: create
+      httpMethod: POST
+      pattern: write
+    - name: update
+      httpMethod: PUT
+      pattern: write
+
+  schemas:
+    core:
+      - name: SecurityEvent
+        description: A detected security event with severity and investigation status
+      - name: Policy
+        description: A security policy governing SaaS application behavior
+      - name: ComplianceReport
+        description: A generated compliance report for a regulatory framework
+
+  parameters:
+    identifiers:
+      - name: eventId
+        description: Unique security event identifier
+      - name: policyId
+        description: Unique security policy identifier
+      - name: reportId
+        description: Unique compliance report identifier
+    filters:
+      - name: severity
+        description: Event severity level filter
+      - name: application
+        description: SaaS application name filter
+      - name: status
+        description: Event or policy status filter
+
+  enums:
+    eventSeverities:
+      - critical
+      - high
+      - medium
+      - low
+      - info
+    eventStatuses:
+      - open
+      - investigating
+      - resolved
+      - dismissed
+    complianceFrameworks:
+      - SOC2
+      - ISO27001
+      - HIPAA
+      - GDPR
+      - PCI-DSS
+
+  authentication:
+    schemes:
+      - type: bearer
+        description: Bearer token authentication for API access
+
+capability:
+  workflows:
+    - name: SaaS Security Monitoring
+      description: Continuous monitoring and investigation of SaaS security threats
+      resources:
+        - events
+        - policies
+  personas:
+    - name: Security Analyst
+      description: Investigates security events and threats in SaaS applications
+    - name: Compliance Officer
+      description: Generates and reviews compliance reports for regulatory frameworks
+  domains:
+    - name: Threat Detection
+      description: Detecting and investigating security threats in SaaS applications
+      resources:
+        - events
+    - name: Policy Management
+      description: Managing security policies for SaaS application governance
+      resources:
+        - policies
+    - name: Compliance
+      description: Generating and managing compliance reports for regulatory needs
+      resources:
+        - compliance-reports
+
+  namespaces: []
+  binds: []

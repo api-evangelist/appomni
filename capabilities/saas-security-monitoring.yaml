@@ -1,0 +1,74 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: AppOmni SaaS Security Monitoring
+  description: >-
+    Workflow capability for continuous SaaS security monitoring using AppOmni.
+    Supports security teams investigating threats, managing policies, and
+    generating compliance reports for enterprise SaaS environments.
+  tags:
+    - AppOmni
+    - SaaS Security
+    - Threat Detection
+    - Compliance
+  created: "2026-04-19"
+  modified: "2026-04-19"
+
+binds:
+  - namespace: env
+    keys:
+      APPOMNI_API_TOKEN: APPOMNI_API_TOKEN
+
+capability:
+  consumes:
+    - import: appomni
+      location: ./shared/appomni-api.yaml
+
+  exposes:
+    - type: mcp
+      port: 9090
+      namespace: saas-security-mcp
+      transport: http
+      description: MCP server for AI-assisted SaaS security monitoring with AppOmni.
+      tools:
+        - name: investigate-security-events
+          description: Lists and filters security events across enterprise SaaS applications
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "appomni.list-events"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-event-details
+          description: Gets full details of a specific security event for investigation
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "appomni.get-event"
+          with:
+            eventId: "tools.eventId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: review-security-policies
+          description: Reviews security policies configured across monitored SaaS applications
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "appomni.list-policies"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-compliance-reports
+          description: Retrieves compliance reports for audit and governance purposes
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "appomni.list-reports"
+          outputParameters:
+            - type: object
+              mapping: "$."

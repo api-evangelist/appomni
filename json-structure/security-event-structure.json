@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/appomni/main/json-structure/security-event-structure.json",
+  "title": "SecurityEvent",
+  "description": "A security event detected by AppOmni in a SaaS application",
+  "type": "record",
+  "fields": [
+    {
+      "name": "eventId",
+      "type": "string",
+      "description": "Unique security event identifier"
+    },
+    {
+      "name": "severity",
+      "type": "string",
+      "description": "Event severity level"
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "description": "Type of security event"
+    },
+    {
+      "name": "application",
+      "type": "string",
+      "description": "SaaS application where event occurred"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "description": "Human-readable event description"
+    },
+    {
+      "name": "detectedAt",
+      "type": "string",
+      "description": "Detection timestamp"
+    },
+    {
+      "name": "status",
+      "type": "string",
+      "description": "Event investigation status"
+    },
+    {
+      "name": "userId",
+      "type": "string",
+      "description": "Associated user identifier"
+    }
+  ]
+}
