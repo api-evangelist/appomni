@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: AppOmni SaaS Security API — Policies
+  description: 'AppOmni SaaS Security API — Policies. 1 operations. Lead operation: AppOmni - List Policies. Self-contained
+    Naftiko capability covering one Appomni business surface.'
+  tags:
+  - Appomni
+  - Policies
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    APPOMNI_API_KEY: APPOMNI_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: appomni-policies
+    baseUri: https://api.appomni.com/v1
+    description: AppOmni SaaS Security API — Policies business capability. Self-contained, no shared references.
+    resources:
+    - name: policies
+      path: /policies
+      operations:
+      - name: listpolicies
+        method: GET
+        description: AppOmni - List Policies
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.APPOMNI_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: appomni-policies-rest
+    port: 8080
+    description: REST adapter for AppOmni SaaS Security API — Policies. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/policies
+      name: policies
+      description: REST surface for policies.
+      operations:
+      - method: GET
+        name: listpolicies
+        description: AppOmni - List Policies
+        call: appomni-policies.listpolicies
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: appomni-policies-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for AppOmni SaaS Security API — Policies. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: appomni-list-policies
+      description: AppOmni - List Policies
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: appomni-policies.listpolicies
+      outputParameters:
+      - type: object
+        mapping: $.

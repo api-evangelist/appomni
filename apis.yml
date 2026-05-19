@@ -49,6 +49,8 @@ apis:
     type: Vocabulary
   description: API for the AppOmni SaaS security management platform providing security event monitoring, policy management, and compliance reporting across enterprise SaaS applications.
 common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/appomni
 - type: Website
   url: https://www.appomni.com
 - type: Documentation
