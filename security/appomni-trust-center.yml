@@ -1,0 +1,14 @@
+generated: '2026-07-11'
+method: searched
+probe: true
+source: https://trust.appomni.com/
+url: https://trust.appomni.com/
+certifications:
+- SOC 2
+- FedRAMP
+evidence:
+- source: https://trust.appomni.com/
+  keywords:
+  - soc 2
+  - fedramp
+  - trust center

@@ -49,6 +49,12 @@ apis:
       type: Vocabulary
     description: API for the AppOmni SaaS security management platform providing security event monitoring, policy management, and compliance reporting across enterprise SaaS applications.
 common:
+  - type: TrustCenter
+    url: security/appomni-trust-center.yml
+  - type: DomainSecurity
+    url: security/appomni-domain-security.yml
+  - type: Authentication
+    url: authentication/appomni-authentication.yml
   - type: GitHubOrganization
     url: https://github.com/appomni
   - type: LinkedIn
@@ -57,6 +63,8 @@ common:
     url: https://www.appomni.com
   - type: Documentation
     url: https://www.appomni.com/resources
+  - type: Blog
+    url: https://www.appomni.com/feed/
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
