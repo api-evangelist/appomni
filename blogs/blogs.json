@@ -1,0 +1,21 @@
+{
+  "repo": "appomni",
+  "feeds": [
+    {
+      "source": "https://www.appomni.com/feed/",
+      "feed_url": "https://www.appomni.com/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
+      "source": "https://www.appomni.com/resources",
+      "feed_url": "https://appomni.com/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "discovered"
+    }
+  ],
+  "fetched": "2026-07-11T11:50:51Z",
+  "post_count": 21
+}
