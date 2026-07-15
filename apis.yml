@@ -49,6 +49,8 @@ apis:
       type: Vocabulary
     description: API for the AppOmni SaaS security management platform providing security event monitoring, policy management, and compliance reporting across enterprise SaaS applications.
 common:
+  - type: AgenticAccess
+    url: agentic-access/appomni-agentic-access.yml
   - type: TrustCenter
     url: security/appomni-trust-center.yml
   - type: DomainSecurity
