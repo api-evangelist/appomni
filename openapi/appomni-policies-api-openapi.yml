@@ -1,0 +1,83 @@
+openapi: 3.0.3
+info:
+  title: AppOmni SaaS Security Compliance Policies API
+  description: API for the AppOmni SaaS security management platform, providing access to security events, policy management, compliance reporting, and threat detection across enterprise SaaS applications like Salesforce, Microsoft 365, and Slack.
+  version: 1.0.0
+  contact:
+    name: AppOmni
+    url: https://www.appomni.com
+  license:
+    name: Proprietary
+servers:
+- url: https://api.appomni.com/v1
+  description: AppOmni SaaS Security API
+security:
+- bearerAuth: []
+tags:
+- name: Policies
+  description: Security policy configuration and management
+paths:
+  /policies:
+    get:
+      operationId: listPolicies
+      summary: AppOmni - List Policies
+      description: Returns a list of security policies configured for monitored SaaS applications
+      tags:
+      - Policies
+      responses:
+        '200':
+          description: A list of security policies
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Policy'
+              examples:
+                ListPoliciesExample:
+                  x-microcks-default: true
+                  summary: Example policies list
+                  value:
+                    data:
+                    - policyId: POL-001
+                      name: MFA Required for Admins
+                      application: Salesforce
+                      enabled: true
+                      severity: critical
+        '401':
+          description: Unauthorized - invalid or missing authentication token
+components:
+  schemas:
+    Policy:
+      title: Policy
+      description: A security policy for a monitored SaaS application
+      type: object
+      properties:
+        policyId:
+          type: string
+          description: Unique policy identifier
+        name:
+          type: string
+          description: Policy name
+        application:
+          type: string
+          description: SaaS application the policy applies to
+        enabled:
+          type: boolean
+          description: Whether the policy is active
+        severity:
+          type: string
+          enum:
+          - critical
+          - high
+          - medium
+          - low
+          description: Severity of policy violations
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
