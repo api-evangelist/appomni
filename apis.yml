@@ -3,7 +3,20 @@ name: AppOmni
 description: >-
   AppOmni is a SaaS security management platform providing continuous monitoring, threat detection, and compliance for enterprise SaaS applications.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/appomni.png
 tags:
   - SaaS Security
   - Compliance
@@ -16,38 +29,93 @@ created: '2026-03-27'
 modified: '2026-04-19'
 specificationVersion: '0.19'
 apis:
-  - aid: appomni:appomni-api
-    name: AppOmni API
-    tags:
-    - SaaS Security
-    - Compliance
-    - Threat Detection
-    - Policies
-    humanURL: https://www.appomni.com
-    properties:
-    - url: https://www.appomni.com
-      type: Website
-    - url: https://www.appomni.com/resources
-      type: Documentation
-    - url: openapi/appomni-openapi.yaml
-      type: OpenAPI
-    - url: json-schema/security-event-schema.json
-      type: JSONSchema
-    - url: json-structure/security-event-structure.json
-      type: JSONStructure
-    - url: examples/security-event-example.json
-      type: Examples
-    - url: json-ld/appomni-context.jsonld
-      type: JSONLD
-    - url: rules/appomni-spectral-rules.yml
-      type: SpectralRules
-    - url: capabilities/shared/appomni-api.yaml
-      type: X-NaftikoCapability
-    - url: capabilities/saas-security-monitoring.yaml
-      type: X-NaftikoCapability
-    - url: vocabulary/appomni-vocabulary.yaml
-      type: Vocabulary
-    description: API for the AppOmni SaaS security management platform providing security event monitoring, policy management, and compliance reporting across enterprise SaaS applications.
+- aid: appomni:appomni-compliance-api
+  name: AppOmni Compliance API
+  description: Compliance reporting and audit management
+  humanURL: https://www.appomni.com
+  tags:
+  - Compliance
+  properties:
+  - type: OpenAPI
+    url: openapi/appomni-compliance-api-openapi.yml
+  - type: Website
+    url: https://www.appomni.com
+  - type: Documentation
+    url: https://www.appomni.com/resources
+  - type: JSONSchema
+    url: json-schema/security-event-schema.json
+  - type: JSONStructure
+    url: json-structure/security-event-structure.json
+  - type: Examples
+    url: examples/security-event-example.json
+  - type: JSONLD
+    url: json-ld/appomni-context.jsonld
+  - type: SpectralRules
+    url: rules/appomni-spectral-rules.yml
+  - type: X-NaftikoCapability
+    url: capabilities/shared/appomni-api.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/saas-security-monitoring.yaml
+  - type: Vocabulary
+    url: vocabulary/appomni-vocabulary.yaml
+- aid: appomni:appomni-policies-api
+  name: AppOmni Policies API
+  description: Security policy configuration and management
+  humanURL: https://www.appomni.com
+  tags:
+  - Policies
+  properties:
+  - type: OpenAPI
+    url: openapi/appomni-policies-api-openapi.yml
+  - type: Website
+    url: https://www.appomni.com
+  - type: Documentation
+    url: https://www.appomni.com/resources
+  - type: JSONSchema
+    url: json-schema/security-event-schema.json
+  - type: JSONStructure
+    url: json-structure/security-event-structure.json
+  - type: Examples
+    url: examples/security-event-example.json
+  - type: JSONLD
+    url: json-ld/appomni-context.jsonld
+  - type: SpectralRules
+    url: rules/appomni-spectral-rules.yml
+  - type: X-NaftikoCapability
+    url: capabilities/shared/appomni-api.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/saas-security-monitoring.yaml
+  - type: Vocabulary
+    url: vocabulary/appomni-vocabulary.yaml
+- aid: appomni:appomni-security-events-api
+  name: AppOmni Security Events API
+  description: SaaS security event monitoring and management
+  humanURL: https://www.appomni.com
+  tags:
+  - Security Events
+  properties:
+  - type: OpenAPI
+    url: openapi/appomni-security-events-api-openapi.yml
+  - type: Website
+    url: https://www.appomni.com
+  - type: Documentation
+    url: https://www.appomni.com/resources
+  - type: JSONSchema
+    url: json-schema/security-event-schema.json
+  - type: JSONStructure
+    url: json-structure/security-event-structure.json
+  - type: Examples
+    url: examples/security-event-example.json
+  - type: JSONLD
+    url: json-ld/appomni-context.jsonld
+  - type: SpectralRules
+    url: rules/appomni-spectral-rules.yml
+  - type: X-NaftikoCapability
+    url: capabilities/shared/appomni-api.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/saas-security-monitoring.yaml
+  - type: Vocabulary
+    url: vocabulary/appomni-vocabulary.yaml
 common:
   - type: AgenticAccess
     url: agentic-access/appomni-agentic-access.yml
