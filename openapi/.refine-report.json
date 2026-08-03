@@ -1,0 +1,18 @@
+{
+  "provider": "appomni",
+  "sources": [
+    "appomni-compliance-api-openapi.yml",
+    "appomni-policies-api-openapi.yml",
+    "appomni-security-events-api-openapi.yml"
+  ],
+  "outputs": [
+    "appomni-compliance-api-openapi.yml",
+    "appomni-policies-api-openapi.yml",
+    "appomni-security-events-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

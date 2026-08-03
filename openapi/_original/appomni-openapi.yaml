@@ -1,0 +1,276 @@
+openapi: 3.0.3
+info:
+  title: AppOmni SaaS Security API
+  description: >-
+    API for the AppOmni SaaS security management platform, providing access to
+    security events, policy management, compliance reporting, and threat detection
+    across enterprise SaaS applications like Salesforce, Microsoft 365, and Slack.
+  version: 1.0.0
+  contact:
+    name: AppOmni
+    url: https://www.appomni.com
+  license:
+    name: Proprietary
+servers:
+  - url: https://api.appomni.com/v1
+    description: AppOmni SaaS Security API
+security:
+  - bearerAuth: []
+tags:
+  - name: Security Events
+    description: SaaS security event monitoring and management
+  - name: Policies
+    description: Security policy configuration and management
+  - name: Compliance
+    description: Compliance reporting and audit management
+paths:
+  /events:
+    get:
+      operationId: listSecurityEvents
+      summary: AppOmni - List Security Events
+      description: Returns a list of security events detected across monitored SaaS applications
+      tags:
+        - Security Events
+      parameters:
+        - name: severity
+          in: query
+          description: Filter by event severity (critical, high, medium, low, info)
+          schema:
+            type: string
+            enum: [critical, high, medium, low, info]
+        - name: application
+          in: query
+          description: Filter by SaaS application name
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: Filter by event status (open, investigating, resolved, dismissed)
+          schema:
+            type: string
+        - name: from
+          in: query
+          description: Start date for filtering events (ISO 8601)
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          description: End date for filtering events (ISO 8601)
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: A list of security events
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SecurityEvent'
+                  total:
+                    type: integer
+              examples:
+                ListEventsExample:
+                  x-microcks-default: true
+                  summary: Example security events list
+                  value:
+                    data:
+                      - eventId: EVT-2026-00042
+                        severity: high
+                        type: anomaly
+                        application: Salesforce
+                        description: Unusual bulk data export detected
+                        detectedAt: "2026-04-19T02:15:00Z"
+                        status: open
+                    total: 1
+        '401':
+          description: Unauthorized - invalid or missing authentication token
+  /events/{eventId}:
+    get:
+      operationId: getSecurityEvent
+      summary: AppOmni - Get Security Event
+      description: Returns details for a specific security event
+      tags:
+        - Security Events
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          description: Unique security event identifier
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Security event details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityEvent'
+              examples:
+                GetEventExample:
+                  x-microcks-default: true
+                  summary: Example security event detail
+                  value:
+                    eventId: EVT-2026-00042
+                    severity: high
+                    type: anomaly
+                    application: Salesforce
+                    description: Unusual bulk data export detected - user exported 50,000 records outside business hours
+                    detectedAt: "2026-04-19T02:15:00Z"
+                    status: open
+                    userId: user@example.com
+        '404':
+          description: Security event not found
+        '401':
+          description: Unauthorized - invalid or missing authentication token
+  /policies:
+    get:
+      operationId: listPolicies
+      summary: AppOmni - List Policies
+      description: Returns a list of security policies configured for monitored SaaS applications
+      tags:
+        - Policies
+      responses:
+        '200':
+          description: A list of security policies
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Policy'
+              examples:
+                ListPoliciesExample:
+                  x-microcks-default: true
+                  summary: Example policies list
+                  value:
+                    data:
+                      - policyId: POL-001
+                        name: MFA Required for Admins
+                        application: Salesforce
+                        enabled: true
+                        severity: critical
+        '401':
+          description: Unauthorized - invalid or missing authentication token
+  /compliance/reports:
+    get:
+      operationId: listComplianceReports
+      summary: AppOmni - List Compliance Reports
+      description: Returns a list of compliance reports generated by AppOmni
+      tags:
+        - Compliance
+      responses:
+        '200':
+          description: A list of compliance reports
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ComplianceReport'
+              examples:
+                ListReportsExample:
+                  x-microcks-default: true
+                  summary: Example compliance reports list
+                  value:
+                    data:
+                      - reportId: RPT-2026-Q1
+                        framework: SOC2
+                        period: Q1 2026
+                        status: complete
+                        generatedAt: "2026-04-01T00:00:00Z"
+        '401':
+          description: Unauthorized - invalid or missing authentication token
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    SecurityEvent:
+      title: SecurityEvent
+      description: A security event detected by AppOmni in a SaaS application
+      type: object
+      properties:
+        eventId:
+          type: string
+          description: Unique event identifier
+        severity:
+          type: string
+          enum: [critical, high, medium, low, info]
+          description: Event severity level
+        type:
+          type: string
+          description: Type of security event
+        application:
+          type: string
+          description: SaaS application where event occurred
+        description:
+          type: string
+          description: Human-readable event description
+        detectedAt:
+          type: string
+          format: date-time
+          description: When the event was detected
+        status:
+          type: string
+          enum: [open, investigating, resolved, dismissed]
+          description: Event investigation status
+        userId:
+          type: string
+          description: User associated with the event
+    Policy:
+      title: Policy
+      description: A security policy for a monitored SaaS application
+      type: object
+      properties:
+        policyId:
+          type: string
+          description: Unique policy identifier
+        name:
+          type: string
+          description: Policy name
+        application:
+          type: string
+          description: SaaS application the policy applies to
+        enabled:
+          type: boolean
+          description: Whether the policy is active
+        severity:
+          type: string
+          enum: [critical, high, medium, low]
+          description: Severity of policy violations
+    ComplianceReport:
+      title: ComplianceReport
+      description: A compliance report generated by AppOmni
+      type: object
+      properties:
+        reportId:
+          type: string
+          description: Unique report identifier
+        framework:
+          type: string
+          description: Compliance framework (SOC2, ISO27001, HIPAA, etc.)
+        period:
+          type: string
+          description: Reporting period
+        status:
+          type: string
+          enum: [generating, complete, failed]
+          description: Report generation status
+        generatedAt:
+          type: string
+          format: date-time
+          description: When the report was generated

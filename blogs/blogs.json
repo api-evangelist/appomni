@@ -9,6 +9,13 @@
       "method": "feed"
     },
     {
+      "source": "https://appomni.com/feed/",
+      "feed_url": "https://appomni.com/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
       "source": "https://www.appomni.com/resources",
       "feed_url": "https://appomni.com/feed/",
       "title": "",
@@ -16,6 +23,6 @@
       "method": "discovered"
     }
   ],
-  "fetched": "2026-07-11T11:50:51Z",
-  "post_count": 21
+  "fetched": "2026-08-01T15:49:00Z",
+  "post_count": 26
 }
