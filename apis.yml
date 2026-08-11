@@ -52,10 +52,6 @@ apis:
     url: json-ld/appomni-context.jsonld
   - type: SpectralRules
     url: rules/appomni-spectral-rules.yml
-  - type: X-NaftikoCapability
-    url: capabilities/shared/appomni-api.yaml
-  - type: X-NaftikoCapability
-    url: capabilities/saas-security-monitoring.yaml
   - type: Vocabulary
     url: vocabulary/appomni-vocabulary.yaml
 - aid: appomni:appomni-policies-api
@@ -81,10 +77,6 @@ apis:
     url: json-ld/appomni-context.jsonld
   - type: SpectralRules
     url: rules/appomni-spectral-rules.yml
-  - type: X-NaftikoCapability
-    url: capabilities/shared/appomni-api.yaml
-  - type: X-NaftikoCapability
-    url: capabilities/saas-security-monitoring.yaml
   - type: Vocabulary
     url: vocabulary/appomni-vocabulary.yaml
 - aid: appomni:appomni-security-events-api
@@ -110,10 +102,6 @@ apis:
     url: json-ld/appomni-context.jsonld
   - type: SpectralRules
     url: rules/appomni-spectral-rules.yml
-  - type: X-NaftikoCapability
-    url: capabilities/shared/appomni-api.yaml
-  - type: X-NaftikoCapability
-    url: capabilities/saas-security-monitoring.yaml
   - type: Vocabulary
     url: vocabulary/appomni-vocabulary.yaml
 common:
