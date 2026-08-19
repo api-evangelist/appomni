@@ -1,0 +1,86 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AppOmni SaaS Security Compliance Security Events API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Security Events",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "AppOmni - List Security Events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.appomni.com/v1/events",
+            "params": [
+              {
+                "name": "severity",
+                "value": "",
+                "type": "query",
+                "description": "Filter by event severity (critical, high, medium, low, info)"
+              },
+              {
+                "name": "application",
+                "value": "",
+                "type": "query",
+                "description": "Filter by SaaS application name"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by event status (open, investigating, resolved, dismissed)"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start date for filtering events (ISO 8601)"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End date for filtering events (ISO 8601)"
+              }
+            ]
+          },
+          "docs": "Returns a list of security events detected across monitored SaaS applications"
+        },
+        {
+          "info": {
+            "name": "AppOmni - Get Security Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.appomni.com/v1/events/:eventId",
+            "params": [
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path",
+                "description": "Unique security event identifier"
+              }
+            ]
+          },
+          "docs": "Returns details for a specific security event"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
