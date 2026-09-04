@@ -1,0 +1,1807 @@
+openapi: 3.1.0
+info:
+  title: AppOmni Identity and Access API
+  description: 'Unified identities, AppOmni platform users, groups, roles and API authorization tokens.
+
+
+    Derived faithfully from the AppOmni public Postman collection published by AppOmni at https://api.appomni.com/
+    — every path, method, parameter, request body and example response below is taken verbatim from that
+    collection. No operation was invented.'
+  version: 1.0.0
+  contact:
+    name: AppOmni
+    url: https://appomni.com/support/
+  license:
+    name: Proprietary
+    url: https://appomni.com/terms-of-service/
+  x-generated-from: AppOmni public Postman collection (publishedId 2sBXc7Mjib, published 2026-02-04)
+  x-generated-source: https://api.appomni.com/api/collections/45135595/2sBXc7Mjib?segregateAuth=true&versionTag=latest
+  x-generated-method: derived
+  x-generated-date: '2026-09-04'
+servers:
+- url: https://{instance}.appomni.com
+  description: AppOmni tenant. Replace {instance} with your AppOmni subdomain — e.g. `acme` if you log
+    in at acme.appomni.com.
+  variables:
+    instance:
+      default: example
+      description: Your AppOmni tenant subdomain
+security:
+- bearerAuth: []
+tags:
+- name: Identity
+  description: "A Unified Identity represents a person and is composed of the different monitored service\
+    \ user accounts of that person, associated by email addresses.\n\n Monitored service users are users\
+    \ detected by scans of a specific monitored service."
+- name: Users and Roles
+- name: Authorization Tokens
+paths:
+  /api/v1/core/unifiedidentity/annotated_list/:
+    get:
+      operationId: listUnifiedIdentities
+      summary: List unified identities
+      tags:
+      - Identity
+      description: "Returns a list of all unified identities.\n\n Response Fields\n\n Field \n Data Type\
+        \ \n Description \n Example \n\n id \n Integer \n Unique internal identifier for the unified identity\
+        \ \n 180452 \n\n created \n String (ISO 8601) \n Timestamp when the identity was created \n 2022-11-29T05:56:26.372253Z\
+        \ \n\n modified \n String (ISO 8601) \n Timestamp when the identity was last modified \n 2022-11-29T05:56:26.372264Z\
+        \ \n\n external_id \n String or null \n External identifier associated with the identity \n null\
+        \ \n\n identity_id \n UUID \n Unique identity ID for external reference \n 8590914a-a00a-4d0a-a9f4-626803eb9c1e\
+        \ \n\n identity_status \n String \n Status of the identity \n active \n\n identity_signature \n\
+        \ String \n Signature representing the identity, often an email \n user@example.com \n\n name\
+        \ \n String \n Display name of the identity \n John Doe \n\n name_akas \n Array[String] \n Alternative\
+        \ names or aliases \n [] \n\n email \n String \n Primary email address \n user@example.com \n\n\
+        \ primary_rbac_element_names \n Array[String] \n List of RBAC (role-based access control) roles\
+        \ \n [Member] \n\n user_controlled \n Boolean \n Whether the user directly controls the identity\
+        \ \n false \n\n idp_controlled \n Boolean \n Whether the identity is controlled by an Identity\
+        \ Provider \n false \n\n num_users_linked \n Integer \n Number of user accounts linked to this\
+        \ identity \n 4 \n\n num_users_active \n Integer \n Number of active users linked \n 1 \n\n num_users_highest_admin\
+        \ \n Integer \n Count of users with the highest level of admin access \n 0 \n\n num_users_highest_elevated\
+        \ \n Integer \n Count of users with elevated privileges \n 0 \n\n num_users_highest_standard \n\
+        \ Integer \n Count of users with standard access \n 4 \n\n num_users_inactive \n Integer \n Number\
+        \ of linked but inactive user accounts \n 0 \n\n num_users_disabled \n Integer \n Number of disabled\
+        \ user accounts \n 0 \n\n num_users_deprovisioned \n Integer \n Number of deprovisioned (removed)\
+        \ accounts \n 0 \n\n num_users_unknown \n Integer \n Number of users with unknown status \n 3\
+        \ \n\n any_elevated \n Boolean \n Indicates if any linked users have elevated permissions \n false\
+        \ \n\n any_admin \n Boolean \n Indicates if any linked users have admin access \n false \n\n user_label\
+        \ \n String or null \n Optional label associated with the user \n null \n\n notes \n String or\
+        \ null \n Optional notes related to the identity \n null \n\n tags \n Array[String] \n User-defined\
+        \ tags \n [] \n\n last_login \n String (ISO 8601) \n Last recorded login timestamp \n 2025-03-12T16:00:47Z\
+        \ \n\n last_login_msu_id \n String \n Composite ID for the last login (service type, ID, user\
+        \ ID) \n zoom:10861:abc123def456 \n\n services_linked \n Array[Integer] \n IDs of the services\
+        \ linked to this identity \n [10861, 25811, 59855, 59856] \n\n service_types \n Array[String]\
+        \ \n Types of services linked \n [lucid, zoom] \n\n service_names \n Array[String] \n Names of\
+        \ linked services \n [Service A, Service B, Service C, Service D] \n\n permission_level \n String\
+        \ \n Highest permission level among linked users \n standard \n\n last_login_ms_type \n String\
+        \ \n Service type of the most recent login \n zoom \n\n last_login_ms_id \n Integer \n Service\
+        \ ID of the most recent login \n 10861 \n\n last_login_user_id \n String \n User ID used during\
+        \ the last login \n abc123def456 \n\n tags \n Array[Integer] \n IDs of the tags associated to\
+        \ this identity \n [123, 456]"
+      responses:
+        '200':
+          description: List Unified Identities
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "{\n    \"count\": -1,\n    \"next\": \"https://coretest.int.appomni.com/api/v1/core/unifiedidentity/?limit=100&offset=100\"\
+                ,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"id\": 143568,\
+                \  // This is the internal ID of the unified identities, it can be used in the details\
+                \ endpoint \n            \"identity_id\": \"8590914a-a00a-4d0a-a9f4-626803eb9c1e\", //\
+                \ This is an external reference ID for the identity\n            \"services_linked\":\
+                \ [ // These are IDs of monitored services that has a linked MSU\n                10861,\n\
+                \                25811,\n                59855,\n                59856\n            ],\n\
+                \            \"service_types\": [ // These are unique names of monitored service types\
+                \ that have a linked MSU\n                \"lucid\",\n                \"zoom\"\n     \
+                \       ],\n            \"service_names\": [ // These are names of monitored services\
+                \ that have a linked MSU\n                \"Lucid - 098453\",\n                \"lucid-vj\"\
+                ,\n                \"lucid-vj-2\",\n                \"Zoom Monitored Service 1\"\n   \
+                \         ]\n            // ... other fields omitted\n        }\n    ]\n}"
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/unifiedidentity/{identity_id}/:
+    get:
+      operationId: unifiedIdentityDetails
+      summary: Unified identity details
+      tags:
+      - Identity
+      description: "Returns details for a specific unified identity. Use the id from the List Unified\
+        \ Identities endpoint response above.\n\n Response Fields\n\n Field \n Data Type \n Description\
+        \ \n Example \n\n id \n Integer \n Unique internal identifier for the unified identity \n 180452\
+        \ \n\n created \n String (ISO 8601) \n Timestamp when the identity was created \n 2022-11-29T05:56:26.372253Z\
+        \ \n\n modified \n String (ISO 8601) \n Timestamp when the identity was last modified \n 2022-11-29T05:56:26.372264Z\
+        \ \n\n external_id \n String or null \n External identifier associated with the identity \n null\
+        \ \n\n identity_id \n UUID \n Unique identity ID for external reference \n 8590914a-a00a-4d0a-a9f4-626803eb9c1e\
+        \ \n\n identity_status \n String \n Status of the identity \n active \n\n identity_signature \n\
+        \ String \n Signature representing the identity, often an email \n user@example.com \n\n name\
+        \ \n String \n Display name of the identity \n John Doe \n\n name_akas \n Array[String] \n Alternative\
+        \ names or aliases \n [] \n\n email \n String \n Primary email address \n user@example.com \n\n\
+        \ primary_rbac_element_names \n Array[String] \n List of RBAC (role-based access control) roles\
+        \ \n [Member] \n\n user_controlled \n Boolean \n Whether the user directly controls the identity\
+        \ \n false \n\n idp_controlled \n Boolean \n Whether the identity is controlled by an Identity\
+        \ Provider \n false \n\n num_users_linked \n Integer \n Number of user accounts linked to this\
+        \ identity \n 4 \n\n num_users_active \n Integer \n Number of active users linked \n 1 \n\n num_users_highest_admin\
+        \ \n Integer \n Count of users with the highest level of admin access \n 0 \n\n num_users_highest_elevated\
+        \ \n Integer \n Count of users with elevated privileges \n 0 \n\n num_users_highest_standard \n\
+        \ Integer \n Count of users with standard access \n 4 \n\n num_users_inactive \n Integer \n Number\
+        \ of linked but inactive user accounts \n 0 \n\n num_users_disabled \n Integer \n Number of disabled\
+        \ user accounts \n 0 \n\n num_users_deprovisioned \n Integer \n Number of deprovisioned (removed)\
+        \ accounts \n 0 \n\n num_users_unknown \n Integer \n Number of users with unknown status \n 3\
+        \ \n\n any_elevated \n Boolean \n Indicates if any linked users have elevated permissions \n false\
+        \ \n\n any_admin \n Boolean \n Indicates if any linked users have admin access \n false \n\n user_label\
+        \ \n String or null \n Optional label associated with the user \n null \n\n notes \n String or\
+        \ null \n Optional notes related to the identity \n null \n\n tags \n Array[String] \n User-defined\
+        \ tags \n [] \n\n last_login \n String (ISO 8601) \n Last recorded login timestamp \n 2025-03-12T16:00:47Z\
+        \ \n\n last_login_msu_id \n String \n Composite ID for the last login (service type, ID, user\
+        \ ID) \n zoom:10861:abc123def456 \n\n services_linked \n Array[Integer] \n IDs of the services\
+        \ linked to this identity \n [10861, 25811, 59855, 59856] \n\n service_types \n Array[String]\
+        \ \n Types of services linked \n [lucid, zoom] \n\n service_names \n Array[String] \n Names of\
+        \ linked services \n [Service A, Service B, Service C, Service D] \n\n permission_level \n String\
+        \ \n Highest permission level among linked users \n standard \n\n last_login_ms_type \n String\
+        \ \n Service type of the most recent login \n zoom \n\n last_login_ms_id \n Integer \n Service\
+        \ ID of the most recent login \n 10861 \n\n last_login_user_id \n String \n User ID used during\
+        \ the last login \n abc123def456"
+      parameters:
+      - name: identity_id
+        in: path
+        required: true
+        description: Path parameter identity_id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Get Identity Details by UUID
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                GetIdentityDetailsbyUUID:
+                  summary: Get Identity Details by UUID
+                  value:
+                    id: 13211
+                    created: '2021-10-22T01:34:03.069775Z'
+                    modified: '2021-10-22T01:34:03.069782Z'
+                    external_id: null
+                    identity_id: f9eaf6ad-bf00-446f-a370-ad3515e20aae
+                    identity_status: active
+                    identity_signature: se@appomni.com
+                    name: Sales One Prod Authenticated
+                    name_akas:
+                    - Sales One Dev Authenticated
+                    - AppOmni SE's
+                    - Platform 1
+                    - se+it
+                    - Rogue 2
+                    - SE UAT
+                    - SE Demo
+                    - Solutions Engineering
+                    - se+unsanctioneduser
+                    - se+malicioususer
+                    - se+leadership
+                    - Rogue One
+                    - Demo Prod
+                    - Jasper Chik
+                    - Core 1
+                    - Demo Dev
+                    - Sales One
+                    - Rogue1
+                    - se+support
+                    - John Smith
+                    - Sales one
+                    - se+PMM
+                    - Core2
+                    email: se+prod-sales1-unauthenticated@appomni.com
+                    primary_rbac_element_names:
+                    - Member
+                    - System Administrator
+                    - 'Custom: Sales Profile'
+                    - Super Administrator
+                    user_controlled: false
+                    idp_controlled: false
+                    num_users_linked: 25
+                    num_users_active: 25
+                    num_users_inactive: 0
+                    any_elevated: true
+                    any_admin: true
+                    services_linked:
+                    - 7543
+                    - 7717
+                    - 7720
+                    - 11169
+                    - 11264
+                    - 12515
+                    user_label: null
+                    notes: null
+                    tags: []
+                    service_types:
+                    - jira
+                    - okta
+                    - sfdc
+                    - zoom
+                    service_names:
+                    - Zoom - Prod
+                    - SFDC - Prod
+                    - SFDC - Dev (staging)
+                    - Okta - Prod
+                    - SFDC - UAT
+                    - Jira - Prod
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/unifiedidentity/{identity_id}/users:
+    get:
+      operationId: listMonitoredServiceUsersLinkedToAUnifiedIdentity
+      summary: List monitored service users linked to a unified identity
+      tags:
+      - Identity
+      description: "Returns a list of monitored service users linked to a specific unified identity.\n\
+        \n identity_id may be used instead of id in this endpoint.\n\n Response Fields\n\n Field \n Data\
+        \ Type \n Description \n Example \n\n count \n Integer \n Total number of user entries linked\
+        \ to the identity \n 4 \n\n next \n String or null \n URL to the next page of results (if paginated)\
+        \ \n null \n\n previous \n String or null \n URL to the previous page of results (if paginated)\
+        \ \n null \n\n results \n Array[Object] \n List of user entries associated with the identity \n\
+        \ [...] \n\n Linked Monitored Service User Schema\n\n Field \n Data Type \n Description \n Example\
+        \ \n\n id \n Integer \n Unique ID for the monitored service user identity mapping \n 442 \n\n\
+        \ identity_id \n UUID \n Unique ID for the monitored service user \n abc123def456 \n\n unified_identity_id\
+        \ \n Integer \n Associated unified identity ID \n 180452 \n\n service_org_id \n Integer \n Service\
+        \ organization ID this user belongs to \n 10861 \n\n service_type \n String \n Type of service\
+        \ (e.g., zoom, lucid) \n zoom \n\n service_type_slug \n String \n Slug version of the service\
+        \ type \n zoom \n\n service_org_name \n String \n Human-readable name of the service organization\
+        \ \n Service Name 1 \n\n user_id \n String \n Service-specific user ID \n abc123def456 \n\n active\
+        \ \n Boolean \n Whether the user account is marked as active \n true \n\n user_status \n String\
+        \ \n Status of the user \n active \n\n username \n String or null \n Optional username for the\
+        \ user \n user@example.com \n\n email \n String \n Email address of the user \n user@example.com\
+        \ \n\n name \n String \n Full name of the user \n John Doe \n\n is_internal_user \n Boolean \n\
+        \ Whether this user is an internal user \n true \n\n last_login \n String or null \n Last login\
+        \ time in ISO 8601 format, or null if never logged in \n 2025-03-12T16:00:47Z \n\n has_elevated_perms\
+        \ \n Boolean \n Whether the user has elevated permissions \n false \n\n has_admin_perms \n Boolean\
+        \ \n Whether the user has admin permissions \n false \n\n created_at_date \n String (ISO 8601)\
+        \ \n When the user identity record was created \n 2023-05-12T17:06:15Z \n\n user_type \n String\
+        \ or null \n Type of user (e.g., Basic, Licensed) or null \n Basic \n\n primary_rbac_element_id\
+        \ \n String or null \n ID of the primary RBAC element assigned \n 2 \n\n primary_rbac_element_name\
+        \ \n String or null \n Name of the primary RBAC element \n Member \n\n addl_primary_rbac_element_ids\
+        \ \n Array[String] \n Additional primary RBAC element IDs \n [] \n\n addl_primary_rbac_element_names\
+        \ \n Array[String] or null \n Additional primary RBAC element names \n [] \n\n permission_level\
+        \ \n String \n Effective permission level for this user \n standard"
+      parameters:
+      - name: identity_id
+        in: path
+        required: true
+        description: Path parameter identity_id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List Monitored Service Users Linked to a Unified Identity
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "{\n    \"count\": 4,\n    \"next\": null,\n    \"previous\": null,\n    \"results\"\
+                : [\n        {\n            \"id\": 2906,  // the AppOmni identifier for this monitored\
+                \ service user\n            \"unified_identity_id\": 180452, //the unified identity this\
+                \ MSU is linked to\n            \"service_org_id\": 25811,  // the ID of the monitored\
+                \ service this MSU is from\n            \"service_type\": \"lucid\", // the service type\
+                \ of the monitored service, this can be `custom` for customer monitored services\n   \
+                \         \"service_type_slug\": \"lucid\",  // the unique slug of the monitored service\
+                \ this MSU is from used for lookup\n            \"service_org_name\": \"Lucid - 098453\"\
+                , // name of the monitored service\n            \"user_id\": \"lucid-177067822\", // id\
+                \ for the user within the monitored service itself\n        },\n        // ...other 3\
+                \ results omitted"
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/lucid/svcexp/{service_org_id}/user/{user_id}:
+    get:
+      operationId: getMonitoredServiceUserDetails
+      summary: Get monitored service user details
+      tags:
+      - Identity
+      description: "Returns the details of a specified monitored service user.\n\n Note : Monitored service\
+        \ users are users detected by scans of a specific monitored service. These users should not be\
+        \ confused with AppOmni users, which are users who can login to the AppOmni console.\n\n Response\
+        \ Fields\n\n Field \n Data Type \n Description \n Example \n\n id \n Integer \n Unique ID for\
+        \ the monitored service user identity mapping \n 442 \n\n identity_id \n UUID \n Unique ID for\
+        \ the monitored service user \n abc123def456 \n\n unified_identity_id \n Integer \n Associated\
+        \ unified identity ID \n 180452 \n\n service_org_id \n Integer \n Service organization ID this\
+        \ user belongs to \n 10861 \n\n service_type \n String \n Type of service (e.g., zoom, lucid)\
+        \ \n zoom \n\n service_type_slug \n String \n Slug version of the service type \n zoom \n\n service_org_name\
+        \ \n String \n Human-readable name of the service organization \n Service Name 1 \n\n user_id\
+        \ \n String \n Service-specific user ID \n abc123def456 \n\n active \n Boolean \n Whether the\
+        \ user account is marked as active \n true \n\n user_status \n String \n Status of the user \n\
+        \ active \n\n username \n String or null \n Optional username for the user \n user@example.com\
+        \ \n\n email \n String \n Email address of the user \n user@example.com \n\n name \n String \n\
+        \ Full name of the user \n John Doe \n\n is_internal_user \n Boolean \n Whether this user is an\
+        \ internal user \n true \n\n last_login \n String or null \n Last login time in ISO 8601 format,\
+        \ or null if never logged in \n 2025-03-12T16:00:47Z \n\n has_elevated_perms \n Boolean \n Whether\
+        \ the user has elevated permissions \n false \n\n has_admin_perms \n Boolean \n Whether the user\
+        \ has admin permissions \n false \n\n created_at_date \n String (ISO 8601) \n When the user identity\
+        \ record was created \n 2023-05-12T17:06:15Z \n\n user_type \n String or null \n Type of user\
+        \ (e.g., Basic, Licensed) or null \n Basic \n\n primary_rbac_element_id \n String or null \n ID\
+        \ of the primary RBAC element assigned \n 2 \n\n primary_rbac_element_name \n String or null \n\
+        \ Name of the primary RBAC element \n Member \n\n addl_primary_rbac_element_ids \n Array[String]\
+        \ \n Additional primary RBAC element IDs \n [] \n\n addl_primary_rbac_element_names \n Array[String]\
+        \ or null \n Additional primary RBAC element names \n [] \n\n permission_level \n String \n Effective\
+        \ permission level for this user \n standard"
+      parameters:
+      - name: service_org_id
+        in: path
+        required: true
+        description: Path parameter service_org_id
+        schema:
+          type: string
+      - name: user_id
+        in: path
+        required: true
+        description: Path parameter user_id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Get Monitored Service User Details
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "{\n    \"id\": 2906,  // id of the monitored service user\n    \"user_id\": \"\
+                lucid-177067822\", //id for user within the monitored service\n    \"unified_identity\"\
+                : 180452, // Unified identity this monitored service user is linked to\n\n    // ....\
+                \  \n}"
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/identity/unifiedidentity/:
+    get:
+      operationId: listUnifiedIdentities2
+      summary: List Unified Identities
+      tags:
+      - Identity
+      description: "Returns a paginated list of unified identities.\n\n Filter Parameters\n\n Specified\
+        \ as query string parameters:\n\n Parameter \n Type \n Description \n Example \n\n any_admin \n\
+        \ Boolean \n Filter identities that have at least one linked admin user. \n true \n\n any_elevated\
+        \ \n Boolean \n Filter identities that have at least one linked elevated user. \n true \n\n created__gte\
+        \ \n String (ISO 8601) \n Filter identities created on or after the supplied timestamp. \n 2024-01-01T00:00:00Z\
+        \ \n\n created__lte \n String (ISO 8601) \n Filter identities created on or before the supplied\
+        \ timestamp. \n 2024-12-31T23:59:59Z \n\n email \n String \n Filter by primary email address.\
+        \ \n jane@example.com \n\n id \n String \n Filter by unified identity ID. \n 4e5ab37b-7d39-4fa8-9f14-6f2e74d9cd1f\
+        \ \n\n last_login__gte \n String (ISO 8601) \n Filter identities whose last login is on or after\
+        \ the supplied timestamp. \n 2024-09-01T00:00:00Z \n\n last_login__lte \n String (ISO 8601) \n\
+        \ Filter identities whose last login is on or before the supplied timestamp. \n 2024-09-30T23:59:59Z\
+        \ \n\n limit \n Integer \n Maximum number of records to return per page. \n 25 \n\n modified__gte\
+        \ \n String (ISO 8601) \n Filter identities modified on or after the supplied timestamp. \n 2024-07-01T00:00:00Z\
+        \ \n\n modified__lte \n String (ISO 8601) \n Filter identities modified on or before the supplied\
+        \ timestamp. \n 2024-07-31T23:59:59Z \n\n name \n String \n Filter by display name. \n Jane Doe\
+        \ \n\n offset \n Integer \n Number of records to skip before returning results. \n 0 \n\n ordering\
+        \ \n String \n Sort field list. Prefix a field with - for descending order. \n -last_login,name\
+        \ \n\n permission_level__in \n Array[String] \n Filter by one or more permission levels. Supported\
+        \ values: admin , elevated , standard , not_applicable . \n [\"admin\",\"elevated\"] \n\n search\
+        \ \n String \n Free-text search across indexed identity fields. Must be 3 to 256 characters. \n\
+        \ Jane \n\n services_linked__in \n Array[Integer] \n Filter by one or more linked monitored service\
+        \ IDs. \n [101,202,303] \n\n service_types__in \n Array[String] \n Filter by one or more linked\
+        \ monitored service type slugs. \n [\"github\",\"sfdc\"] \n\n status__in \n Array[String] \n Filter\
+        \ by one or more identity statuses. Supported values: active , inactive , disabled , deprovisioned\
+        \ , unknown . \n [\"active\",\"inactive\"] \n\n Sort Fields\n\n Use these public field names in\
+        \ ordering :\n\n Field \n Notes \n\n any_admin \n Boolean sort. \n\n any_elevated \n Boolean sort.\
+        \ \n\n created \n Creation timestamp. \n\n email \n Primary email. \n\n last_login \n Most recent\
+        \ linked login. \n\n modified \n Last modified timestamp. \n\n name \n Promoted display name.\
+        \ \n\n num_users_linked \n Count of linked monitored service users. \n\n permission_level \n Highest\
+        \ permission level observed. \n\n status \n Unified identity status. \n\n Examples:\n\n- ordering=name\
+        \ \n\n- ordering=-last_login \n\n- ordering=permission_level,-name \n\n Response Fields\n\n Paged\
+        \ response wrapper:\n\n Field \n Type \n Description \n Example \n\n count \n Integer \n Total\
+        \ number of matching records. \n 1 \n\n results \n Array[Object] \n List of unified identities\
+        \ for the current page. \n [...] \n\n Unified identity schema:\n\n Field \n Type \n Description\
+        \ \n Example \n\n id \n String \n Unique unified identity ID. \n 4e5ab37b-7d39-4fa8-9f14-6f2e74d9cd1f\
+        \ \n\n created \n String (ISO 8601) \n Timestamp when the identity was created. \n 2024-01-15T12:00:00Z\
+        \ \n\n modified \n String (ISO 8601) \n Timestamp when the identity was last modified. \n 2024-07-08T10:35:00Z\
+        \ \n\n email \n String \n Primary email address for the identity. \n jane@example.com \n\n identity_signature\
+        \ \n String \n Signature used to associate the identity, often an email-derived value. \n jane@example.com\
+        \ \n\n status \n String or null \n Current identity status. \n active \n\n last_login \n String\
+        \ (ISO 8601) or null \n Most recent login across linked users. \n 2024-07-08T10:30:00Z \n\n name\
+        \ \n String \n Current promoted display name. \n Jane Doe \n\n name_akas \n Array[String] or null\
+        \ \n Alternate names observed for the identity. \n [\"Jane Doe\",\"Jane Ann Doe\"] \n\n num_users_linked\
+        \ \n Integer \n Number of linked users co"
+      responses:
+        '200':
+          description: List Unified Identities
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                ListUnifiedIdentities:
+                  summary: List Unified Identities
+                  value:
+                    count: 1
+                    results:
+                    - any_admin: true
+                      any_elevated: true
+                      created: '2024-01-15T12:00:00Z'
+                      email: jane@example.com
+                      id: 4e5ab37b-7d39-4fa8-9f14-6f2e74d9cd1f
+                      identity_signature: jane@example.com
+                      status: active
+                      last_login: '2024-07-08T10:30:00Z'
+                      modified: '2024-07-08T10:35:00Z'
+                      name: Jane Doe
+                      name_akas:
+                      - Jane Doe
+                      - Jane Ann Doe
+                      num_users_active: 2
+                      num_users_deprovisioned: 0
+                      num_users_disabled: 0
+                      num_users_highest_admin: 1
+                      num_users_highest_elevated: 0
+                      num_users_highest_standard: 1
+                      num_users_inactive: 0
+                      num_users_linked: 2
+                      num_users_unknown_activity: 0
+                      permission_level: admin
+                      primary_rbac_element_names:
+                      - admins
+                      service_types:
+                      - github
+                      - google_workspace
+                      service_names:
+                      - GitHub
+                      - Google Workspace
+                      services_linked:
+                      - 101
+                      - 202
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/identity/unifiedidentity/{identity_id}/:
+    get:
+      operationId: getUnifiedIdentity
+      summary: Get Unified Identity
+      tags:
+      - Identity
+      description: "Returns details for the requested unified identity.\n\n Path Variables\n\n Variable\
+        \ \n Type \n Description \n Example \n\n uuid \n String \n The unique ID for the unified identity\
+        \ ID. \n 4e5ab37b-7d39-4fa8-9f14-6f2e74d9cd1f \n\n Response Fields\n\n Returns a unified identity:\n\
+        \n Field \n Type \n Description \n Example \n\n any_admin \n Boolean \n Whether any linked user\
+        \ has admin privileges. \n true \n\n any_elevated \n Boolean \n Whether any linked user has elevated\
+        \ privileges. \n true \n\n created \n String (ISO 8601) \n Timestamp when the identity was created.\
+        \ \n 2024-01-15T12:00:00Z \n\n email \n String \n Primary email address for the identity. \n jane@example.com\
+        \ \n\n id \n String \n Unique unified identity ID. \n 4e5ab37b-7d39-4fa8-9f14-6f2e74d9cd1f \n\n\
+        \ identity_signature \n String \n Signature used to associate the identity, often an email-derived\
+        \ value. \n jane@example.com \n\n last_login \n String (ISO 8601) or null \n Most recent login\
+        \ across linked users. \n 2024-07-08T10:30:00Z \n\n modified \n String (ISO 8601) \n Timestamp\
+        \ when the identity was last modified. \n 2024-07-08T10:35:00Z \n\n name \n String \n Current\
+        \ promoted display name. \n Jane Doe \n\n name_akas \n Array[String] or null \n Alternate names\
+        \ observed for the identity. \n [\"Jane Doe\",\"Jane Ann Doe\"] \n\n num_users_active \n Integer\
+        \ \n Number of linked users with active status. \n 2 \n\n num_users_deprovisioned \n Integer \n\
+        \ Number of linked users with deprovisioned status. \n 0 \n\n num_users_disabled \n Integer \n\
+        \ Number of linked users with disabled status. \n 0 \n\n num_users_highest_admin \n Integer \n\
+        \ Number of linked users whose highest permission level is admin. \n 1 \n\n num_users_highest_elevated\
+        \ \n Integer \n Number of linked users whose highest permission level is elevated. \n 0 \n\n num_users_highest_standard\
+        \ \n Integer \n Number of linked users whose highest permission level is standard. \n 1 \n\n num_users_inactive\
+        \ \n Integer \n Number of linked users with inactive status. \n 0 \n\n num_users_linked \n Integer\
+        \ \n Number of linked users contributing to the identity. \n 2 \n\n num_users_unknown_activity\
+        \ \n Integer \n Number of linked users with unknown activity status. \n 0 \n\n permission_level\
+        \ \n String \n Highest permission level observed across linked users. \n admin \n\n primary_rbac_element_names\
+        \ \n Array[String] or null \n Primary RBAC element names observed across linked users. \n [\"\
+        admins\"] \n\n service_names \n Array[String] or null \n Human-readable monitored service names\
+        \ linked to the identity. \n [\"GitHub\",\"Google Workspace\"] \n\n services_linked \n Array[Integer]\
+        \ or null \n IDs of monitored services linked to the identity. \n [101,202] \n\n service_types\
+        \ \n Array[String] or null \n Service types linked to the identity. \n [\"github\",\"google\"\
+        ] \n\n status \n String or null \n Current identity status. \n active"
+      parameters:
+      - name: identity_id
+        in: path
+        required: true
+        description: Path parameter identity_id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Get Unified Identity
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "{\n  \"any_admin\": false,\n  \"any_elevated\": false,\n  \"created\": \"2024-01-15T12:00:00Z\"\
+                ,\n  \"email\": \"jane@example.com\",\n  \"id\": \"4e5ab37b-7d39-4fa8-9f14-6f2e74d9cd1f\"\
+                ,\n  \"identity_signature\": \"jane@example.com\",\n  \"status\": \"active\",\n  \"last_login\"\
+                : \"2024-07-08T10:30:00Z\",\n  \"modified\": \"2024-07-08T10:35:00Z\",\n  \"name\": \"\
+                Jane Doe\",\n  \"name_akas\": [\n    \"Jane Doe\"\n  ],\n  \"num_users_active\": 1,\n\
+                \  \"num_users_deprovisioned\": 0,\n  \"num_users_disabled\": 0,\n  \"num_users_highest_admin\"\
+                : 0,\n  \"num_users_highest_elevated\": 0,\n  \"num_users_highest_standard\": 1,\n  \"\
+                num_users_inactive\": 0,\n  \"num_users_linked\": 1,\n  \"num_users_unknown_activity\"\
+                : 0,\n  \"permission_level\": \"standard\",\n  \"primary_rbac_element_names\": [\n   \
+                \ \"viewer\"\n  ],\n  \"service_types\": [\n    \"github\"\n  ],\n  \"service_names\"\
+                : [\n    \"GitHub\"\n  ],\n  \"services_linked\": [\n    101\n  ],\n}\n"
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/identity/user/:
+    get:
+      operationId: listServiceUsers
+      summary: List Service Users
+      tags:
+      - Identity
+      description: "Returns a paginated list of service users.\n\n Filter Fields\n\n Specified as query\
+        \ string parameters.\n\n Parameter \n Type \n Description \n Example \n\n id \n String \n Filter\
+        \ by monitored service user record ID. \n 0f55fd46-6f0e-48c0-a0a1-8a615c8d5f1a \n\n identity_id\
+        \ \n String \n Filter by associated unified identity ID. \n 4e5ab37b-7d39-4fa8-9f14-6f2e74d9cd1f\
+        \ \n\n last_login__gte \n String (ISO 8601) \n Filter users whose last login is on or after the\
+        \ supplied timestamp. \n 2024-09-01T00:00:00Z \n\n last_login__lte \n String (ISO 8601) \n Filter\
+        \ users whose last login is on or before the supplied timestamp. \n 2024-09-30T23:59:59Z \n\n\
+        \ limit \n Integer \n Maximum number of records to return per page. \n 25 \n\n name \n String\
+        \ \n Filter by full name. \n Jane Doe \n\n offset \n Integer \n Number of records to skip before\
+        \ returning results. \n 0 \n\n ordering \n String \n Sort field list. Prefix a field with - for\
+        \ descending order. \n username,-last_login \n\n permission_level__in \n Array[String] \n Filter\
+        \ by one or more permission levels. Supported values: admin , elevated , standard , not_applicable\
+        \ . \n [\"admin\",\"elevated\"] \n\n search \n String \n Free-text search across indexed user\
+        \ fields. Must be 3 to 256 characters. \n Jane \n\n service_id \n Integer \n Filter by monitored\
+        \ service ID. \n 101 \n\n service_org_id__in \n Array[Integer] \n Filter by one or more monitored\
+        \ service IDs. \n [101,202,303] \n\n service_org_name \n String \n Filter by monitored service\
+        \ name. \n GitHub \n\n service_type__in \n Array[String] \n Filter by one or more monitored service\
+        \ type slugs. \n [\"github\",\"slack\"] \n\n user_id \n String \n Filter by service-native user\
+        \ ID. \n external-user-123 \n\n user_status__in \n Array[String] \n Filter by one or more user\
+        \ statuses. Supported values: active , inactive , disabled , deprovisioned , unknown . \n [\"\
+        active\",\"inactive\"] \n\n username \n String \n Filter by username. \n jane.doe \n\n Sort Fields\n\
+        \n Use these public field names in ordering :\n\n Field \n Example \n\n identity_id \n ordering=identity_id\
+        \ \n\n last_login \n ordering=-last_login \n\n name \n ordering=name \n\n permission_level \n\
+        \ ordering=-permission_level \n\n service_org_name \n ordering=service_org_name \n\n service_type\
+        \ \n ordering=-service_type \n\n user_status \n ordering=user_status \n\n username \n ordering=username\
+        \ \n\n Examples:\n\n- ordering=username \n\n- ordering=-last_login \n\n- ordering=service_org_name,username\
+        \ \n\n Response Fields\n\n Paged response wrapper:\n\n Field \n Type \n Description \n Example\
+        \ \n\n count \n Integer \n Total number of matching records. \n 1 \n\n results \n Array[Object]\
+        \ \n List of user records for the current page. \n [...] \n\n Service user schema:\n\n Field \n\
+        \ Type \n Description \n Example \n\n active \n Boolean \n Whether the record is marked active.\
+        \ \n true \n\n created_at_date \n String (ISO 8601) \n Timestamp when the user record was created.\
+        \ \n 2024-01-15T12:00:00Z \n\n email \n String or null \n Email address for the monitored service\
+        \ user. \n jane@example.com \n\n has_elevated_perms \n Boolean \n Whether the user has elevated\
+        \ permissions. \n false \n\n has_admin_perms \n Boolean or null \n Whether the user has admin\
+        \ permissions. \n false \n\n id \n String \n Unique monitored service user record ID. \n 0f55fd46-6f0e-48c0-a0a1-8a615c8d5f1a\
+        \ \n\n is_internal_user \n Boolean \n Whether the user is an internal user. \n false \n\n last_login\
+        \ \n String (ISO 8601) or null \n Most recent login time for the user. \n 2024-07-08T10:30:00Z\
+        \ \n\n modified_at_date \n String (ISO 8601) or null \n Timestamp when the user record was last\
+        \ modified. \n 2024-07-08T10:35:00Z \n\n name \n String or null \n Full name for the monitored\
+        \ service user. \n Jane Doe \n\n permission_level \n String \n Effective permission level. \n\
+        \ standard \n\n primary_rbac_element_name \n String or null \n Primary RBAC element name for the\
+        \ user. \n viewer \n\n service_org_id \n Integer \n Monitored service ID. \n 101 \n\n service_org_name\
+        \ \n String \n Human-readable monitored service name. \n GitHub \n\n service_type \n String \n\
+        \ Service type value. \n github \n\n service_type_slug \n String \n Normalized service type slug.\
+        \ \n github \n\n unified_identity_id \n Str"
+      responses:
+        '200':
+          description: List Service Users
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                ListServiceUsers:
+                  summary: List Service Users
+                  value:
+                    count: 1
+                    results:
+                    - active: true
+                      created_at_date: '2024-01-15T12:00:00Z'
+                      email: jane@example.com
+                      has_admin_perms: false
+                      has_elevated_perms: false
+                      id: 0f55fd46-6f0e-48c0-a0a1-8a615c8d5f1a
+                      is_internal_user: false
+                      last_login: '2024-07-08T10:30:00Z'
+                      modified_at_date: '2024-07-08T10:35:00Z'
+                      name: Jane Doe
+                      permission_level: standard
+                      primary_rbac_element_name: viewer
+                      service_org_id: 101
+                      service_org_name: GitHub
+                      service_type: github
+                      service_type_slug: github
+                      unified_identity_id: 4e5ab37b-7d39-4fa8-9f14-6f2e74d9cd1f
+                      user_id: external-user-123
+                      user_status: active
+                      username: jane.doe
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/identity/user/{user_id}:
+    get:
+      operationId: getServiceUser
+      summary: Get Service User
+      tags:
+      - Identity
+      description: "Returns details for a specific monitored service user.\n\n Path Variables\n\n Variable\
+        \ \n Type \n Description \n Example \n\n uuid \n String \n The unique ID for the service user.\
+        \ \n 0f55fd46-6f0e-48c0-a0a1-8a615c8d5f1a \n\n Response Fields\n\n Returns a Service User object.\n\
+        \n Field \n Type \n Description \n Example \n\n active \n Boolean \n Whether the record is marked\
+        \ active. \n true \n\n created_at_date \n String (ISO 8601) \n Timestamp when the user record\
+        \ was created. \n 2024-01-15T12:00:00Z \n\n email \n String or null \n Email address for the monitored\
+        \ service user. \n jane@example.com \n\n has_elevated_perms \n Boolean \n Whether the user has\
+        \ elevated permissions. \n false \n\n has_admin_perms \n Boolean or null \n Whether the user has\
+        \ admin permissions. \n false \n\n id \n String \n Unique monitored service user record ID. \n\
+        \ 0f55fd46-6f0e-48c0-a0a1-8a615c8d5f1a \n\n is_internal_user \n Boolean \n Whether the user is\
+        \ an internal user. \n false \n\n last_login \n String (ISO 8601) or null \n Most recent login\
+        \ time for the user. \n 2024-07-08T10:30:00Z \n\n modified_at_date \n String (ISO 8601) or null\
+        \ \n Timestamp when the user record was last modified. \n 2024-07-08T10:35:00Z \n\n name \n String\
+        \ or null \n Full name for the monitored service user. \n Jane Doe \n\n permission_level \n String\
+        \ \n Effective permission level. \n standard \n\n primary_rbac_element_name \n String or null\
+        \ \n Primary RBAC element name for the user. \n viewer \n\n service_org_id \n Integer \n Monitored\
+        \ service ID. \n 101 \n\n service_org_name \n String \n Human-readable monitored service name.\
+        \ \n GitHub \n\n service_type \n String \n Service type value. \n github \n\n service_type_slug\
+        \ \n String \n Normalized service type slug. \n github \n\n unified_identity_id \n String \n Associated\
+        \ unified identity ID. \n 4e5ab37b-7d39-4fa8-9f14-6f2e74d9cd1f \n\n user_id \n String \n Service-native\
+        \ user ID. \n external-user-123 \n\n user_status \n String \n Current user status. \n active \n\
+        \n username \n String \n Username for the monitored service user. \n jane.doe"
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        description: Path parameter user_id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Get Service User
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                GetServiceUser:
+                  summary: Get Service User
+                  value:
+                    active: true
+                    created_at_date: '2024-01-15T12:00:00Z'
+                    email: jane@example.com
+                    has_admin_perms: false
+                    has_elevated_perms: false
+                    id: 0f55fd46-6f0e-48c0-a0a1-8a615c8d5f1a
+                    is_internal_user: false
+                    last_login: '2024-07-08T10:30:00Z'
+                    modified_at_date: '2024-07-08T10:35:00Z'
+                    name: Jane Doe
+                    permission_level: standard
+                    primary_rbac_element_name: viewer
+                    service_org_id: 101
+                    service_org_name: GitHub
+                    service_type: github
+                    service_type_slug: github
+                    unified_identity_id: 4e5ab37b-7d39-4fa8-9f14-6f2e74d9cd1f
+                    user_id: external-user-123
+                    user_status: active
+                    username: jane.doe
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/user/:
+    get:
+      operationId: listUsers
+      summary: List Users
+      tags:
+      - Users and Roles
+      description: "This request returns a list of users and user details configured for the AppOmni Instance\
+        \ being queried. \n\n As of October 2025, this endpoint is only functional for users with the\
+        \ roles of User Manager, Admin, or Read-only.\n\n For users with roles other than User Manager,\
+        \ Admin, or Read-only, see the /limited-user endpoint, which will allow access to a subset of\
+        \ the user data.\n\n Response Fields\n\n Field \n Data Type \n Description \n Example \n\n id\
+        \ \n Integer \n unique identifier for the user \n 123 \n\n username \n String \n username \n \"\
+        \ user1@example.com \" \n\n email \n String \n email address \n \" user1@example.com \" \n\n first_name\
+        \ \n String \n first name \n \"User\" \n\n last_name \n String \n last name \n \"One\" \n\n phone\
+        \ \n String \n phone number \n null \n\n title \n String \n job title \n null \n\n is_active \n\
+        \ Boolean \n Enable/Disable user \n true \n\n locked \n Boolean \n Account login disabled, either\
+        \ due to manual action or repeated failed login attempts \n false \n\n locked_at \n Datetime \n\
+        \ Date/time account was locked. null if not applicable \n null \n\n override_enable_direct_login\
+        \ \n Boolean \n When enabled, break glass access will allow user to login with username and password\
+        \ bypassing default SSO login method \n false \n\n groups \n Array[Integer] \n IDs for roles of\
+        \ which the user is a part \n [789] \n\n created \n Datetime \n creation timestamp \n \"2024-03-30T17:19:31.240005Z\"\
+        \ \n\n modified \n Datetime \n modification timestamp \n \"2024-04-20T17:45:53.328790Z\" \n\n\
+        \ external_id \n String \n Reserved for future use \n null \n\n timezone \n String \n Three letter\
+        \ time zone designation. Default = \"UTC\" \n \"UTC\" \n\n mfa_enabled \n String \n Type of multi-factor\
+        \ authentication used. Can be disabled, sms, totp \n \"totp\" \n\n phone_verified \n Boolean \n\
+        \ User has verified phone number for SMS (text message) MFA \n false \n\n is_mfa_verified \n Boolean\
+        \ \n User has set up MFA - if MFA mode is SMS, requires also phone_verified \n true \n\n sso_enabled\
+        \ \n Boolean \n User uses SSO to login \n false \n\n jit_provisioned \n Boolean \n Account was\
+        \ created via just-in-time provisioning after initial SSO login \n true \n\n scim_provisioned\
+        \ \n Boolean \n Account was created via SCIM (System for Cross-domain Identity Management) provisioning\
+        \ after initial SSO login \n false \n\n org_id \n Integer \n unique identifier for the user's\
+        \ organization \n 1 \n\n last_ao_login \n Datetime \n Last login timestamp \n \"2024-04-20T17:45:53.328493Z\"\
+        \ \n\n last_login_type \n String \n Mechanism used for last login. Options are direct, direct_mfa\
+        \ (direct with MFA), saml, google, openid, or jwt \n \"direct\" \n\n environment_restricted \n\
+        \ Boolean \n Indicates whether environment restrictions are enabled for this user \n false \n\n\
+        \ environments \n Array[Integer] \n List of environments which the user has permission to access\
+        \ \n [] \n\n can_environment_restrict \n Boolean \n user can add/modify environment restrictions\
+        \ \n false \n\n last_password_change \n Datetime \n last password change timestamp \n null"
+      responses:
+        '200':
+          description: List Users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              examples:
+                ListUsers:
+                  summary: List Users
+                  value:
+                  - id: 123
+                    username: user1@example.com
+                    email: user1@example.com
+                    first_name: User
+                    last_name: One
+                    phone: null
+                    title: null
+                    is_active: true
+                    locked: false
+                    locked_at: null
+                    groups:
+                    - 789
+                    created: '2024-03-30T17:19:31.240005Z'
+                    modified: '2024-04-20T17:45:53.328790Z'
+                    external_id: null
+                    timezone: UTC
+                    mfa_enabled: totp
+                    phone_verified: false
+                    is_mfa_verified: true
+                    sso_enabled: false
+                    jit_provisioned: true
+                    scim_provisioned: false
+                    org_id: 1
+                    last_ao_login: '2024-04-20T17:45:53.328493Z'
+                    last_login_type: direct
+                    environment_restricted: false
+                    environments: []
+                    can_environment_restrict: false
+                    override_enable_direct_login: false
+                    last_password_change: null
+                  - id: 124
+                    username: user2@example.com
+                    email: user2@example.com
+                    first_name: User
+                    last_name: Two
+                    phone: null
+                    title: null
+                    is_active: true
+                    locked: false
+                    locked_at: null
+                    groups:
+                    - 789
+                    - 790
+                    created: '2024-04-20T15:14:47.108414Z'
+                    modified: '2024-04-20T15:14:47.403189Z'
+                    external_id: null
+                    timezone: UTC
+                    mfa_enabled: disabled
+                    phone_verified: false
+                    is_mfa_verified: false
+                    sso_enabled: true
+                    jit_provisioned: true
+                    scim_provisioned: false
+                    org_id: 1
+                    last_ao_login: '2024-04-20T15:14:47.393591Z'
+                    last_login_type: google
+                    environment_restricted: false
+                    environments: []
+                    can_environment_restrict: true
+                    override_enable_direct_login: false
+                    last_password_change: null
+                  - id: 125
+                    username: user3@example.com
+                    email: user3@example.com
+                    first_name: User
+                    last_name: Three
+                    phone: null
+                    title: null
+                    is_active: true
+                    locked: false
+                    locked_at: null
+                    groups:
+                    - 790
+                    created: '2023-03-20T18:58:55.653498Z'
+                    modified: '2023-03-20T19:26:48.874948Z'
+                    external_id: null
+                    timezone: UTC
+                    mfa_enabled: disabled
+                    phone_verified: false
+                    is_mfa_verified: false
+                    sso_enabled: true
+                    jit_provisioned: true
+                    scim_provisioned: false
+                    org_id: 1
+                    last_ao_login: '2023-03-20T19:26:48.874610Z'
+                    last_login_type: google
+                    environment_restricted: false
+                    environments: []
+                    can_environment_restrict: false
+                    override_enable_direct_login: false
+                    last_password_change: null
+                ListUsersfromSpecificRole:
+                  summary: List Users from Specific Role
+                  value:
+                  - id: 123
+                    username: user1@example.com
+                    email: user1@example.com
+                    first_name: User
+                    last_name: One
+                    phone: null
+                    title: null
+                    is_active: true
+                    locked: false
+                    locked_at: null
+                    groups:
+                    - 567
+                    created: '2023-03-30T17:19:31.240005Z'
+                    modified: '2023-04-20T17:45:53.328790Z'
+                    external_id: null
+                    timezone: UTC
+                    mfa_enabled: disabled
+                    phone_verified: false
+                    is_mfa_verified: true
+                    sso_enabled: true
+                    jit_provisioned: true
+                    scim_provisioned: false
+                    org_id: 1
+                    last_ao_login: '2023-04-20T17:45:53.328493Z'
+                    last_login_type: google
+                    environment_restricted: false
+                    environments: []
+                    can_environment_restrict: false
+                    override_enable_direct_login: false
+                    last_password_change: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: addUser
+      summary: Add User
+      tags:
+      - Users and Roles
+      description: "Creates a new user.\n\n Returns the details of the user created, including the generated\
+        \ id .\n\n Request Body\n\n Data Type \n Required \n Description \n Example \n\n username \n String\
+        \ \n Yes \n Username for the new user \n \" user5@example.com \" \n\n email \n String \n Yes \n\
+        \ Email address for the new user \n \" user5@example.com \" \n\n first_name \n String \n No \n\
+        \ First name of the user \n \"Sarah\" \n\n last_name \n String \n No \n Last name of the user\
+        \ \n \"Wilson\" \n\n phone \n String \n No \n Phone number for the user \n \"+1-555-0123\" \n\n\
+        \ title \n String \n No \n Job title of the user \n \"Manager\" \n\n is_active \n Boolean \n No\
+        \ \n Enable/Disable user \n true \n\n groups \n Array[Integer] \n No \n List of IDs for roles\
+        \ (groups) to which the user should be added. Roles are the RBAC assigned permissions. See GET\
+        \ RBAC API endpoint (GET /core/group). \n [1392, 1394] \n\n environment_restricted \n Boolean\
+        \ \n No \n Indicates whether environment restrictions are enabled for this user \n false \n\n\
+        \ environments \n Array[Integer] \n No \n List of environment IDs to which the user should have\
+        \ access. To get a list of environment IDs, GET LIST TAGS (GET /api/v1/core/tag/?type=environment)\
+        \ \n [128781, 128777] \n\n Response Fields\n\n Field \n Data Type \n Description \n Example \n\
+        \n id \n Integer \n unique identifier for the user \n 15050 \n\n username \n String \n username\
+        \ \n \" user4@example.com \" \n\n email \n String \n email address \n \" user4@example.com \"\
+        \ \n\n first_name \n String \n first name \n \"Alex\" \n\n last_name \n String \n last name \n\
+        \ \"Johnson\" \n\n phone \n String \n phone number \n \"null\" \n\n title \n String \n job title\
+        \ \n \"null\" \n\n is_active \n Boolean \n Enable/Disable user \n true \n\n locked \n Boolean\
+        \ \n Account login disabled, either due to manual action or repeated failed login attempts \n\
+        \ false \n\n locked_at \n Datetime \n Date/time account was locked. null if not applicable \n\
+        \ null \n\n override_enable_direct_login \n Boolean \n When enabled, break glass access will allow\
+        \ user to login with username and password bypassing default SSO login method \n false \n\n groups\
+        \ \n Array[Integer] \n IDs for roles of which the user is a part \n [1392, 1394] \n\n created\
+        \ \n Datetime \n creation timestamp \n \"2023-08-07T15:57:21.503302Z\" \n\n modified \n Datetime\
+        \ \n modification timestamp \n \"2023-08-07T15:57:21.503322Z\" \n\n external_id \n String \n Reserved\
+        \ for future use \n null \n\n timezone \n String \n Three letter time zone designation. Default\
+        \ = \"UTC\" \n \"UTC\" \n\n mfa_enabled \n String \n Type of multi-factor authentication used.\
+        \ Can be disabled, sms, totp \n \"disabled\" \n\n phone_verified \n Boolean \n User has verified\
+        \ phone number for SMS (text message) MFA \n false \n\n is_mfa_verified \n Boolean \n User has\
+        \ set up MFA - if MFA mode is SMS, requires also phone_verified \n false \n\n sso_enabled \n Boolean\
+        \ \n User uses SSO to login \n false \n\n jit_provisioned \n Boolean \n Account was created via\
+        \ just-in-time provisioning after initial SSO login \n false \n\n scim_provisioned \n Boolean\
+        \ \n Account was created via SCIM (System for Cross-domain Identity Management) provisioning after\
+        \ initial SSO login \n false \n\n org_id \n Integer \n unique identifier for the user's organization\
+        \ \n 177 \n\n last_ao_login \n Datetime \n Last login timestamp \n null \n\n last_login_type \n\
+        \ String \n Mechanism used for last login. Options are direct, direct_mfa (direct with MFA), saml,\
+        \ google, openid, or jwt \n null \n\n environment_restricted \n Boolean \n Indicates whether environment\
+        \ restrictions are enabled for this user \n false \n\n environments \n Array[Integer] \n List\
+        \ of environments which the user has permission to access \n [] \n\n can_environment_restrict\
+        \ \n Boolean \n user can add/modify environment restrictions \n false \n\n last_password_change\
+        \ \n Datetime \n last password change timestamp \n null"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example: "{\n    \"username\": \"{{username}}\",\n    \"email\": \"{{email}}\",\n    \"first_name\"\
+              : \"{{first_name}}\",\n    \"last_name\": \"{{last_name}}\",\n    \"phone\": \"{{phone}}\"\
+              ,\n    \"title\": \"{{title}}\",\n    \"is_active\": {{is_active}},\n    \"override_enable_direct_login\"\
+              : {{override_enable_direct_login}},\n    \"groups\": [{{group_ids}}],\n    \"environment_restricted\"\
+              : {{environment_restricted}},\n    \"environments\": [{{environment_ids}}]\n}"
+      responses:
+        '200':
+          description: Add User
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                AddUser:
+                  summary: Add User
+                  value:
+                    id: 15050
+                    username: user4@example.com
+                    email: user4@example.com
+                    first_name: Alex
+                    last_name: Johnson
+                    phone: 'null'
+                    title: 'null'
+                    is_active: true
+                    locked: false
+                    locked_at: null
+                    groups:
+                    - 1392
+                    - 1394
+                    created: '2023-08-07T15:57:21.503302Z'
+                    modified: '2023-08-07T15:57:21.503322Z'
+                    external_id: null
+                    timezone: UTC
+                    mfa_enabled: disabled
+                    phone_verified: false
+                    is_mfa_verified: false
+                    sso_enabled: false
+                    jit_provisioned: false
+                    scim_provisioned: false
+                    org_id: 177
+                    last_ao_login: null
+                    last_login_type: null
+                    environment_restricted: false
+                    environments: []
+                    can_environment_restrict: false
+                    last_password_change: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/limited-user/:
+    get:
+      operationId: listUsersForRolesWithLimitedPermissions
+      summary: List users for roles with limited permissions
+      tags:
+      - Users and Roles
+      description: "This endpoint is for users that have roles other than User Manager, Admin, or Read-only.\
+        \ It allows access to a subset of user information that is available to User Manager, Admin, or\
+        \ Read-only.\n\n Returns a list of users and limited user details configured for the AppOmni Instance\
+        \ being queried.\n\n Response Fields\n\n Field \n Data Type \n Description \n Example \n\n id\
+        \ \n Integer \n unique identifier for the user \n 123 \n\n username \n String \n username \n \"\
+        \ user1@example.com \" \n\n email \n String \n email address \n \" user1@example.com \" \n\n first_name\
+        \ \n String \n first name \n \"User\" \n\n last_name \n String \n last name \n \"One\" \n\n is_active\
+        \ \n Boolean \n Enable/Disable user \n true"
+      responses:
+        '200':
+          description: List users for roles with limited permissions
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "[\n    {\n        \"id\": 13524,\n        \"email\": \"james.page@example.com\"\
+                ,\n        \"first_name\": \"James\",\n        \"last_name\": \"Page\",\n        \"username\"\
+                : \"PageyCS\",\n        \"is_active\": true\n    },\n    {\n        \"id\": 40167,\n \
+                \       \"email\": \"marie.kondo@example.com\",\n        \"first_name\": \"Marie\",\n\
+                \        \"last_name\": \"Kondo\",\n        \"username\": \"MKondo\",\n        \"is_active\"\
+                : true\n    },\n]\n"
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/limited-user/{id}/:
+    get:
+      operationId: listUsersByIDForRolesWithLimitedPermissions
+      summary: List users by ID for roles with limited permissions
+      tags:
+      - Users and Roles
+      description: "This endpoint is for users that have roles other than User Manager, Admin, or Read-only.\
+        \ It allows access to a subset of user information that is available to User Manager, Admin, or\
+        \ Read-only.\n\n Returns a list of users by id and limited user details configured for the AppOmni\
+        \ Instance being queried.\n\n Response Fields\n\n Field \n Data Type \n Description \n Example\
+        \ \n\n id \n Integer \n unique identifier for the user \n 123 \n\n username \n String \n username\
+        \ \n \" user1@example.com \" \n\n email \n String \n email address \n \" user1@example.com \"\
+        \ \n\n first_name \n String \n first name \n \"User\" \n\n last_name \n String \n last name \n\
+        \ \"One\" \n\n is_active \n Boolean \n Enable/Disable user \n true"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Path parameter id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List users by ID for roles with limited permissions
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "[\n    {\n        \"id\": 13524,\n        \"email\": \"james.page@example.com\"\
+                ,\n        \"first_name\": \"James\",\n        \"last_name\": \"Page\",\n        \"username\"\
+                : \"PageyCS\",\n        \"is_active\": true\n    },\n    {\n        \"id\": 40167,\n \
+                \       \"email\": \"marie.kondo@example.com\",\n        \"first_name\": \"Marie\",\n\
+                \        \"last_name\": \"Kondo\",\n        \"username\": \"MKondo\",\n        \"is_active\"\
+                : true\n    },\n]\n"
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/group/:
+    get:
+      operationId: listRBACRoles
+      summary: List RBAC Roles
+      tags:
+      - Users and Roles
+      description: "Returns a list of AppOmni roles (permissions) and their identifiers.\n\n Response\
+        \ Fields\n\n Field \n Data Type \n Description \n Example \n\n id \n Integer \n unique identifier\
+        \ for the role \n 1392 \n\n name \n String \n role name \n \"administrators\" \n\n group_type\
+        \ \n String \n type of group - can be admin, readonly, role, or system \n \"admin\" \n\n external_id\
+        \ \n String \n external identifier for the role \n null"
+      responses:
+        '200':
+          description: Get RBAC
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              examples:
+                GetRBAC:
+                  summary: Get RBAC
+                  value:
+                  - id: 1392
+                    name: administrators
+                    group_type: admin
+                    external_id: null
+                  - id: 1393
+                    name: readonly
+                    group_type: readonly
+                    external_id: null
+                  - id: 1396
+                    name: insights_manager
+                    group_type: role
+                    external_id: null
+                  - id: 1397
+                    name: issues_manager
+                    group_type: role
+                    external_id: null
+                  - id: 1399
+                    name: monitored_service_role_manager
+                    group_type: role
+                    external_id: null
+                  - id: 1505
+                    name: policies_manager
+                    group_type: role
+                    external_id: null
+                  - id: 1690
+                    name: service_admin
+                    group_type: role
+                    external_id: null
+                  - id: 1395
+                    name: service_onboarder
+                    group_type: role
+                    external_id: null
+                  - id: 2104
+                    name: threat_detection_manager
+                    group_type: role
+                    external_id: null
+                  - id: 1398
+                    name: users_manager
+                    group_type: role
+                    external_id: null
+                  - id: 1394
+                    name: users
+                    group_type: system
+                    external_id: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/user/{id}/:
+    get:
+      operationId: getUserDetailsAndRoles
+      summary: Get user details and roles
+      tags:
+      - Users and Roles
+      description: "Returns the details for the user specified by the id passed in the URL.\n\n Response\
+        \ Fields\n\n Field \n Data Type \n Description \n Example \n\n id \n Integer \n unique identifier\
+        \ for the user \n 9538 \n\n username \n String \n username \n user2@example.com \n\n email \n\
+        \ String \n email address \n user2@example.com \n\n first_name \n String \n first name \n Jane\
+        \ \n\n last_name \n String \n last name \n Doe \n\n phone \n String \n phone number \n null \n\
+        \n title \n String \n job title \n null \n\n is_active \n Boolean \n Enable/Disable user \n true\
+        \ \n\n locked \n Boolean \n Account login disabled, either due to manual action or repeated failed\
+        \ login attempts \n false \n\n locked_at \n Datetime \n Date/time account was locked. null if\
+        \ not applicable \n null \n\n override_enable_direct_login \n Boolean \n When enabled, break glass\
+        \ access will allow user to login with username and password bypassing default SSO login method\
+        \ \n false \n\n groups \n Array[Integer] \n IDs for roles of which the user is a part \n [1392]\
+        \ \n\n created \n Datetime \n creation timestamp \n 2023-03-30T17:19:31.240005Z \n\n modified\
+        \ \n Datetime \n modification timestamp \n 2023-04-20T17:45:53.328790Z \n\n external_id \n String\
+        \ \n Reserved for future use \n null \n\n timezone \n String \n Three letter time zone designation.\
+        \ Default = UTC \n UTC \n\n mfa_enabled \n String \n Type of multi-factor authentication used.\
+        \ Can be disabled, sms, totp \n disabled \n\n phone_verified \n Boolean \n User has verified phone\
+        \ number for SMS (text message) MFA \n false \n\n is_mfa_verified \n Boolean \n User has set up\
+        \ MFA - if MFA mode is SMS, requires also phone_verified \n false \n\n sso_enabled \n Boolean\
+        \ \n User uses SSO to login \n true \n\n jit_provisioned \n Boolean \n Account was created via\
+        \ just-in-time provisioning after initial SSO login \n true \n\n scim_provisioned \n Boolean \n\
+        \ Account was created via SCIM (System for Cross-domain Identity Management) provisioning after\
+        \ initial SSO login \n false \n\n org_id \n Integer \n unique identifier for the user's organization\
+        \ \n 177 \n\n last_ao_login \n Datetime \n Last login timestamp \n 2023-04-20T17:45:53.328493Z\
+        \ \n\n last_login_type \n String \n Mechanism used for last login. Options are direct, direct_mfa\
+        \ (direct with MFA), saml, google, openid, or jwt \n google \n\n environment_restricted \n Boolean\
+        \ \n Indicates whether environment restrictions are enabled for this user \n false \n\n environments\
+        \ \n Array[Integer] \n List of environments which the user has permission to access \n [] \n\n\
+        \ can_environment_restrict \n Boolean \n user can add/modify environment restrictions \n false\
+        \ \n\n last_password_change \n Datetime \n last password change timestamp \n null"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Path parameter id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Get user details (roles)
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                Getuserdetailsroles:
+                  summary: Get user details (roles)
+                  value:
+                    id: 9538
+                    username: user2@example.com
+                    email: user2@example.com
+                    first_name: Jane
+                    last_name: Doe
+                    phone: null
+                    title: null
+                    is_active: true
+                    locked: false
+                    locked_at: null
+                    override_enable_direct_login: false
+                    groups:
+                    - 1392
+                    created: '2023-03-30T17:19:31.240005Z'
+                    modified: '2023-04-20T17:45:53.328790Z'
+                    external_id: null
+                    timezone: UTC
+                    mfa_enabled: disabled
+                    phone_verified: false
+                    is_mfa_verified: false
+                    sso_enabled: true
+                    jit_provisioned: true
+                    scim_provisioned: false
+                    org_id: 177
+                    last_ao_login: '2023-04-20T17:45:53.328493Z'
+                    last_login_type: google
+                    environment_restricted: false
+                    environments: []
+                    can_environment_restrict: false
+                    last_password_change: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: deactivateOrActivateUser
+      summary: Deactivate or Activate User
+      tags:
+      - Users and Roles
+      description: "In AppOmni users are not deleted. When users no longer require access, they are deactivated\
+        \ (their status is set to Inactive). This endpoint is used to deactivate users.\n\n Change the\
+        \ status of a user from active to inactive (or vice versa) when the user id is passed.\n\n Response\
+        \ Fields\n\n Field \n Data Type \n Description \n Example \n\n id \n Integer \n unique identifier\
+        \ for the user \n 15050 \n\n username \n String \n username \n \" user4@example.com \" \n\n email\
+        \ \n String \n email address \n \" user4@example.com \" \n\n first_name \n String \n first name\
+        \ \n \"Alex\" \n\n last_name \n String \n last name \n \"Johnson\" \n\n phone \n String \n phone\
+        \ number \n \"null\" \n\n title \n String \n job title \n \"null\" \n\n is_active \n Boolean \n\
+        \ Enable/Disable user (reflects the change made) \n false \n\n locked \n Boolean \n Account login\
+        \ disabled, either due to manual action or repeated failed login attempts \n false \n\n locked_at\
+        \ \n Datetime \n Date/time account was locked. null if not applicable \n null \n\n override_enable_direct_login\
+        \ \n Boolean \n When enabled, break glass access will allow user to login with username and password\
+        \ bypassing default SSO login method \n false \n\n groups \n Array[Integer] \n IDs for roles of\
+        \ which the user is a part \n [1392, 1394] \n\n created \n Datetime \n creation timestamp \n \"\
+        2023-08-07T15:57:21.503302Z\" \n\n modified \n Datetime \n modification timestamp \n \"2023-08-07T18:17:50.678319Z\"\
+        \ \n\n external_id \n String \n Reserved for future use \n null \n\n timezone \n String \n Three\
+        \ letter time zone designation. Default = \"UTC\" \n \"UTC\" \n\n mfa_enabled \n String \n Type\
+        \ of multi-factor authentication used. Can be disabled, sms, totp \n \"disabled\" \n\n phone_verified\
+        \ \n Boolean \n User has verified phone number for SMS (text message) MFA \n false \n\n is_mfa_verified\
+        \ \n Boolean \n User has set up MFA - if MFA mode is SMS, requires also phone_verified \n false\
+        \ \n\n sso_enabled \n Boolean \n User uses SSO to login \n false \n\n jit_provisioned \n Boolean\
+        \ \n Account was created via just-in-time provisioning after initial SSO login \n false \n\n scim_provisioned\
+        \ \n Boolean \n Account was created via SCIM (System for Cross-domain Identity Management) provisioning\
+        \ after initial SSO login \n false \n\n org_id \n Integer \n unique identifier for the user's\
+        \ organization \n 177 \n\n last_ao_login \n Datetime \n Last login timestamp \n null \n\n last_login_type\
+        \ \n String \n Mechanism used for last login. Options are direct, direct_mfa (direct with MFA),\
+        \ saml, google, openid, or jwt \n null \n\n environment_restricted \n Boolean \n Indicates whether\
+        \ environment restrictions are enabled for this user \n false \n\n environments \n Array[Integer]\
+        \ \n List of environments which the user has permission to access \n [] \n\n can_environment_restrict\
+        \ \n Boolean \n user can add/modify environment restrictions \n false \n\n last_password_change\
+        \ \n Datetime \n last password change timestamp \n null"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Path parameter id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example: "{\n    \"is_active\": {{is_active_status}}\n}"
+      responses:
+        '200':
+          description: Deactivate User
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                DeactivateUser:
+                  summary: Deactivate User
+                  value:
+                    id: 15050
+                    username: user4@example.com
+                    email: user4@example.com
+                    first_name: Alex
+                    last_name: Johnson
+                    phone: 'null'
+                    title: 'null'
+                    is_active: false
+                    locked: false
+                    locked_at: null
+                    override_enable_direct_login: false
+                    groups:
+                    - 1392
+                    - 1394
+                    created: '2023-08-07T15:57:21.503302Z'
+                    modified: '2023-08-07T18:17:50.678319Z'
+                    external_id: null
+                    timezone: UTC
+                    mfa_enabled: disabled
+                    phone_verified: false
+                    is_mfa_verified: false
+                    sso_enabled: false
+                    jit_provisioned: false
+                    scim_provisioned: false
+                    org_id: 177
+                    last_ao_login: null
+                    last_login_type: null
+                    environment_restricted: false
+                    environments: []
+                    can_environment_restrict: false
+                    last_password_change: null
+                ReactivateUser:
+                  summary: Reactivate User
+                  value:
+                    id: 15050
+                    username: user4@example.com
+                    email: user4@example.com
+                    first_name: Alex
+                    last_name: Johnson
+                    phone: 'null'
+                    title: 'null'
+                    is_active: true
+                    locked: false
+                    locked_at: null
+                    override_enable_direct_login: false
+                    groups:
+                    - 1392
+                    - 1394
+                    created: '2023-08-07T15:57:21.503302Z'
+                    modified: '2023-08-07T18:17:50.678319Z'
+                    external_id: null
+                    timezone: UTC
+                    mfa_enabled: disabled
+                    phone_verified: false
+                    is_mfa_verified: false
+                    sso_enabled: false
+                    jit_provisioned: false
+                    scim_provisioned: false
+                    org_id: 177
+                    last_ao_login: null
+                    last_login_type: null
+                    environment_restricted: false
+                    environments: []
+                    can_environment_restrict: false
+                    last_password_change: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/user/{user_id}/enable_breakglass:
+    put:
+      operationId: enableBreakglassAccessForEmergencies
+      summary: Enable breakglass access for emergencies
+      tags:
+      - Users and Roles
+      description: "Use this endpoint to enable breakglass access for emergency scenarios, so that authorized\
+        \ users can bypass standard SSO restrictions during critical incidents. This can only be called\
+        \ by an administrator, and will return a successful status of 204.\n\n Response Fields\n\n Field\
+        \ \n Data Type \n Description \n Example \n\n Status Code \n Integer \n HTTP status code indicating\
+        \ success \n 204 \n\n Body \n Empty \n No response body for successful requests \n (empty)"
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        description: Path parameter user_id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/user/{user_id}/disable_breakglass:
+    put:
+      operationId: disableBreakglassAccessForEmergencies
+      summary: Disable breakglass access for emergencies
+      tags:
+      - Users and Roles
+      description: "Use this endpoint to disable breakglass access for emergency scenarios, so that authorized\
+        \ users can bypass standard SSO restrictions during critical incidents. This can only be called\
+        \ by an administrator, and will return a successful status of 204.\n\n Response Fields\n\n Field\
+        \ \n Data Type \n Description \n Example \n\n Status Code \n Integer \n HTTP status code indicating\
+        \ success \n 204 \n\n Body \n Empty \n No response body for successful requests \n (empty)"
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        description: Path parameter user_id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /oauth/token/:
+    post:
+      operationId: exchangeRefreshTokenForNewAccessToken
+      summary: Exchange refresh token for new access token
+      tags:
+      - Authorization Tokens
+      description: "This is a standard OAuth 2.0 \"Refresh Token Grant\" flow that enables the exchange\
+        \ of a valid Refresh Token for a new Access Token. The valid Access Token can then be used to\
+        \ make authenticated API requests in the context of the user who granted the Refresh Token.\n\n\
+        \ Request Body\n\n Field \n Data Type \n Required \n Description \n Example \n\n grant_type \n\
+        \ String \n Yes \n OAuth2 grant type (must be \"refresh_token\") \n refresh_token \n\n refresh_token\
+        \ \n String \n Yes \n Your Refresh Token \n {{refreshtoken}} \n\n client_id \n String \n Yes \n\
+        \ The Client ID of your AppOmni API Application \n {{api_app_client_id}} \n\n client_secret \n\
+        \ String \n Yes \n The Client Secret of your AppOmni API Application \n {{api_app_client_secret}}\
+        \ \n\n Response Fields\n\n Field \n Data Type \n Description \n Example \n\n access_token \n String\
+        \ \n API access token \n XXXXX \n\n expires_in \n Integer \n Token expiration time in seconds\
+        \ \n 3600 \n\n token_type \n String \n Type of authentication token \n Bearer \n\n scope \n String\
+        \ \n Permissions granted to the token \n\n refresh_token \n String \n Token to refresh access\
+        \ token \n XXXXX"
+      responses:
+        '200':
+          description: Exchange Refresh Token for New Access Token
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                ExchangeRefreshTokenforNewAccessToken:
+                  summary: Exchange Refresh Token for New Access Token
+                  value:
+                    access_token: XXXXX
+                    expires_in: 3600
+                    token_type: Bearer
+                    scope: ''
+                    refresh_token: XXXXX
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/oauthaccesstoken/manual/:
+    post:
+      operationId: manuallyGrantAccessTokenWithSpecificExpirationDate
+      summary: Manually Grant Access Token with Specific Expiration Date
+      tags:
+      - Authorization Tokens
+      description: "Use this route to grant an Access Token with a custom expiration date. This can be\
+        \ used to create long-lived API tokens where necessary for service-to-service integrations that\
+        \ cannot execute the OAuth 2.0 token grant flow using a Refresh Token.\n\n When using this capability,\
+        \ a new Refresh Token will be created for the specified Application. An Access Token with the\
+        \ specified expiration date will be granted under that Refresh Token.\n\n In the request, application\
+        \ is the ID of the AppOmni API Application to grant the token under. The API token you are using\
+        \ to make this request must have access to the application.\n\n You can execute a GET request\
+        \ on /api/v1/core/oauthapplication/?limit=25&offset=0&ordering=-name to obtain ID's for available\
+        \ API applications.\n\n Request Body\n\n Field \n Data Type \n Required \n Description \n Example\
+        \ \n\n application \n Integer \n Yes \n Application \n 11472 \n\n description \n String \n Yes\
+        \ \n Description of the resource \n Example Description. Setting to expire on 05/31... \n\n access_token_expiration\
+        \ \n String (ISO datetime) \n Yes \n Access token expiration \n 2025-05-31T07:00:00.000Z \n\n\
+        \ Response Fields\n\n Field \n Data Type \n Description \n Example \n\n application \n Integer\
+        \ \n Application \n 11472 \n\n access_token_expiration \n String (ISO datetime) \n Access token\
+        \ expiration \n 2025-05-31T07:00:00Z \n\n access_token \n String \n API access token \n XXXXX\
+        \ \n\n refresh_token \n String \n Token to refresh access token \n XXXXX \n\n description \n String\
+        \ \n Description of the resource \n Example Description. Setting to expire on 05/31..."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              application: 11472
+              description: Example Description. Setting to expire on 05/31/2025
+              access_token_expiration: '2025-05-31T07:00:00.000Z'
+      responses:
+        '200':
+          description: Example of manual token grant
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                Exampleofmanualtokengrant:
+                  summary: Example of manual token grant
+                  value:
+                    application: 11472
+                    access_token_expiration: '2025-05-31T07:00:00Z'
+                    access_token: XXXXX
+                    refresh_token: XXXXX
+                    description: Example Description. Setting to expire on 05/31/2025
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /oauth/introspect/:
+    get:
+      operationId: introspectAccessToken
+      summary: Introspect Access Token
+      tags:
+      - Authorization Tokens
+      description: "This is a RFC 7662-compliant Access Token Introspection endpoint. When making a query\
+        \ to the introspection endpoint with your valid access token in the Authorization header, you\
+        \ will get a response including the Client ID of the API Application the Access Token belongs\
+        \ to, the unix timestamp the token expires at, and the username of the user to which the token\
+        \ grants access under.\n\n https://datatracker.ietf.org/doc/html/rfc7662#section-2.2"
+      responses:
+        '200':
+          description: Introspect Access Token
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "{\n    \"active\": true,\n    \"exp\": 1788793177,\n    \"client_id\": \"XXX\"\
+                ,\n    \"username\": user123\"\n}"
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /oauth/revoke/:
+    post:
+      operationId: revokeRefreshToken
+      summary: Revoke Refresh Token
+      tags:
+      - Authorization Tokens
+      description: "This is a RFC 7009-compliant revocation route for OAuth Refresh Tokens granted under\
+        \ AppOmni API Applications.\n\n This route should be called via POST with the token parameter\
+        \ containing the value of the Refresh Token to be revoked. The token, and all Access Tokens granted\
+        \ under it, will be immediately revoked.\n\n https://datatracker.ietf.org/doc/html/rfc7009#section-2.1"
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/oauthrefreshtoken/{token_id}/:
+    delete:
+      operationId: revokeRefreshTokenByTokenID
+      summary: Revoke Refresh Token by Token ID
+      tags:
+      - Authorization Tokens
+      parameters:
+      - name: token_id
+        in: path
+        required: true
+        description: Path parameter token_id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/oauthapplication/:
+    get:
+      operationId: getAPIApplicationByClientID
+      summary: Get API Application by Client ID
+      tags:
+      - Authorization Tokens
+      description: Using this route you are able to query for an AppOmni API Application (OAuthApplication
+        object) by Client ID. This will allow you to convert a Client ID to the API Application ID, which
+        may be necessary for other operations (e.g. rotating the client secret via API).
+      parameters:
+      - name: client_id
+        in: query
+        required: false
+        description: Query parameter client_id
+        schema:
+          type: string
+        example: CLIENT_ID
+      responses:
+        '200':
+          description: Get API Application by Client ID
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "[\n    {\n        \"id\": 1,\n        \"created\": \"2025-09-07T14:59:37.872737Z\"\
+                ,\n        \"modified\": \"2025-09-07T14:59:37.872717Z\",\n        \"external_id\": null,\n\
+                \        \"created_by\": 1,\n        \"modified_by\": null,\n        \"owner\": 1,\n \
+                \       \"name\": \"Sample Application\",\n        \"description\": null\n        \"client_id\"\
+                : \"ABCDEF123456\",\n        \"redirect_uris\": \"\",\n        \"client_type\": \"confidential\"\
+                ,\n        \"authorization_grant_type\": \"authorization-code\",\n        \"skip_authorization\"\
+                : false,\n        \"allowed_scopes\": [],\n    }\n]"
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/oauthapplication/{app_id}/rotate_client_secret/:
+    post:
+      operationId: rotateAnAPIApplicationSClientSecret
+      summary: Rotate an API Application's Client Secret
+      tags:
+      - Authorization Tokens
+      description: "Making a POST request to this route with valid authorization credentials (must be\
+        \ a valid API token with access to manage the API Application in question) will immediately rotate\
+        \ the API Application's client secret. The new client secret will be required for all future Access\
+        \ Token grant requests in conjunction with a valid Refresh Token.\n\n All existing Refresh Tokens\
+        \ will remain valid, and all Access Tokens previously granted and still valid will remain so until\
+        \ their expiration time.\n\n In most cases this action is only required if you believe your API\
+        \ Application's Client Secret has been compromised. Otherwise, it is recommended you revoke and\
+        \ issue new Refresh Tokens.\n\n Response Fields\n\n Field \n Data Type \n Description \n Example\
+        \ \n\n client_secret \n String \n Client secret \n NEW_CLIENT_SECRET"
+      parameters:
+      - name: app_id
+        in: path
+        required: true
+        description: Path parameter app_id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Rotate an API Application's Client Secret
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                RotateanAPIApplicationsClientSecret:
+                  summary: Rotate an API Application's Client Secret
+                  value:
+                    client_secret: NEW_CLIENT_SECRET
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'AppOmni API access token, created and managed in the AppOmni platform under Settings
+        > API Settings. Sent as `Authorization: Bearer <token>`.'
+  schemas:
+    Error:
+      type: object
+      title: Error
+      description: Standard Django REST Framework error envelope returned by the AppOmni API.
+      properties:
+        detail:
+          type: string
+          description: Human readable error message

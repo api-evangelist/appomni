@@ -1,0 +1,50 @@
+generated: '2026-09-04'
+method: searched
+source: https://appomni.com/press-releases/worlds-first-saas-security-mcp-server/
+name: AskOmni MCP Server
+status: published
+vendor: AppOmni
+description: >-
+  AskOmni is AppOmni's AI security assistant, and AppOmni publishes it as a Model Context Protocol
+  server. Announced 2025-04-28 at RSA Conference as "the world's first MCP interface to SaaS security",
+  it exposes SaaS security posture, identity, data-exposure and user-behaviour context to external AI
+  agents and to SIEM/SOAR/IAM/XDR/EDR platforms. AppOmni states the server "is now available to AppOmni
+  customers and partners" — it runs inside the customer's own AppOmni tenant and AppOmni does not publish
+  a public endpoint URL, install command or tools/list manifest.
+deployment:
+  mode: remote
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: searched
+  note: >-
+    mode is `remote` because AskOmni is a hosted server inside the customer's AppOmni tenant, not a
+    local stdio process — AppOmni ships no npx/pip package for it. `endpoint` is deliberately null:
+    the URL is tenant-scoped and AppOmni publishes it only to customers, and guessing a path on the
+    *.appomni.com wildcard would produce a false verified agent surface (every path on every
+    *.appomni.com subdomain answers 200 with an SPA shell — see well-known/appomni-well-known.yml).
+    `auth` is unknown for the same reason; the platform REST API it fronts uses a bearer API token.
+evidence:
+  - url: https://appomni.com/press-releases/worlds-first-saas-security-mcp-server/
+    status: 200
+    quote: The AskOmni MCP Server is now available to AppOmni customers and partners.
+  - url: https://appomni.com/platform/askomni-ai-security-assistant/
+    status: 200
+    quote: AskOmni an MCP Server
+capabilities_claimed:
+  - SaaS security risk visibility — current risks from misconfigurations and risky behaviours
+  - Deeper insights on SaaS identities — investigation findings for SaaS identity security
+tools: []
+tools_note: >-
+  Not enumerated. A live tools/list probe requires a tenant endpoint and credentials, and AppOmni
+  publishes no llms.txt tool list. Tool names and inputSchemas need authenticated introspection
+  inside a customer tenant. NOTHING has been invented here.
+related:
+  - name: AppOmni AgentGuard
+    description: >-
+      Separate from AskOmni. AgentGuard is a runtime prompt-security surface for agentic AI, reachable
+      over plain HTTP at POST /api/v1/ai/prompts/agents/classify on the customer tenant, and shipped as
+      the n8n community node @appomni/n8n-nodes-agentguard. It is NOT an MCP server.
+    openapi: openapi/appomni-ai-api-openapi.yml
+    operationId: classifyAgentPrompt

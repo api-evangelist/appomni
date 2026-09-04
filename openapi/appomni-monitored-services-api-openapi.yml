@@ -1,0 +1,1612 @@
+openapi: 3.1.0
+info:
+  title: AppOmni Monitored Services API
+  description: 'Registration and administration of monitored SaaS services, their custom fields, custom
+    field values, tags and value lists.
+
+
+    Derived faithfully from the AppOmni public Postman collection published by AppOmni at https://api.appomni.com/
+    — every path, method, parameter, request body and example response below is taken verbatim from that
+    collection. No operation was invented.'
+  version: 1.0.0
+  contact:
+    name: AppOmni
+    url: https://appomni.com/support/
+  license:
+    name: Proprietary
+    url: https://appomni.com/terms-of-service/
+  x-generated-from: AppOmni public Postman collection (publishedId 2sBXc7Mjib, published 2026-02-04)
+  x-generated-source: https://api.appomni.com/api/collections/45135595/2sBXc7Mjib?segregateAuth=true&versionTag=latest
+  x-generated-method: derived
+  x-generated-date: '2026-09-04'
+servers:
+- url: https://{instance}.appomni.com
+  description: AppOmni tenant. Replace {instance} with your AppOmni subdomain — e.g. `acme` if you log
+    in at acme.appomni.com.
+  variables:
+    instance:
+      default: example
+      description: Your AppOmni tenant subdomain
+security:
+- bearerAuth: []
+tags:
+- name: Monitored Services
+- name: Custom Fields
+  description: "The Custom Fields API controls the tenant-wide fields that can be custom-created and assigned\
+    \ to different monitored services.\n\n Note : Delete operations for custom fields is disabled in this\
+    \ API for all users.\n\n Reference information for the custom fields endpoints:"
+- name: Custom Field Values for a Monitored Service
+  description: The Custom Field Values API accesses the value of the custom field associated with a given
+    monitored service.
+- name: Tags
+- name: ValueList
+  description: "ValueList and ValueListElement are used to manage lists of items used by Insights. ValueLists\
+    \ have a type designation and will be used by Insights on convention based on their type.\n\n Overview\n\
+    \n- ValueList : A container for a list of values with a specific type and usage\n\n- ValueListElement\
+    \ : Individual items within a ValueList"
+paths:
+  /api/v1/core/monitoredservice/:
+    get:
+      operationId: listMonitoredServices
+      summary: List monitored services
+      tags:
+      - Monitored Services
+      description: "Returns a paginated list of all Monitored Services configured in your environment.\n\
+        \n Each entry includes core metadata such as name, service type, score, status flags, and connection\
+        \ state. Supports filtering and annotations via query parameters.\n\n Response Fields\n\n Field\
+        \ \n Data Type \n Description \n Example \n\n id \n Integer \n Unique identifier for the monitored\
+        \ service. This is an AppOmni internal ID \n 5 \n\n created \n String (ISO datetime) \n Timestamp\
+        \ when the service was created \n 2022-11-29T05:56:26.372253Z \n\n created_by \n Integer \n ID\
+        \ of the user who created the service \n 23 \n\n modified \n String (ISO datetime) \n Timestamp\
+        \ of the last modification \n 2022-11-29T05:56:26.372253Z \n\n modified_by \n Integer \n ID of\
+        \ the user that last modified the entry \n 32 \n\n owner \n Integer \n ID of the user or team\
+        \ that owns the service \n 23 \n\n name \n String \n Display name of the monitored service \n\
+        \ 'MS Name' \n\n external_id \n String \n Identifier from the external system \n '1234-5683' \n\
+        \n service_id \n String \n Unique identifier of the connected service instance. This is the ID\
+        \ set by the connected service provider. \n '1234' \n\n service_type \n String \n Type of service\
+        \ (e.g., box, github) \n 'box' \n\n service_type_slug \n String \n Slug version of the service\
+        \ type \n 'box' \n\n description \n String \n Optional human-readable description \n\n enforcement_mode\
+        \ \n String \n Policy enforcement mode (monitor, enforce, etc.) \n 'monitor' \n\n integration_connected\
+        \ \n Boolean \n Indicates if the service is currently connected \n false \n\n monitoring_reqs_satisfied\
+        \ \n Boolean \n Whether monitoring requirements are met \n true \n\n has_warnings \n Boolean \n\
+        \ True if the service has warnings \n false \n\n has_errors \n Boolean \n True if the service\
+        \ has errors \n false \n\n initial_ingest_complete \n Boolean \n True if initial data ingestion\
+        \ is complete \n true \n\n is_archived \n Boolean \n True if the service has been archived \n\
+        \ false \n\n tags \n Array[Integer] \n List of tag IDs assigned to the service \n [34, 55, 66]\
+        \ \n\n baseline_policies \n Array[Integer] \n IDs of applied baseline policies \n [1] \n\n detection_ingest_enabled\
+        \ \n Boolean \n True if detection ingest is enabled \n true \n\n score \n Integer \n Security\
+        \ score for the service (typically 0–100) \n 100 \n\n Annotations schema \n\n When the query parameter\
+        \ annotations=1 is included in the request, each Monitored Service object in the results array\
+        \ includes the following read-only, computed fields :\n\n Field \n Type \n Description \n Example\
+        \ \n\n open_issues_count \n Integer \n Number of unresolved issues associated with this service\
+        \ \n 1 \n\n last_run_insights \n String (ISO datetime) \n Timestamp of the last insights scan\
+        \ or analysis run \n 2022-11-29T05:56:26.372253Z \n\n num_perspective_errors \n Integer \n Number\
+        \ of errors found across perspectives \n 33 \n\n any_perspective_errors \n Boolean \n Whether\
+        \ any perspective errors exist \n false \n\n service_installed_app_needs_update \n Boolean \n\
+        \ True if an installed app related to the service needs updating \n false \n\n total_users_count\
+        \ \n Integer \n Total number of users in the monitored service \n 123 \n\n inactive_user_count\
+        \ \n Integer \n Number of users marked as inactive \n 222 \n\n elevated_perm_user_count \n Integer\
+        \ \n Number of users with elevated permissions \n 32 \n\n admin_perm_user_count \n Integer \n\
+        \ Number of users with administrative permissions \n 432"
+      responses:
+        '200':
+          description: List Monitored Services
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "{\n  \"count\": 6,\n  \"next\": null,\n  \"previous\": null,\n  \"results\": [\n\
+                \    {\n      \"id\": 1,\n      \"created\": \"2025-03-10T20:10:45.013060Z\",\n      \"\
+                created_by\": 1,\n      \"modified\": \"2025-04-08T15:41:32.406310Z\",\n      \"modified_by\"\
+                : null,\n      \"owner\": 1,\n      \"name\": \"Box DE\",\n      \"external_id\": null,\n\
+                \      \"service_id\": \"285415710\",\n      \"service_type\": \"box\",\n      \"service_type_slug\"\
+                : \"box\",\n      \"description\": null,\n      \"enforcement_mode\": \"monitor\",\n \
+                \     \"integration_connected\": true,\n      \"monitoring_reqs_satisfied\": true,\n \
+                \     \"has_warnings\": false,\n      \"has_errors\": false,\n      \"initial_ingest_complete\"\
+                : true,\n      \"is_archived\": false,\n      \"tags\": [1],\n      \"baseline_policies\"\
+                : [],\n      \"detection_ingest_enabled\": true,\n      \"score\": 100\n    },\n    ...,\n\
+                \  ]\n}"
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/monitoredservice/{serviceType}/{serviceType}org/{id}:
+    get:
+      operationId: monitoredServiceDetail
+      summary: Monitored service detail
+      tags:
+      - Monitored Services
+      description: "Returns detailed metadata, sync status, user stats, preferences, and policy posture\
+        \ for a single monitored service instance by service type and org ID.\n\n If using developer platform\
+        \ modules, run the following call instead: GET api/v1/core/custom/custommonitoredservice/{id}\n\
+        \n Response Fields\n\n Field \n Type \n Description \n Example \n\n id \n Integer \n Unique identifier\
+        \ for the monitored service \n 1 \n\n created \n String (ISO datetime) \n Timestamp of creation\
+        \ \n 2022-11-29T05:56:26.372253Z \n\n modified \n String (ISO datetime) \n Timestamp of last modification\
+        \ \n 2022-11-29T05:56:26.372253Z \n\n external_id \n String \n External service identifier \n\
+        \ '12345' \n\n created_by \n Integer \n ID of the creator \n 2022-11-29T05:56:26.372253Z \n\n\
+        \ modified_by \n Integer \n ID of last modifier \n 2022-11-29T05:56:26.372253Z \n\n owner \n Integer\
+        \ \n ID of the owning user/team \n 33 \n\n monitored_service_type \n String \n Type of the monitored\
+        \ service (e.g., box) \n 'box' \n\n service_type_slug \n String \n Slugified type (same as above)\
+        \ \n 'box' \n\n name \n String \n Display name \n 'MS Name' \n\n authoritative_name \n String\
+        \ \n Authoritative identifier (if configured) \n '123456' \n\n description \n String \n Optional\
+        \ human-readable description \n 'description' \n\n service_id \n String \n Unique identifier for\
+        \ the service instance \n '5678' \n\n initial_ingest_complete \n Boolean \n Whether the initial\
+        \ ingest completed \n true \n\n integration_connected \n Boolean \n Whether integration is connected\
+        \ \n true \n\n integration_failed_at \n String (ISO datetime) \n Timestamp of last failed integration\
+        \ (if any) \n 2022-11-29T05:56:26.372253Z \n\n has_warnings \n Boolean \n Indicates if warnings\
+        \ exist \n true \n\n has_errors \n Boolean \n Indicates if errors exist \n false \n\n integration_installed_version\
+        \ \n String \n Installed version of the integration \n '1234' \n\n notify_ms_owner \n Boolean\
+        \ \n Whether to notify the monitored service owner \n false \n\n notify_user \n Integer \n ID\
+        \ of an additional user to notify \n 45 \n\n extra_notification_emails \n Array[String] \n Extra\
+        \ email addresses to notify \n [' 123@email.com '] \n\n allow_deploy_remediation \n Boolean \n\
+        \ Whether remediation actions can be deployed \n false \n\n enforcement_mode \n String \n Mode\
+        \ of policy enforcement \n 'monitor' \n\n last_service_data_sync \n String (ISO datetime) \n Last\
+        \ successful service data sync \n 2022-11-29T05:56:26.372253Z \n\n last_user_sync \n String \n\
+        \ Last user sync time \n 2022-11-29T05:56:26.372253Z \n\n last_login_sync \n String \n Last login\
+        \ data sync time \n 2022-11-29T05:56:26.372253Z \n\n String \n Last security data sync time \n\
+        \ 2022-11-29T05:56:26.372253Z \n\n String \n Last apps data sync time \n 2022-11-29T05:56:26.372253Z\
+        \ \n\n last_detection_collection \n String \n Last detection data collection time \n 2022-11-29T05:56:26.372253Z\
+        \ \n\n total_internal_user_count \n Integer \n Count of internal users \n 54 \n\n internal_active_user_count\
+        \ \n Integer \n Active internal users \n 65 \n\n total_external_user_count \n Integer \n External\
+        \ users count \n 22 \n\n external_active_user_count \n Integer \n Active external users \n 43\
+        \ \n\n inactive_user_count \n Integer \n Total inactive users \n 43 \n\n internal_inactive_user_count\
+        \ \n Integer \n Inactive internal users \n 54 \n\n external_inactive_user_count \n Integer \n\
+        \ Inactive external users \n 123 \n\n elevated_perm_user_count \n Integer \n Users with elevated\
+        \ permissions \n 424 \n\n internal_elevated_perm_user_count \n Integer \n Internal users with\
+        \ elevated permissions \n 243 \n\n external_elevated_perm_user_count \n Integer \n External users\
+        \ with elevated permissions \n 234 \n\n admin_perm_user_count \n Integer \n Admin users total\
+        \ \n 2343 \n\n internal_admin_perm_user_count \n Integer \n Internal admin users \n 12 \n\n external_admin_perm_user_count\
+        \ \n Integer \n External admin users \n 32 \n\n tags \n Array[Integer] \n Associated tag IDs \n\
+        \ [1324] \n\n classification_configurations \n Array \n Custom classification settings (if any)\
+        \ \n [] \n\n num_internal_users_covered \n Integer \n Covered internal users \n 43 \n\n num_external_users_covered\
+        \ \n Integer \n Covered external users \n 54 \n\n internal_user_covera"
+      parameters:
+      - name: serviceType
+        in: path
+        required: true
+        description: Path parameter serviceType
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: Path parameter id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Monitored Service Detail
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                MonitoredServiceDetail:
+                  summary: Monitored Service Detail
+                  value:
+                    id: 1
+                    created: '2025-03-10T20:10:45.013060Z'
+                    modified: '2025-04-08T15:41:32.406310Z'
+                    external_id: null
+                    created_by: 1
+                    modified_by: null
+                    owner: 1
+                    monitored_service_type: box
+                    service_type_slug: box
+                    name: Box DE
+                    authoritative_name: null
+                    description: null
+                    service_id: '285415710'
+                    initial_ingest_complete: true
+                    integration_connected: true
+                    integration_failed_at: null
+                    has_warnings: false
+                    has_errors: false
+                    integration_installed_version: null
+                    notify_ms_owner: true
+                    notify_user: null
+                    extra_notification_emails: []
+                    allow_deploy_remediation: false
+                    enforcement_mode: monitor
+                    last_service_data_sync: '2025-04-08T15:41:32.401611Z'
+                    last_user_sync: null
+                    last_login_sync: null
+                    last_security_data_sync: null
+                    last_apps_data_sync: null
+                    last_detection_collection: null
+                    total_internal_user_count: 20
+                    internal_active_user_count: 20
+                    total_external_user_count: 0
+                    external_active_user_count: 0
+                    inactive_user_count: null
+                    internal_inactive_user_count: null
+                    external_inactive_user_count: null
+                    elevated_perm_user_count: null
+                    internal_elevated_perm_user_count: null
+                    external_elevated_perm_user_count: null
+                    admin_perm_user_count: null
+                    internal_admin_perm_user_count: null
+                    external_admin_perm_user_count: null
+                    tags:
+                    - 1
+                    classification_configurations: []
+                    num_internal_users_covered: 0
+                    num_external_users_covered: 0
+                    internal_user_coverage: 0.0
+                    external_user_coverage: 0.0
+                    num_internal_users_represented: 0
+                    num_external_users_represented: 0
+                    service_installed_app_needs_update: false
+                    service_statistics:
+                      md_kind: fsb.ms.service_statics
+                      file_count: 40
+                      md_version: 2
+                      site_count: 0
+                      folder_count: 69
+                      user_count_external: 0
+                      user_count_internal: 20
+                    user_msgs:
+                      md_kind: core.monitoredservice.user_msgs
+                      md_version: 1
+                      msgs: []
+                    open_issues_count: 0
+                    monitoring_reqs_satisfied: true
+                    is_archived: false
+                    archived_at: null
+                    prefs:
+                      md_version: 1
+                      md_kind: core.shared.prefs.ms_container
+                      preference_groups:
+                        modules:
+                          group_label: Module Settings
+                          group_description: Configure which modules are enabled
+                          preferences:
+                          - name: dam
+                            label: Exposure - enabled
+                            value_type: bool
+                            show_in_ui: false
+                            value: true
+                            default_value: true
+                            description: Data Exposure will be monitored
+                            md_version: 1
+                            md_kind: core.shared.prefs.entry
+                          md_version: 1
+                          md_kind: core.shared.prefs.group
+                      flat_dict:
+                        modules.dam: true
+                    baseline_policies: []
+                    degraded_feature_keys: []
+                    detection_ingest_enabled: true
+                    score: 100
+                    score_last_calculated: '2025-04-09T18:07:02.533226Z'
+                    admin_perspective: 9
+                    preferences:
+                      batch_perspectives: true
+                    active_perspective_count: 1
+                    perspective_count: 5
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/{serviceType}/{serviceType}org/{id}/sync_timestamps/:
+    get:
+      operationId: dataSyncs
+      summary: Data syncs
+      tags:
+      - Monitored Services
+      description: "Provides users with information pertaining to the status of syncing various data types\
+        \ to AppOmni from their SaaS application.\n\n For example, if a sync hadn't started or finished\
+        \ for a few days, AppOmni would be operating on data from whenever the last data sync completed\
+        \ successfully, and could be missing important configuration changes or repo additions that occurred\
+        \ during that interim period.\n\n For developer platform modules, run:\nGET api/v1/custom/custommonitoredservice/{id}/sync_timestamps/\n\
+        \n Response Fields\n\n Field \n Type \n Description \n Example \n\n timestamp_field \n String\
+        \ \n Internal field name for the last sync timestamp (used for lookups and logic) \n 'timestamp'\
+        \ \n\n label \n String \n i18n key or label describing the sync category \n 'label' \n\n allow_adhoc_refresh\
+        \ \n Boolean \n Whether ad-hoc manual sync is allowed for this type \n true \n\n description \n\
+        \ String \n i18n key or full description of the sync category \n 'description' \n\n rate_limited\
+        \ \n Boolean \n Whether triggering this sync is rate-limited \n true \n\n rate_limit_category\
+        \ \n String \n Indicates how heavily the sync is rate-limited (e.g., light, medium, heavy) \n\
+        \ 'light' \n\n last_sync_timestamp \n String (ISO datetime) \n Time the last sync finished (or\
+        \ was recorded as completed) \n 2022-11-29T05:56:26.372253Z \n\n required_syncs \n Array[String]\
+        \ \n List of dependent sync steps that must be completed first \n [] \n\n status \n String \n\
+        \ Current sync status (pending, failed, complete, etc.) \n 'complete' \n\n last_sync_start_time\
+        \ \n String (ISO datetime) \n Time the sync last began (useful for tracking duration) \n 2022-11-29T05:56:26.372253Z\
+        \ \n\n long_sync_detected \n Boolean \n True if the system has flagged the sync as taking unusually\
+        \ long \n false \n\n messages \n String \n Optional additional info or warning messages \n \"\""
+      parameters:
+      - name: serviceType
+        in: path
+        required: true
+        description: Path parameter serviceType
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: Path parameter id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Data Syncs
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "[\n  {\n    \"timestamp_field\": \"last_org_sync\",\n    \"label\": \"common.monitored_service.data_timestamps.last_security_data_sync.label\"\
+                ,\n    \"allow_adhoc_refresh\": true,\n    \"description\": \"common.monitored_service.data_timestamps.last_security_data_sync.description\"\
+                ,\n    \"rate_limited\": false,\n    \"rate_limit_category\": \"light\",\n    \"last_sync_timestamp\"\
+                : \"2025-04-08T23:50:20.161334+00:00\",\n    \"required_syncs\": [\n      \"org_settings_sync\"\
+                \n    ],\n    \"status\": \"complete\",\n    \"last_sync_start_time\": \"2025-04-08T23:50:15.463009+00:00\"\
+                ,\n    \"long_sync_detected\": false,\n    \"messages\": null\n  },\n  ...,\n]"
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/{serviceType}/{serviceType}org/{id}/request_adhoc_sync/:
+    post:
+      operationId: requestSyncDataType
+      summary: Request sync data type
+      tags:
+      - Monitored Services
+      description: "Request an on-demand resync of the provided data type.\n\n Affected by rate_limits\
+        \ and availability. Data syncs are enqueued. Only syncs with ‘allow_adhoc_refresh: true’ and ‘rate_limited:\
+        \ false’ will be requested.\n\n For the payload, specify the timestamp_field to resync.\n\n For\
+        \ developer platform module types, run:\nPOST - api/v1/{serviceType}/{serviceType}org/{id}/request_adhoc_sync/.\n\
+        \n Response Fields\n\n Field \n Data Type \n Required \n Description \n Example \n\n sync_type\
+        \ \n String \n Yes \n Timestamp field to resync (use value from Data syncs) \n last_security_data_sync"
+      parameters:
+      - name: serviceType
+        in: path
+        required: true
+        description: Path parameter serviceType
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: Path parameter id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example: '{ sync_type: "last_security_data_sync"}'
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/{serviceType}/{serviceType}org/{id}/request_adhoc_all_sync/:
+    post:
+      operationId: requestSyncAllDataTypes
+      summary: Request sync all data types
+      tags:
+      - Monitored Services
+      description: "Request on-demand resyncs of all data types meeting the required criteria.\n\n No\
+        \ payload is necessary. \n\n Utilizes the same schema as Request Sync Data Type.\n\n For developer\
+        \ platform module types, run:\nPOST - api/v1/custom/custommonitoredservice/{id}/request_adhoc_all_sync/"
+      parameters:
+      - name: serviceType
+        in: path
+        required: true
+        description: Path parameter serviceType
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: Path parameter id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/monitoredservice/{ms_id}/rotate_ingest_token/:
+    patch:
+      operationId: rotateIngestToken
+      summary: Rotate ingest token
+      tags:
+      - Monitored Services
+      description: "Each sync event for a monitored service is a job that requires authentication to push\
+        \ data to AppOmni. An ingest token is the authentication that makes the sync secure. You might\
+        \ require the ingest token to make direct API calls when you're using the AppOmni Developer Platform.\
+        \ Rotating a token immediately replaces the ingest token with a new value. Any existing integrations\
+        \ using the old/previous ingest token cease to work.\n\n Only users with Admin or Service Onboarder\
+        \ roles are able to use this endpoint. Users without permission will return a 403.\n\n Run the\
+        \ \"List Monitored Services\" endpoint to obtain the ms_id variable.\n\n There is no payload required\
+        \ for this endpoint.\n\n Response Fields\n\n Field \n Data Type \n Description \n Example \n\n\
+        \ token \n String (UUID) \n New ingest token value \n a5633c0d-a9dd-46c5-903d-5007dc6d6e42 \n\n\
+        \ rotate_time \n String (ISO datetime) \n Time the token was rotated \n 2024-07-17T18:41:02.452800+00:00\
+        \ \n\n url \n String \n Ingest API endpoint URL \n https://your-domain.appomni.com/platform/ingest/v2/ingest/"
+      parameters:
+      - name: ms_id
+        in: path
+        required: true
+        description: Path parameter ms_id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Rotate Ingest Token
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                RotateIngestToken:
+                  summary: Rotate Ingest Token
+                  value:
+                    token: a5633c0d-a9dd-46c5-903d-5007dc6d6e42
+                    rotate_time: '2024-07-17T18:41:02.452800+00:00'
+                    url: https://[your-domain].appomni.com/platform/ingest/v2/ingest/
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/monitoredservice/{ms_id}/get_ingest_token/:
+    get:
+      operationId: getIngestToken
+      summary: Get ingest token
+      tags:
+      - Monitored Services
+      description: "Each sync event for a monitored service is a job that requires authentication to push\
+        \ data to AppOmni. An ingest token is the authentication that makes the sync secure. You might\
+        \ require the ingest token to make direct API calls when you're using the AppOmni Developer Platform.\n\
+        \n Only users with Admin or Service Onboarder roles are able to use this endpoint. Users without\
+        \ permission will return a 403.\n\n Run the \"List Monitored Services\" endpoint to obtain the\
+        \ ms_id variable.\n\n Response Fields\n\n Field \n Data Type \n Description \n Example \n\n token\
+        \ \n String (UUID) \n Current ingest token value \n 3ea1ae3e-792f-4682-ae01-c07e6c63ea39 \n\n\
+        \ rotate_time \n String (ISO datetime) or null \n Time the token was rotated (if ever) \n null\
+        \ \n\n url \n String \n Ingest API endpoint URL \n https://your-domain.appomni.com/platform/ingest/v2/ingest/"
+      parameters:
+      - name: ms_id
+        in: path
+        required: true
+        description: Path parameter ms_id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Get Ingest Token
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                GetIngestToken:
+                  summary: Get Ingest Token
+                  value:
+                    token: 3ea1ae3e-792f-4682-ae01-c07e6c63ea39
+                    rotate_time: null
+                    url: https://[your-domain].appomni.com/platform/ingest/v2/ingest/
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/custom_field/:
+    get:
+      operationId: listCustomFields
+      summary: List custom fields
+      tags:
+      - Custom Fields
+      description: "Returns a list of custom fields.\n\n Response Fields\n\n Field \n Data Type \n Description\
+        \ \n Example \n\n display_name \n String \n Display name for the custom field \n \"First Field\"\
+        \ \n\n field_name \n String \n Unique field name for the custom field \n \"field_1\" \n\n field_type\
+        \ \n String \n Data type the field can have (decimal, integer, string) \n \"string\" \n\n description\
+        \ \n String \n Optional descriptive text \n \"My first field\" \n\n id \n String (UUID) \n Unique\
+        \ identifier for the custom field \n \"864b35f9-b042-4a9d-b6a4-f293e8ea7fda\" \n\n created \n\
+        \ String (ISO datetime) \n Timestamp when the custom field was created \n \"2024-07-03T15:08:32.502585Z\"\
+        \ \n\n modified \n String (ISO datetime) \n Timestamp when the custom field was last modified\
+        \ \n \"2024-07-03T15:08:32.502607Z\" \n\n external_id \n String or null \n External identifier\
+        \ controlled by end user \n null"
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        description: Query parameter limit
+        schema:
+          type: integer
+        example: '50'
+      - name: offset
+        in: query
+        required: false
+        description: Query parameter offset
+        schema:
+          type: integer
+        example: '0'
+      - name: ordering
+        in: query
+        required: false
+        description: Query parameter ordering
+        schema:
+          type: string
+        example: id
+      - name: search
+        in: query
+        required: false
+        description: Query parameter search
+        schema:
+          type: string
+        example: field
+      - name: id__in
+        in: query
+        required: false
+        description: Query parameter id__in
+        schema:
+          type: string
+        example: '["e6a1993f-52c4-4e82-b734-7772ed551aa1","1d0dccb1-b3c3-462e-a95f-a4a2dba72d15"]'
+      - name: display_name__icontains
+        in: query
+        required: false
+        description: Query parameter display_name__icontains
+        schema:
+          type: string
+        example: example
+      - name: field_name__icontains
+        in: query
+        required: false
+        description: Query parameter field_name__icontains
+        schema:
+          type: string
+        example: example
+      - name: field_type
+        in: query
+        required: false
+        description: Query parameter field_type
+        schema:
+          type: string
+        example: string
+      - name: unassigned_parent_id
+        in: query
+        required: false
+        description: Query parameter unassigned_parent_id
+        schema:
+          type: string
+        example: '[1]'
+      responses:
+        '200':
+          description: List Custom Fields
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                ListCustomFields:
+                  summary: List Custom Fields
+                  value:
+                    next: null
+                    prev: null
+                    count: 2
+                    results:
+                    - display_name: First Field
+                      field_name: field_1
+                      field_type: string
+                      description: My first field
+                      id: 864b35f9-b042-4a9d-b6a4-f293e8ea7fda
+                      created: '2024-07-03T15:08:32.502585Z'
+                      modified: '2024-07-03T15:08:32.502607Z'
+                      external_id: null
+                    - display_name: Second Field
+                      field_name: field_2
+                      field_type: string
+                      description: My second field
+                      id: 98bb896d-5bfc-4ff2-968e-1054df7d9ee3
+                      created: '2024-07-03T18:31:52.247665Z'
+                      modified: '2024-07-03T18:31:52.247707Z'
+                      external_id: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: createCustomField
+      summary: Create custom field
+      tags:
+      - Custom Fields
+      description: "Creates a custom field.\n\n Request Body\n\n Field \n Data Type \n Required \n Description\
+        \ \n Example \n\n display_name \n String \n Yes \n Unique display name for the custom field \n\
+        \ \"Example Field\" \n\n field_name \n String (max 40 chars) \n Yes \n Unique field name for the\
+        \ custom field. This is how the custom field is referenced in Ticketing Templates \n \"example_field\"\
+        \ \n\n field_type \n String \n Yes \n Data type the field can have. Allowed values: decimal, integer,\
+        \ string \n \"string\" \n\n description \n String (max 240 chars) \n No \n Optional descriptive\
+        \ text \n \"This is an example\" \n\n external_id \n String (max 256 chars) \n No \n External\
+        \ identifier controlled by end user \n null \n\n Response Fields\n\n Field \n Data Type \n Description\
+        \ \n Example \n\n display_name \n String \n Display name for the custom field \n \"Example Field\"\
+        \ \n\n field_name \n String \n Unique field name for the custom field \n \"example_field\" \n\n\
+        \ field_type \n String \n Data type the field can have (decimal, integer, string) \n \"string\"\
+        \ \n\n description \n String \n Optional descriptive text \n \"This is an example\" \n\n id \n\
+        \ String (UUID) \n Unique identifier for the custom field \n \"3060cb2e-2bad-4d15-848b-e5b828db1ab5\"\
+        \ \n\n created \n String (ISO datetime) \n Timestamp when the custom field was created \n \"2024-10-04T17:15:57.532217Z\"\
+        \ \n\n modified \n String (ISO datetime) \n Timestamp when the custom field was last modified\
+        \ \n \"2024-10-04T17:15:57.532244Z\" \n\n external_id \n String or null \n External identifier\
+        \ controlled by end user \n null"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              display_name: Example Field
+              field_name: example_field
+              field_type: string
+              description: This is an example
+      responses:
+        '201':
+          description: Create Custom Field
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                CreateCustomField:
+                  summary: Create Custom Field
+                  value:
+                    display_name: Example Field
+                    field_name: example_field
+                    field_type: string
+                    description: This is an example
+                    id: 3060cb2e-2bad-4d15-848b-e5b828db1ab5
+                    created: '2024-10-04T17:15:57.532217Z'
+                    modified: '2024-10-04T17:15:57.532244Z'
+                    external_id: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/custom_field/{custom_field_id}/:
+    get:
+      operationId: retrieveACustomField
+      summary: Retrieve a custom field
+      tags:
+      - Custom Fields
+      description: "Returns a specific custom field.\n\n Response Fields\n\n Field \n Data Type \n Description\
+        \ \n Example \n\n display_name \n String \n Display name for the custom field \n \"First Field\"\
+        \ \n\n field_name \n String \n Unique field name for the custom field \n \"field_1\" \n\n field_type\
+        \ \n String \n Data type the field can have (decimal, integer, string) \n \"string\" \n\n description\
+        \ \n String \n Optional descriptive text \n \"My first field\" \n\n id \n String (UUID) \n Unique\
+        \ identifier for the custom field \n \"864b35f9-b042-4a9d-b6a4-f293e8ea7fda\" \n\n created \n\
+        \ String (ISO datetime) \n Timestamp when the custom field was created \n \"2024-07-03T15:08:32.502585Z\"\
+        \ \n\n modified \n String (ISO datetime) \n Timestamp when the custom field was last modified\
+        \ \n \"2024-07-03T15:08:32.502607Z\" \n\n external_id \n String or null \n External identifier\
+        \ controlled by end user \n null"
+      parameters:
+      - name: custom_field_id
+        in: path
+        required: true
+        description: Path parameter custom_field_id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Retrieve Custom Field
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                RetrieveCustomField:
+                  summary: Retrieve Custom Field
+                  value:
+                    display_name: First Field
+                    field_name: field_1
+                    field_type: string
+                    description: My first field
+                    id: 864b35f9-b042-4a9d-b6a4-f293e8ea7fda
+                    created: '2024-07-03T15:08:32.502585Z'
+                    modified: '2024-07-03T15:08:32.502607Z'
+                    external_id: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: updateCustomField
+      summary: Update custom field
+      tags:
+      - Custom Fields
+      description: "Updates a custom field.\n\n Request Body\n\n Field \n Data Type \n Required \n Description\
+        \ \n Example \n\n description \n String (max 240 chars) \n No \n Optional descriptive text \n\
+        \ \"New description\" \n\n external_id \n String (max 256 chars) \n No \n External identifier\
+        \ controlled by end user \n null \n\n Note: Only the description and external_id fields can be\
+        \ updated. The display_name, field_name, and field_type are immutable after creation.\n\n Response\
+        \ Fields\n\n Field \n Data Type \n Description \n Example \n\n display_name \n String \n Display\
+        \ name for the custom field \n \"Example Field\" \n\n field_name \n String \n Unique field name\
+        \ for the custom field \n \"example_field\" \n\n field_type \n String \n Data type the field can\
+        \ have (decimal, integer, string) \n \"string\" \n\n description \n String \n Optional descriptive\
+        \ text \n \"New description\" \n\n id \n String (UUID) \n Unique identifier for the custom field\
+        \ \n \"864b35f9-b042-4a9d-b6a4-f293e8ea7fda\" \n\n created \n String (ISO datetime) \n Timestamp\
+        \ when the custom field was created \n \"2024-07-03T15:08:32.502585Z\" \n\n modified \n String\
+        \ (ISO datetime) \n Timestamp when the custom field was last modified \n \"2024-07-03T15:08:32.502607Z\"\
+        \ \n\n external_id \n String or null \n External identifier controlled by end user \n null"
+      parameters:
+      - name: custom_field_id
+        in: path
+        required: true
+        description: Path parameter custom_field_id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              description: New description
+      responses:
+        '200':
+          description: Update Custom Field
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                UpdateCustomField:
+                  summary: Update Custom Field
+                  value:
+                    display_name: Example Field
+                    field_name: example_field
+                    field_type: string
+                    description: New description
+                    id: 864b35f9-b042-4a9d-b6a4-f293e8ea7fda
+                    created: '2024-07-03T15:08:32.502585Z'
+                    modified: '2024-07-03T15:08:32.502607Z'
+                    external_id: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/custom_field/types:
+    get:
+      operationId: listCustomFieldTypes
+      summary: List custom field types
+      tags:
+      - Custom Fields
+      description: "Returns a list of custom field types.\n\n Response Fields\n\n Field \n Data Type \n\
+        \ Description \n Example \n\n data \n Array[String] \n List of available custom field types \n\
+        \ [\"decimal\", \"integer\", \"string\"]"
+      responses:
+        '200':
+          description: List Custom Field Types
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                ListCustomFieldTypes:
+                  summary: List Custom Field Types
+                  value:
+                    data:
+                    - decimal
+                    - integer
+                    - string
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/monitoredservice/{ms_id}/custom_fields/:
+    get:
+      operationId: listMSCustomFieldValue
+      summary: List MS custom field value
+      tags:
+      - Custom Field Values for a Monitored Service
+      description: "Returns the values associated with the custom fields for a monitored service.\n\n\
+        \ Response Fields\n\n Field \n Data Type \n Description \n Example \n\n value \n String \n Custom\
+        \ field value specific to the parent \n \"test_value\" \n\n custom_field_id \n String (UUID) \n\
+        \ ID of custom field \n \"bcd705b3-8de2-4e10-9de4-4c9a27d05060\" \n\n custom_field \n Object \n\
+        \ Information about the custom field \n See nested fields below \n\n custom_field.display_name\
+        \ \n String \n Display name of the custom field \n \"test_field_1\" \n\n custom_field.field_name\
+        \ \n String \n Field name of the custom field \n \"test_field_1\" \n\n custom_field.field_type\
+        \ \n String \n Data type of the custom field \n \"string\" \n\n custom_field.description \n String\
+        \ \n Description of the custom field \n \"This is a test\" \n\n custom_field.id \n String (UUID)\
+        \ \n ID of the custom field \n \"bcd705b3-8de2-4e10-9de4-4c9a27d05060\" \n\n custom_field.created\
+        \ \n String (ISO datetime) \n When the custom field was created \n \"2024-07-23T18:11:51.855378Z\"\
+        \ \n\n custom_field.modified \n String (ISO datetime) \n When the custom field was last modified\
+        \ \n \"2024-07-23T18:11:51.855425Z\" \n\n custom_field.external_id \n String or null \n External\
+        \ ID of the custom field \n null \n\n id \n String (UUID) \n ID of field > monitored service link\
+        \ \n \"485c31ec-e906-409e-81f0-9fdb0f42f4fa\" \n\n parent_id \n Integer \n ID of parent monitored\
+        \ service \n 1 \n\n created \n String (ISO datetime) \n When the link was created \n \"2024-07-23T18:12:56.348662Z\"\
+        \ \n\n modified \n String (ISO datetime) \n When link was last updated \n \"2024-07-23T18:12:56.348700Z\"\
+        \ \n\n external_id \n String or null \n External ID \n null"
+      parameters:
+      - name: ms_id
+        in: path
+        required: true
+        description: Path parameter ms_id
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        description: Query parameter limit
+        schema:
+          type: integer
+        example: '25'
+      - name: offset
+        in: query
+        required: false
+        description: Query parameter offset
+        schema:
+          type: integer
+        example: '0'
+      - name: ordering
+        in: query
+        required: false
+        description: Query parameter ordering
+        schema:
+          type: string
+        example: id
+      - name: search
+        in: query
+        required: false
+        description: Query parameter search
+        schema:
+          type: string
+        example: test
+      - name: value__icontains
+        in: query
+        required: false
+        description: Query parameter value__icontains
+        schema:
+          type: string
+        example: value
+      - name: custom_field_id__in
+        in: query
+        required: false
+        description: Query parameter custom_field_id__in
+        schema:
+          type: string
+        example: '["586c7ec5-8a22-4f9e-b20f-1c32c17c6466","9d1ec864-3700-453f-8bd0-038284da11db"]'
+      responses:
+        '200':
+          description: List MS Custom Field Value
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                ListMSCustomFieldValue:
+                  summary: List MS Custom Field Value
+                  value:
+                    next: null
+                    prev: null
+                    count: 2
+                    results:
+                    - value: test_value
+                      custom_field_id: bcd705b3-8de2-4e10-9de4-4c9a27d05060
+                      custom_field:
+                        display_name: test_field_1
+                        field_name: test_field_1
+                        field_type: string
+                        description: This is a test
+                        id: bcd705b3-8de2-4e10-9de4-4c9a27d05060
+                        created: '2024-07-23T18:11:51.855378Z'
+                        modified: '2024-07-23T18:11:51.855425Z'
+                        external_id: null
+                      id: 485c31ec-e906-409e-81f0-9fdb0f42f4fa
+                      parent_id: 1
+                      created: '2024-07-23T18:12:56.348662Z'
+                      modified: '2024-07-23T18:12:56.348700Z'
+                      external_id: null
+                    - value: test_value
+                      custom_field_id: 8fd819e0-4ecf-4d2b-95f4-e64e3eb18785
+                      custom_field:
+                        display_name: test_field_2
+                        field_name: test_field_2
+                        field_type: string
+                        description: ''
+                        id: 8fd819e0-4ecf-4d2b-95f4-e64e3eb18785
+                        created: '2024-07-23T18:27:49.891064Z'
+                        modified: '2024-07-23T18:27:49.891086Z'
+                        external_id: null
+                      id: a880ea80-f055-4397-a5b1-375bbedc9758
+                      parent_id: 1
+                      created: '2024-07-23T18:28:00.737541Z'
+                      modified: '2024-07-23T18:28:00.737569Z'
+                      external_id: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: createMSCustomFieldValue
+      summary: Create MS custom field value
+      tags:
+      - Custom Field Values for a Monitored Service
+      description: "Creates a new custom field value for a monitored service.\n\n Request Body\n\n Field\
+        \ \n Data Type \n Required \n Description \n Example \n\n value \n String (max 40 chars), Integer,\
+        \ or Float \n Yes \n Custom field value specific to the parent \n \"test_value\" \n\n custom_field_id\
+        \ \n String (UUID) \n Yes \n ID of the custom field to link \n \"bcd705b3-8de2-4e10-9de4-4c9a27d05060\"\
+        \ \n\n external_id \n String (max 256 chars) \n No \n External ID \n null \n\n Response Fields\n\
+        \n Field \n Data Type \n Description \n Example \n\n value \n String \n Custom field value specific\
+        \ to the parent \n \"test_value\" \n\n custom_field_id \n String (UUID) \n ID of custom field\
+        \ \n \"e308a3db-4527-4c6f-9bfd-02eb580a10e2\" \n\n custom_field \n Object \n Information about\
+        \ the custom field \n See nested fields below \n\n custom_field.display_name \n String \n Display\
+        \ name of the custom field \n \"test_field_3\" \n\n custom_field.field_name \n String \n Field\
+        \ name of the custom field \n \"test_field_3\" \n\n custom_field.field_type \n String \n Data\
+        \ type of the custom field \n \"string\" \n\n custom_field.description \n String \n Description\
+        \ of the custom field \n \"\" \n\n custom_field.id \n String (UUID) \n ID of the custom field\
+        \ \n \"e308a3db-4527-4c6f-9bfd-02eb580a10e2\" \n\n custom_field.created \n String (ISO datetime)\
+        \ \n When the custom field was created \n \"2024-07-23T19:02:26.139111Z\" \n\n custom_field.modified\
+        \ \n String (ISO datetime) \n When the custom field was last modified \n \"2024-07-23T19:02:26.139141Z\"\
+        \ \n\n custom_field.external_id \n String or null \n External ID of the custom field \n null \n\
+        \n id \n String (UUID) \n ID of field > monitored service link \n \"d2da8cfb-6cdb-4ba6-b02c-1ec85a1c32f4\"\
+        \ \n\n parent_id \n Integer \n ID of parent monitored service \n 1 \n\n created \n String (ISO\
+        \ datetime) \n When the link was created \n \"2024-07-23T19:02:33.705217Z\" \n\n modified \n String\
+        \ (ISO datetime) \n When link was last updated \n \"2024-07-23T19:02:33.705245Z\" \n\n external_id\
+        \ \n String or null \n External ID \n null"
+      parameters:
+      - name: ms_id
+        in: path
+        required: true
+        description: Path parameter ms_id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              value: test_value
+              custom_field_id: '{{Custom Field id}}'
+      responses:
+        '201':
+          description: Create MS Custom Field Value
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                CreateMSCustomFieldValue:
+                  summary: Create MS Custom Field Value
+                  value:
+                    value: test_value
+                    custom_field_id: e308a3db-4527-4c6f-9bfd-02eb580a10e2
+                    custom_field:
+                      display_name: test_field_3
+                      field_name: test_field_3
+                      field_type: string
+                      description: ''
+                      id: e308a3db-4527-4c6f-9bfd-02eb580a10e2
+                      created: '2024-07-23T19:02:26.139111Z'
+                      modified: '2024-07-23T19:02:26.139141Z'
+                      external_id: null
+                    id: d2da8cfb-6cdb-4ba6-b02c-1ec85a1c32f4
+                    parent_id: 1
+                    created: '2024-07-23T19:02:33.705217Z'
+                    modified: '2024-07-23T19:02:33.705245Z'
+                    external_id: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/monitoredservice/{ms_id}/custom_fields/{custom_field_value_id}/:
+    get:
+      operationId: retrieveAMSCustomFieldValue
+      summary: Retrieve a MS custom field value
+      tags:
+      - Custom Field Values for a Monitored Service
+      description: "Returns the value associated with a specific custom field.\n\n Response Fields\n\n\
+        \ Field \n Data Type \n Description \n Example \n\n value \n String \n Custom field value specific\
+        \ to the parent \n \"test_value\" \n\n custom_field_id \n String (UUID) \n ID of custom field\
+        \ \n \"bcd705b3-8de2-4e10-9de4-4c9a27d05060\" \n\n custom_field \n Object \n Information about\
+        \ the custom field \n See nested fields below \n\n custom_field.display_name \n String \n Display\
+        \ name of the custom field \n \"test_field_1\" \n\n custom_field.field_name \n String \n Field\
+        \ name of the custom field \n \"test_field_1\" \n\n custom_field.field_type \n String \n Data\
+        \ type of the custom field \n \"string\" \n\n custom_field.description \n String \n Description\
+        \ of the custom field \n \"This is a test\" \n\n custom_field.id \n String (UUID) \n ID of the\
+        \ custom field \n \"bcd705b3-8de2-4e10-9de4-4c9a27d05060\" \n\n custom_field.created \n String\
+        \ (ISO datetime) \n When the custom field was created \n \"2024-07-23T18:11:51.855378Z\" \n\n\
+        \ custom_field.modified \n String (ISO datetime) \n When the custom field was last modified \n\
+        \ \"2024-07-23T18:11:51.855425Z\" \n\n custom_field.external_id \n String or null \n External\
+        \ ID of the custom field \n null \n\n id \n String (UUID) \n ID of field > monitored service link\
+        \ \n \"485c31ec-e906-409e-81f0-9fdb0f42f4fa\" \n\n parent_id \n Integer \n ID of parent monitored\
+        \ service \n 1 \n\n created \n String (ISO datetime) \n When the link was created \n \"2024-07-23T18:12:56.348662Z\"\
+        \ \n\n modified \n String (ISO datetime) \n When link was last updated \n \"2024-07-23T18:12:56.348700Z\"\
+        \ \n\n external_id \n String or null \n External ID \n null"
+      parameters:
+      - name: ms_id
+        in: path
+        required: true
+        description: Path parameter ms_id
+        schema:
+          type: string
+      - name: custom_field_value_id
+        in: path
+        required: true
+        description: Path parameter custom_field_value_id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Retrieve MS Custom Field Value
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                RetrieveMSCustomFieldValue:
+                  summary: Retrieve MS Custom Field Value
+                  value:
+                    value: test_value
+                    custom_field_id: bcd705b3-8de2-4e10-9de4-4c9a27d05060
+                    custom_field:
+                      display_name: test_field_1
+                      field_name: test_field_1
+                      field_type: string
+                      description: This is a test
+                      id: bcd705b3-8de2-4e10-9de4-4c9a27d05060
+                      created: '2024-07-23T18:11:51.855378Z'
+                      modified: '2024-07-23T18:11:51.855425Z'
+                      external_id: null
+                    id: 485c31ec-e906-409e-81f0-9fdb0f42f4fa
+                    parent_id: 1
+                    created: '2024-07-23T18:12:56.348662Z'
+                    modified: '2024-07-23T18:12:56.348700Z'
+                    external_id: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: updateMSCustomFieldValue
+      summary: Update MS custom field value
+      tags:
+      - Custom Field Values for a Monitored Service
+      description: "Updates a custom field value for a specified monitored service.\n\n Request Body\n\
+        \n Field \n Data Type \n Required \n Description \n Example \n\n value \n String (max 40 chars),\
+        \ Integer, or Float \n No \n Custom field value specific to the parent \n \"new_value\" \n\n external_id\
+        \ \n String (max 256 chars) \n No \n External ID \n null \n\n Response Fields\n\n Field \n Data\
+        \ Type \n Description \n Example \n\n value \n String \n Custom field value specific to the parent\
+        \ \n \"new_value\" \n\n custom_field_id \n String (UUID) \n ID of custom field \n \"e308a3db-4527-4c6f-9bfd-02eb580a10e2\"\
+        \ \n\n custom_field \n Object \n Information about the custom field \n See nested fields below\
+        \ \n\n custom_field.display_name \n String \n Display name of the custom field \n \"test_field_3\"\
+        \ \n\n custom_field.field_name \n String \n Field name of the custom field \n \"test_field_3\"\
+        \ \n\n custom_field.field_type \n String \n Data type of the custom field \n \"string\" \n\n custom_field.description\
+        \ \n String \n Description of the custom field \n \"\" \n\n custom_field.id \n String (UUID) \n\
+        \ ID of the custom field \n \"e308a3db-4527-4c6f-9bfd-02eb580a10e2\" \n\n custom_field.created\
+        \ \n String (ISO datetime) \n When the custom field was created \n \"2024-07-23T19:02:26.139111Z\"\
+        \ \n\n custom_field.modified \n String (ISO datetime) \n When the custom field was last modified\
+        \ \n \"2024-07-23T19:02:26.139141Z\" \n\n custom_field.external_id \n String or null \n External\
+        \ ID of the custom field \n null \n\n id \n String (UUID) \n ID of field > monitored service link\
+        \ \n \"d2da8cfb-6cdb-4ba6-b02c-1ec85a1c32f4\" \n\n parent_id \n Integer \n ID of parent monitored\
+        \ service \n 1 \n\n created \n String (ISO datetime) \n When the link was created \n \"2024-07-23T19:02:33.705217Z\"\
+        \ \n\n modified \n String (ISO datetime) \n When link was last updated \n \"2024-07-23T19:17:11.457099Z\"\
+        \ \n\n external_id \n String or null \n External ID \n null"
+      parameters:
+      - name: ms_id
+        in: path
+        required: true
+        description: Path parameter ms_id
+        schema:
+          type: string
+      - name: custom_field_value_id
+        in: path
+        required: true
+        description: Path parameter custom_field_value_id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              value: new_value
+      responses:
+        '200':
+          description: Update MS Custom Field Value
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                UpdateMSCustomFieldValue:
+                  summary: Update MS Custom Field Value
+                  value:
+                    value: new_value
+                    custom_field_id: e308a3db-4527-4c6f-9bfd-02eb580a10e2
+                    custom_field:
+                      display_name: test_field_3
+                      field_name: test_field_3
+                      field_type: string
+                      description: ''
+                      id: e308a3db-4527-4c6f-9bfd-02eb580a10e2
+                      created: '2024-07-23T19:02:26.139111Z'
+                      modified: '2024-07-23T19:02:26.139141Z'
+                      external_id: null
+                    id: d2da8cfb-6cdb-4ba6-b02c-1ec85a1c32f4
+                    parent_id: 1
+                    created: '2024-07-23T19:02:33.705217Z'
+                    modified: '2024-07-23T19:17:11.457099Z'
+                    external_id: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: deleteMSCustomFieldValue
+      summary: Delete MS custom field value
+      tags:
+      - Custom Field Values for a Monitored Service
+      description: "Deletes a custom field value for a specified monitored service.\n\n Response\n\n Returns\
+        \ HTTP 204 No Content on successful deletion."
+      parameters:
+      - name: ms_id
+        in: path
+        required: true
+        description: Path parameter ms_id
+        schema:
+          type: string
+      - name: custom_field_value_id
+        in: path
+        required: true
+        description: Path parameter custom_field_value_id
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Delete MS custom field value
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/tag/:
+    get:
+      operationId: listTags
+      summary: List tags
+      tags:
+      - Tags
+      description: "Returns a paginated list of tags in the system.\n\n Response Fields\n\n Field \n Data\
+        \ Type \n Description \n Example \n\n id \n Integer \n Unique identifier for the tag \n 259814\
+        \ \n\n created \n String (ISO datetime) \n Timestamp when the tag was created \n 2025-03-28T14:45:37.694435Z\
+        \ \n\n modified \n String (ISO datetime) \n Timestamp when the tag was last modified \n 2025-03-28T14:45:37.694453Z\
+        \ \n\n external_id \n String or null \n External system identifier \n null \n\n created_by \n\
+        \ Integer \n ID of user who created the tag \n 1 \n\n modified_by \n Integer or null \n ID of\
+        \ user who last modified the tag \n null \n\n owner \n Integer \n ID of the tag owner \n 1 \n\n\
+        \ name \n String \n Full name of the tag \n custom-environment-tag \n\n short_name \n String \n\
+        \ Short name of the tag \n CE-tag \n\n type \n String \n Type classification of the tag \n environment\
+        \ \n\n color \n String or null \n Color associated with the tag \n null \n\n immutable \n Boolean\
+        \ \n Whether the tag can be modified \n false \n\n confidentiality_score \n Integer or null \n\
+        \ Confidentiality score value \n null \n\n integrity_score \n Integer or null \n Integrity score\
+        \ value \n null \n\n confidentiality_multiplier \n Float \n Multiplier for confidentiality calculations\
+        \ \n 0.45 \n\n integrity_multiplier \n Float \n Multiplier for integrity calculations \n 0.77"
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        description: Query parameter limit
+        schema:
+          type: integer
+        example: '50'
+      - name: offset
+        in: query
+        required: false
+        description: Query parameter offset
+        schema:
+          type: integer
+        example: '0'
+      responses:
+        '200':
+          description: List Tags
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "[{ \n        \"id\": 259814,\n        \"created\": \"2025-03-28T14:45:37.694435Z\"\
+                ,\n        \"modified\": \"2025-03-28T14:45:37.694453Z\",\n        \"external_id\": null,\n\
+                \        \"created_by\": 1,\n        \"modified_by\": null,\n        \"owner\": 1,\n \
+                \       \"name\": \"custom-environment-tag\",\n        \"short_name\": \"CE-tag\",\n \
+                \       \"type\": \"environment\",\n        \"color\": null,\n        \"immutable\": false,\n\
+                \        \"confidentiality_score\": null,\n        \"integrity_score\": null,\n      \
+                \  \"confidentiality_multiplier\": 0.45,\n        \"integrity_multiplier\": 0.77\n   \
+                \ },...]"
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/valuelist/:
+    get:
+      operationId: listValueLists
+      summary: List Value Lists
+      tags:
+      - ValueList
+      description: "Returns a list of value lists.\n\n Response Fields\n\n Field \n Data Type \n Description\
+        \ \n Example \n\n id \n Integer \n Unique identifier for the value list \n 1 \n\n name \n String\
+        \ \n Name of the value list \n \"Power Platform Domains\" \n\n list_type \n String \n Type of\
+        \ values in the list \n \"strings\" \n\n list_usage \n String \n Usage identifier for the list\
+        \ \n \"o365_power_platform_domains\" \n\n description \n String \n Description of the value list\
+        \ \n \"List of Power Platform domains\" \n\n element_count \n Integer \n Number of elements in\
+        \ the list \n 5 \n\n created \n String (ISO datetime) \n Creation timestamp \n \"2024-09-24T10:00:00Z\"\
+        \ \n\n modified \n String (ISO datetime) \n Last modification timestamp \n \"2024-09-24T10:00:00Z\"\
+        \ \n\n created_by \n String \n User who created the list \n \" admin@example.com \" \n\n modified_by\
+        \ \n String \n User who last modified the list \n \" admin@example.com \""
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        description: Query parameter limit
+        schema:
+          type: integer
+        example: '50'
+      - name: offset
+        in: query
+        required: false
+        description: Query parameter offset
+        schema:
+          type: integer
+        example: '0'
+      - name: ordering
+        in: query
+        required: false
+        description: Query parameter ordering
+        schema:
+          type: string
+        example: name
+      - name: search
+        in: query
+        required: false
+        description: Query parameter search
+        schema:
+          type: string
+        example: power
+      - name: list_type
+        in: query
+        required: false
+        description: Query parameter list_type
+        schema:
+          type: string
+        example: strings
+      - name: list_usage
+        in: query
+        required: false
+        description: Query parameter list_usage
+        schema:
+          type: string
+        example: o365_power_platform_domains
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: createValueList
+      summary: Create Value List
+      tags:
+      - ValueList
+      description: "Creates a new value list.\n\n Request Body Documentation\n\n Field \n Data Type \n\
+        \ Required \n Description \n Example \n\n name \n String \n Yes \n Name of the value list \n \"\
+        Power Platform Domains\" \n\n list_type \n String \n Yes \n Type of values in the list \n \"strings\"\
+        \ \n\n list_usage \n String \n Yes \n Usage identifier for the list \n \"o365_power_platform_domains\"\
+        \ \n\n description \n String \n No \n Description of the value list \n \"List of Power Platform\
+        \ domains\" \n\n Response Fields\n\n Field \n Data Type \n Description \n Example \n\n id \n Integer\
+        \ \n Unique identifier for the value list \n 1 \n\n name \n String \n Name of the value list \n\
+        \ \"Power Platform Domains\" \n\n list_type \n String \n Type of values in the list \n \"strings\"\
+        \ \n\n list_usage \n String \n Usage identifier for the list \n \"o365_power_platform_domains\"\
+        \ \n\n description \n String \n Description of the value list \n \"List of Power Platform domains\"\
+        \ \n\n element_count \n Integer \n Number of elements in the list \n 0 \n\n created \n String\
+        \ (ISO datetime) \n Creation timestamp \n \"2024-09-24T10:00:00Z\" \n\n modified \n String (ISO\
+        \ datetime) \n Last modification timestamp \n \"2024-09-24T10:00:00Z\" \n\n created_by \n String\
+        \ \n User who created the list \n \" admin@example.com \" \n\n modified_by \n String \n User who\
+        \ last modified the list \n \" admin@example.com \""
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              name: Power Platform Domains
+              list_type: strings
+              list_usage: o365_power_platform_domains
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/valuelistelement/:
+    get:
+      operationId: listValueListElements
+      summary: List Value List Elements
+      tags:
+      - ValueList
+      description: "Returns a list of value list elements.\n\n Response Fields\n\n Field \n Data Type\
+        \ \n Description \n Example \n\n id \n Integer \n Unique identifier for the element \n 1 \n\n\
+        \ parent \n Integer \n ID of the parent value list \n 1 \n\n element_type \n String \n Type of\
+        \ the element value \n \"strings\" \n\n value \n String \n The actual value of the element \n\
+        \ \" https://a_customer_domain.crm.dynamics.com\" \n\n created \n String (ISO datetime) \n Creation\
+        \ timestamp \n \"2024-09-24T10:00:00Z\" \n\n modified \n String (ISO datetime) \n Last modification\
+        \ timestamp \n \"2024-09-24T10:00:00Z\" \n\n created_by \n String \n User who created the element\
+        \ \n \" admin@example.com \" \n\n modified_by \n String \n User who last modified the element\
+        \ \n \" admin@example.com \""
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        description: Query parameter limit
+        schema:
+          type: integer
+        example: '50'
+      - name: offset
+        in: query
+        required: false
+        description: Query parameter offset
+        schema:
+          type: integer
+        example: '0'
+      - name: ordering
+        in: query
+        required: false
+        description: Query parameter ordering
+        schema:
+          type: string
+        example: value
+      - name: parent
+        in: query
+        required: false
+        description: Query parameter parent
+        schema:
+          type: string
+      - name: element_type
+        in: query
+        required: false
+        description: Query parameter element_type
+        schema:
+          type: string
+        example: strings
+      - name: value__icontains
+        in: query
+        required: false
+        description: Query parameter value__icontains
+        schema:
+          type: string
+        example: dynamics
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: createValueListElement
+      summary: Create Value List Element
+      tags:
+      - ValueList
+      description: "Creates a new value list element.\n\n Request Body Documentation\n\n Field \n Data\
+        \ Type \n Required \n Description \n Example \n\n parent \n Integer \n Yes \n ID of the parent\
+        \ value list \n {{valuelist_id}} \n\n element_type \n String \n Yes \n Type of the element value\
+        \ \n \"strings\" \n\n value \n String \n Yes \n The actual value of the element \n \" https://example.crm.dynamics.com\"\
+        \ \n\n Response Fields\n\n Field \n Data Type \n Description \n Example \n\n id \n Integer \n\
+        \ Unique identifier for the element \n 2 \n\n parent \n Integer \n ID of the parent value list\
+        \ \n 1 \n\n element_type \n String \n Type of the element value \n \"strings\" \n\n value \n String\
+        \ \n The actual value of the element \n \" https://example.crm.dynamics.com\" \n\n created \n\
+        \ String (ISO datetime) \n Creation timestamp \n \"2024-09-24T10:00:00Z\" \n\n modified \n String\
+        \ (ISO datetime) \n Last modification timestamp \n \"2024-09-24T10:00:00Z\" \n\n created_by \n\
+        \ String \n User who created the element \n \" admin@example.com \" \n\n modified_by \n String\
+        \ \n User who last modified the element \n \" admin@example.com \""
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example: "{\n    \"parent\": {{valuelist_id}},\n    \"element_type\": \"strings\",\n    \"\
+              value\": \"https://example.crm.dynamics.com\"\n}"
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'AppOmni API access token, created and managed in the AppOmni platform under Settings
+        > API Settings. Sent as `Authorization: Bearer <token>`.'
+  schemas:
+    Error:
+      type: object
+      title: Error
+      description: Standard Django REST Framework error envelope returned by the AppOmni API.
+      properties:
+        detail:
+          type: string
+          description: Human readable error message

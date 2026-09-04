@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/appomni/main/json-schema/appomni-paginated-list-schema.json",
+  "title": "PaginatedList",
+  "description": "The Django REST Framework limit/offset envelope every AppOmni collection endpoint returns. Derived from AppOmni's own example responses at https://api.appomni.com/.",
+  "x-generated": "2026-09-04",
+  "x-method": "derived",
+  "x-source": "https://api.appomni.com/",
+  "type": "object",
+  "properties": {
+    "count": { "type": "integer", "description": "Total matching records, not the page size" },
+    "next": { "type": ["string", "null"], "format": "uri", "description": "Absolute URL of the next page, or null on the last page" },
+    "previous": { "type": ["string", "null"], "format": "uri" },
+    "results": { "type": "array", "items": { "type": "object" } }
+  },
+  "required": ["count", "results"]
+}

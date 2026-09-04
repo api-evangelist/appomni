@@ -1,0 +1,57 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for AppOmni Identity and Access API
+  version: 1.0.0
+extends: appomni-identity-api-openapi.yml
+x-generated: '2026-09-04'
+x-method: generated
+x-source: API Evangelist enrichment pipeline, all/appomni/
+actions:
+- target: $.info
+  description: Record where this contract came from and that AppOmni publishes no OpenAPI of its own.
+  update:
+    x-apievangelist-provenance:
+      derived_from: AppOmni public Postman collection, https://api.appomni.com/ (publishedId 2sBXc7Mjib, published
+        2026-02-04)
+      derived_on: '2026-09-04'
+      method: derived
+      note: AppOmni publishes no OpenAPI document. Every path, method, parameter, request body and example response
+        in the extended document is taken verbatim from AppOmni's own public Postman collection.
+- target: $.info
+  description: Attach the runtime-semantics artifacts an agent needs before calling this API.
+  update:
+    x-apievangelist-artifacts:
+      conventions: conventions/appomni-conventions.yml
+      errors: errors/appomni-problem-types.yml
+      rate_limits: rate-limits/appomni-rate-limits.yml
+      authentication: authentication/appomni-authentication.yml
+      lifecycle: lifecycle/appomni-lifecycle.yml
+      conformance: conformance/appomni-conformance.yml
+      data_model: data-model/appomni-data-model.yml
+      agentic_access: agentic-access/appomni-agentic-access.yml
+- target: $.info
+  description: State the runtime guarantees the contract does NOT make, so an agent does not assume them.
+  update:
+    x-apievangelist-runtime:
+      idempotency:
+        coverage: none
+        note: No Idempotency-Key header or replay guarantee is published on any of the 69 mutating operations.
+      reversibility:
+        grade: documented
+        note: Named reversal operations exist (restore, restore_by_filter, bulk_restore, disable_breakglass) but
+          AppOmni publishes no window inside which a reversal is valid.
+      dry_run:
+        supported: false
+      rate_limit_header:
+        name: X-RateLimit
+        format: <used>/<limit>
+        observed_limit: 2000
+        window: not published
+- target: $.servers[0]
+  description: Flag the tenant-templated host so a client does not mistake it for a shared API host.
+  update:
+    x-tenancy:
+      model: per-tenant-subdomain
+      note: There is no shared multi-tenant API host. {instance} is the customer's own AppOmni subdomain. Note that
+        *.appomni.com is a wildcard that answers 200 with an SPA login shell for unknown subdomains, so a 200 alone
+        does not prove a tenant exists.

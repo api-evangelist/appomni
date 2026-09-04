@@ -1,0 +1,132 @@
+generated: '2026-09-04'
+method: probed
+source: live GET of each named /.well-known/ path on every host this record knows
+summary: No /.well-known/ document is served by AppOmni on any host. appomni.com and api.appomni.com return 404
+  for every named path; www.appomni.com 301s to appomni.com; *.appomni.com tenant subdomains are a wildcard that
+  answers 200 with the same 2,873-byte SPA login shell for every path, which is not a document; trust.appomni.com
+  is behind a Cloudflare JS challenge (403 to our crawler, not a confirmed absence). The one 200 with a real body
+  — status.appomni.com/.well-known/security.txt — is ATLASSIAN's security.txt served by Atlassian Statuspage, not
+  AppOmni's, so it is recorded and NOT saved. No WellKnown and no SecurityTxt pointer is emitted.
+control_probe:
+  url: https://zzznotreal.appomni.com/
+  status: 200
+  note: A nonexistent subdomain returns the identical 200 SPA shell, proving the *.appomni.com wildcard is a catch-all
+    and that any 200 on a tenant subdomain is a false positive.
+hosts:
+- host: appomni.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: www.appomni.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 301
+    note: 301 to the same path on appomni.com, which 404s.
+  - path: /.well-known/openid-configuration
+    status: 301
+    note: 301 to the same path on appomni.com, which 404s.
+  - path: /.well-known/oauth-authorization-server
+    status: 301
+    note: 301 to the same path on appomni.com, which 404s.
+  - path: /.well-known/oauth-protected-resource
+    status: 301
+    note: 301 to the same path on appomni.com, which 404s.
+  - path: /.well-known/api-catalog
+    status: 301
+    note: 301 to the same path on appomni.com, which 404s.
+  - path: /.well-known/ai-plugin.json
+    status: 301
+    note: 301 to the same path on appomni.com, which 404s.
+  - path: /.well-known/agent-card.json
+    status: 301
+    note: 301 to the same path on appomni.com, which 404s.
+  - path: /.well-known/agent.json
+    status: 301
+    note: 301 to the same path on appomni.com, which 404s.
+- host: api.appomni.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: status.appomni.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    note: '200, but the document served is ATLASSIAN''s security.txt, not AppOmni''s — Canonical: https://www.atlassian.com/.well-known/security.txt,
+      Contact: security@atlassian.com. status.appomni.com is hosted on Atlassian Statuspage, so this is the vendor''s
+      document on a vendor-operated host. Not saved and not credited to AppOmni.'
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: trust.appomni.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+    note: 403 Cloudflare interactive JS challenge on every path — the host exists (it is AppOmni's trust center)
+      but our crawler cannot read it. Not a confirmed absence.
+  - path: /.well-known/openid-configuration
+    status: 403
+    note: 403 Cloudflare interactive JS challenge on every path — the host exists (it is AppOmni's trust center)
+      but our crawler cannot read it. Not a confirmed absence.
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+    note: 403 Cloudflare interactive JS challenge on every path — the host exists (it is AppOmni's trust center)
+      but our crawler cannot read it. Not a confirmed absence.
+  - path: /.well-known/oauth-protected-resource
+    status: 403
+    note: 403 Cloudflare interactive JS challenge on every path — the host exists (it is AppOmni's trust center)
+      but our crawler cannot read it. Not a confirmed absence.
+  - path: /.well-known/api-catalog
+    status: 403
+    note: 403 Cloudflare interactive JS challenge on every path — the host exists (it is AppOmni's trust center)
+      but our crawler cannot read it. Not a confirmed absence.
+  - path: /.well-known/ai-plugin.json
+    status: 403
+    note: 403 Cloudflare interactive JS challenge on every path — the host exists (it is AppOmni's trust center)
+      but our crawler cannot read it. Not a confirmed absence.
+  - path: /.well-known/agent-card.json
+    status: 403
+    note: 403 Cloudflare interactive JS challenge on every path — the host exists (it is AppOmni's trust center)
+      but our crawler cannot read it. Not a confirmed absence.
+  - path: /.well-known/agent.json
+    status: 403
+    note: 403 Cloudflare interactive JS challenge on every path — the host exists (it is AppOmni's trust center)
+      but our crawler cannot read it. Not a confirmed absence.

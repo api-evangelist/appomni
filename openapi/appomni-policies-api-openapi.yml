@@ -1,83 +1,3004 @@
-openapi: 3.0.3
+openapi: 3.1.0
 info:
-  title: AppOmni SaaS Security Compliance Policies API
-  description: API for the AppOmni SaaS security management platform, providing access to security events, policy management, compliance reporting, and threat detection across enterprise SaaS applications like Salesforce, Microsoft 365, and Slack.
+  title: AppOmni Policies API
+  description: 'Security policy and rule configuration, policy assessment and rule-event handling across
+    monitored SaaS services.
+
+
+    Derived faithfully from the AppOmni public Postman collection published by AppOmni at https://api.appomni.com/
+    — every path, method, parameter, request body and example response below is taken verbatim from that
+    collection. No operation was invented.'
   version: 1.0.0
   contact:
     name: AppOmni
-    url: https://www.appomni.com
+    url: https://appomni.com/support/
   license:
     name: Proprietary
+    url: https://appomni.com/terms-of-service/
+  x-generated-from: AppOmni public Postman collection (publishedId 2sBXc7Mjib, published 2026-02-04)
+  x-generated-source: https://api.appomni.com/api/collections/45135595/2sBXc7Mjib?segregateAuth=true&versionTag=latest
+  x-generated-method: derived
+  x-generated-date: '2026-09-04'
 servers:
-- url: https://api.appomni.com/v1
-  description: AppOmni SaaS Security API
+- url: https://{instance}.appomni.com
+  description: AppOmni tenant. Replace {instance} with your AppOmni subdomain — e.g. `acme` if you log
+    in at acme.appomni.com.
+  variables:
+    instance:
+      default: example
+      description: Your AppOmni tenant subdomain
 security:
 - bearerAuth: []
 tags:
 - name: Policies
-  description: Security policy configuration and management
+- name: '[Beta] Policy Assessment Stats'
+  description: "THIS FEATURE IS IN BETA - Please contact Customer Success to enable this early access\
+    \ API\n\n Provides a granular breakdown of policy assessments across monitored services, allowing\
+    \ you to identify areas of compliance and risk.\n\n The response returns a nested dictionary structure\
+    \ mapping monitored services to their associated risk levels, and providing passing/failing counts\
+    \ for each risk level."
 paths:
-  /policies:
+  /api/v1/core/policy/:
     get:
-      operationId: listPolicies
-      summary: AppOmni - List Policies
-      description: Returns a list of security policies configured for monitored SaaS applications
+      operationId: retrievePosturePolicies
+      summary: Retrieve Posture Policies
       tags:
       - Policies
+      description: "Returns a list of posture policies configured for the specified monitored service(s)\n\
+        \n Response Fields\n\n Field \n Data Type \n Description \n Example \n\n id \n Integer \n Unique\
+        \ identifier for the resource \n 330516 \n\n created \n String (ISO datetime) \n Timestamp when\
+        \ the record was created \n 2022-12-05T22:03:58.321175Z \n\n modified \n String (ISO datetime)\
+        \ \n Timestamp when the record was last modified \n 2023-03-24T21:02:10.994053Z \n\n external_id\
+        \ \n Integer or null \n External system identifier \n null \n\n created_by \n Integer \n ID of\
+        \ the user who created the record \n 3362 \n\n modified_by \n Integer \n ID of the user who last\
+        \ modified the record \n 3362 \n\n owner \n Integer \n ID of the record owner \n 3362 \n\n internal_id\
+        \ \n String (UUID) \n Internal system identifier \n 322bb353-70dc-4cc5-b7ba-5ab292460231 \n\n\
+        \ baseline_policy_for_tenant \n Boolean \n Baseline policy for tenant \n false \n\n name \n String\
+        \ \n Name of the resource \n ds-1 \n\n description \n String or null \n Description of the resource\
+        \ \n null \n\n active \n Boolean \n Whether the resource is active \n true \n\n policy_type \n\
+        \ String \n Type of policy \n sfdc \n\n policy_type_slug \n String \n Policy type slug \n sfdc\
+        \ \n\n custom_service_type \n String or null \n Type of custom service \n null \n\n tags \n Array\
+        \ \n List of associated tags \n [] \n\n is_reference \n Boolean \n Whether the resource is reference\
+        \ \n false \n\n from_reference_policy \n String or null \n From reference policy \n null \n\n\
+        \ notify_pol_owner \n Boolean \n Notify pol owner \n false \n\n notify_ms_recips \n Boolean \n\
+        \ Notify ms recips \n false \n\n notify_user \n String or null \n Notify user \n null \n\n service_groups\
+        \ \n Array[Integer] \n List of service groups \n [107310] \n\n monitored_services \n Array \n\
+        \ List of monitored services \n [] \n\n role \n String \n Role \n security \n\n mode \n String\
+        \ \n Mode \n whitelist \n\n issue_handling \n String \n Issue handling \n notify \n\n scheduled\
+        \ \n Boolean \n Whether the resource is scheduled \n true \n\n pol_interval \n String \n Pol interval\
+        \ \n 12:00:00 \n\n last_run \n String (ISO datetime) \n Timestamp of the last execution \n 2023-03-24T20:04:16.823492Z\
+        \ \n\n last_scheduled \n String (ISO datetime) \n Last scheduled \n 2023-03-24T20:02:33.530066Z\
+        \ \n\n last_completed_scan \n String (ISO datetime) \n Last completed scan \n 2023-03-24T20:04:16.823492Z\
+        \ \n\n last_policy_assessment_status \n String \n Status of last policy assessment \n success\
+        \ \n\n last_policy_assessment_error_code \n String or null \n Last policy assessment error code\
+        \ \n null \n\n targets_count \n Integer \n Number of items \n 1 \n\n monitored_services_count\
+        \ \n Integer \n Number of items \n 0 \n\n risk_statistics \n Object \n Risk statistics \n {} \n\
+        \n external_data \n String or null \n External data \n null"
+      parameters:
+      - name: policy_type
+        in: query
+        required: false
+        description: Query parameter policy_type
+        schema:
+          type: string
       responses:
         '200':
-          description: A list of security policies
+          description: Retrieve Posture Policies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              examples:
+                RetrievePosturePolicies:
+                  summary: Retrieve Posture Policies
+                  value:
+                  - id: 330516
+                    created: '2022-12-05T22:03:58.321175Z'
+                    modified: '2023-03-24T21:02:10.994053Z'
+                    external_id: null
+                    created_by: 3362
+                    modified_by: 3362
+                    owner: 3362
+                    internal_id: 322bb353-70dc-4cc5-b7ba-5ab292460231
+                    baseline_policy_for_tenant: false
+                    name: ds-1
+                    description: null
+                    active: true
+                    policy_type: sfdc
+                    policy_type_slug: sfdc
+                    custom_service_type: null
+                    tags: []
+                    is_reference: false
+                    from_reference_policy: null
+                    notify_pol_owner: false
+                    notify_ms_recips: false
+                    notify_user: null
+                    service_groups:
+                    - 107310
+                    monitored_services: []
+                    role: security
+                    mode: whitelist
+                    issue_handling: notify
+                    scheduled: true
+                    pol_interval: '12:00:00'
+                    last_run: '2023-03-24T20:04:16.823492Z'
+                    last_scheduled: '2023-03-24T20:02:33.530066Z'
+                    last_completed_scan: '2023-03-24T20:04:16.823492Z'
+                    last_policy_assessment_status: success
+                    last_policy_assessment_error_code: null
+                    targets_count: 1
+                    monitored_services_count: 0
+                    risk_statistics: {}
+                    external_data: null
+                  - id: 330517
+                    created: '2022-12-05T22:08:16.525753Z'
+                    modified: '2023-03-24T21:38:33.623855Z'
+                    external_id: '212609'
+                    created_by: 3362
+                    modified_by: 3362
+                    owner: 3362
+                    internal_id: 1855824b-49f4-4b35-bc5c-a838ae29c601
+                    baseline_policy_for_tenant: true
+                    name: 'Salesforce: ISO 27001:2013'
+                    description: null
+                    active: true
+                    policy_type: sfdc
+                    policy_type_slug: sfdc
+                    custom_service_type: null
+                    tags: []
+                    is_reference: false
+                    from_reference_policy: 212609
+                    notify_pol_owner: false
+                    notify_ms_recips: false
+                    notify_user: null
+                    service_groups: []
+                    monitored_services:
+                    - 26063
+                    role: monitored_service_config
+                    mode: blacklist
+                    issue_handling: notify
+                    scheduled: true
+                    pol_interval: 01:00:00
+                    last_run: '2023-03-24T21:26:56.912034Z'
+                    last_scheduled: '2023-03-24T21:26:38.374056Z'
+                    last_completed_scan: '2023-03-24T21:26:56.912034Z'
+                    last_policy_assessment_status: success
+                    last_policy_assessment_error_code: null
+                    targets_count: 1
+                    monitored_services_count: 1
+                    risk_statistics:
+                      risk_score: 0
+                      risk_levels:
+                      - name: Informational
+                        risk_count: 2
+                        max_risk_score: 0
+                      - name: Low
+                        risk_count: 0
+                        max_risk_score: 0
+                      - name: Medium
+                        risk_count: 0
+                        max_risk_score: 0
+                      - name: High
+                        risk_count: 0
+                        max_risk_score: 0
+                      - name: Critical
+                        risk_count: 0
+                        max_risk_score: 0
+                      max_risks_only:
+                        risk_score: 0
+                        risk_levels:
+                        - name: Informational
+                          risk_count: 2
+                          max_risk_score: 0
+                        - name: Low
+                          risk_count: 0
+                          max_risk_score: 0
+                        - name: Medium
+                          risk_count: 0
+                          max_risk_score: 0
+                        - name: High
+                          risk_count: 0
+                          max_risk_score: 0
+                        - name: Critical
+                          risk_count: 0
+                          max_risk_score: 0
+                        max_risks_only: null
+                    external_data: null
+                  - id: 330518
+                    created: '2022-12-05T22:09:06.094268Z'
+                    modified: '2022-12-05T22:09:06.094288Z'
+                    external_id: '166344'
+                    created_by: 3362
+                    modified_by: null
+                    owner: 3362
+                    internal_id: 6ab7f626-0dfb-423c-8eb8-e42b520bb226
+                    baseline_policy_for_tenant: false
+                    name: 'Salesforce: SOC 2 Type 1'
+                    description: null
+                    active: true
+                    policy_type: sfdc
+                    policy_type_slug: sfdc
+                    custom_service_type: null
+                    tags: []
+                    is_reference: false
+                    from_reference_policy: 166344
+                    notify_pol_owner: false
+                    notify_ms_recips: false
+                    notify_user: null
+                    service_groups: []
+                    monitored_services: []
+                    role: monitored_service_config
+                    mode: blacklist
+                    issue_handling: notify
+                    scheduled: true
+                    pol_interval: 01:00:00
+                    last_run: null
+                    last_scheduled: null
+                    last_completed_scan: null
+                    last_policy_assessment_status: null
+                    last_policy_assessment_error_code: null
+                    targets_count: 0
+                    monitored_services_count: 0
+                    risk_statistics: {}
+                    external_data: null
+                  - id: 372222
+                    created: '2023-02-16T15:59:04.069054Z'
+                    modified: '2023-02-16T16:01:29.533521Z'
+                    external_id: null
+                    created_by: 3362
+                    modified_by: 3362
+                    owner: 3362
+                    internal_id: 098206d2-6afb-4c9f-be4c-efde286fdd71
+                    baseline_policy_for_tenant: false
+                    name: test-day
+                    description: null
+                    active: true
+                    policy_type: sfdc
+                    policy_type_slug: sfdc
+                    custom_service_type: null
+                    tags: []
+                    is_reference: false
+                    from_reference_policy: null
+                    notify_pol_owner: false
+                    notify_ms_recips: false
+                    notify_user: null
+                    service_groups:
+                    - 107310
+                    monitored_services: []
+                    role: security
+                    mode: blacklist
+                    issue_handling: notify
+                    scheduled: true
+                    pol_interval: '12:00:00'
+                    last_run: '2023-03-24T20:04:16.823492Z'
+                    last_scheduled: '2023-03-24T20:02:33.530066Z'
+                    last_completed_scan: '2023-03-24T20:04:16.823492Z'
+                    last_policy_assessment_status: success
+                    last_policy_assessment_error_code: null
+                    targets_count: 1
+                    monitored_services_count: 0
+                    risk_statistics: {}
+                    external_data: null
+                  - id: 372224
+                    created: '2023-02-16T16:04:34.255911Z'
+                    modified: '2023-03-24T18:30:01.471226Z'
+                    external_id: null
+                    created_by: 3362
+                    modified_by: 3362
+                    owner: 3362
+                    internal_id: 560622dc-a6e6-4b07-aaa7-457231165bda
+                    baseline_policy_for_tenant: false
+                    name: smm-test
+                    description: '{"ops":[{"insert":"testing 123\n"}]}'
+                    active: true
+                    policy_type: sfdc
+                    policy_type_slug: sfdc
+                    custom_service_type: null
+                    tags: []
+                    is_reference: false
+                    from_reference_policy: null
+                    notify_pol_owner: false
+                    notify_ms_recips: false
+                    notify_user: null
+                    service_groups: []
+                    monitored_services:
+                    - 26063
+                    role: monitored_service_config
+                    mode: blacklist
+                    issue_handling: notify
+                    scheduled: true
+                    pol_interval: 08:00:00
+                    last_run: '2023-03-24T18:29:39.679356Z'
+                    last_scheduled: '2023-03-24T18:29:30.320152Z'
+                    last_completed_scan: '2023-03-24T18:29:39.679356Z'
+                    last_policy_assessment_status: success
+                    last_policy_assessment_error_code: null
+                    targets_count: 1
+                    monitored_services_count: 1
+                    risk_statistics:
+                      risk_score: 0
+                      risk_levels:
+                      - name: Informational
+                        risk_count: 1
+                        max_risk_score: 0
+                      - name: Low
+                        risk_count: 0
+                        max_risk_score: 0
+                      - name: Medium
+                        risk_count: 0
+                        max_risk_score: 0
+                      - name: High
+                        risk_count: 0
+                        max_risk_score: 0
+                      - name: Critical
+                        risk_count: 0
+                        max_risk_score: 0
+                      max_risks_only:
+                        risk_score: 0
+                        risk_levels:
+                        - name: Informational
+                          risk_count: 1
+                          max_risk_score: 0
+                        - name: Low
+                          risk_count: 0
+                          max_risk_score: 0
+                        - name: Medium
+                          risk_count: 0
+                          max_risk_score: 0
+                        - name: High
+                          risk_count: 0
+                          max_risk_score: 0
+                        - name: Critical
+                          risk_count: 0
+                          max_risk_score: 0
+                        max_risks_only: null
+                    external_data: null
+                  - id: 390027
+                    created: '2023-03-20T19:29:11.152396Z'
+                    modified: '2023-03-20T19:31:03.208381Z'
+                    external_id: null
+                    created_by: 9153
+                    modified_by: null
+                    owner: 9153
+                    internal_id: 640c9987-efa4-43ae-8106-2c2aade3ae04
+                    baseline_policy_for_tenant: false
+                    name: Test policy for workday
+                    description: null
+                    active: true
+                    policy_type: workday
+                    policy_type_slug: workday
+                    custom_service_type: null
+                    tags: []
+                    is_reference: false
+                    from_reference_policy: null
+                    notify_pol_owner: false
+                    notify_ms_recips: false
+                    notify_user: null
+                    service_groups: []
+                    monitored_services: []
+                    role: monitored_service_config
+                    mode: blacklist
+                    issue_handling: notify
+                    scheduled: true
+                    pol_interval: 08:00:00
+                    last_run: null
+                    last_scheduled: null
+                    last_completed_scan: null
+                    last_policy_assessment_status: null
+                    last_policy_assessment_error_code: null
+                    targets_count: 0
+                    monitored_services_count: 0
+                    risk_statistics: {}
+                    external_data: null
+                  - id: 392490
+                    created: '2023-03-24T20:45:28.212464Z'
+                    modified: '2023-03-24T20:45:43.373981Z'
+                    external_id: null
+                    created_by: 3362
+                    modified_by: null
+                    owner: 3362
+                    internal_id: bf6f7d22-2be0-4c26-a9cf-9da2344f5155
+                    baseline_policy_for_tenant: false
+                    name: Policy test
+                    description: null
+                    active: true
+                    policy_type: sfdc
+                    policy_type_slug: sfdc
+                    custom_service_type: null
+                    tags: []
+                    is_reference: false
+                    from_reference_policy: null
+                    notify_pol_owner: false
+                    notify_ms_recips: false
+                    notify_user: null
+                    service_groups: []
+                    monitored_services: []
+                    role: security
+                    mode: whitelist
+                    issue_handling: notify
+                    scheduled: true
+                    pol_interval: '12:00:00'
+                    last_run: null
+                    last_scheduled: null
+                    last_completed_scan: null
+                    last_policy_assessment_status: null
+                    last_policy_assessment_error_code: null
+                    targets_count: 0
+                    monitored_services_count: 0
+                    risk_statistics: {}
+                    external_data: null
+                  - id: 392491
+                    created: '2023-03-24T20:46:54.296919Z'
+                    modified: '2023-03-24T20:51:32.002703Z'
+                    external_id: null
+                    created_by: 3362
+                    modified_by: 3362
+                    owner: 3362
+                    internal_id: 3316651b-f505-4917-9921-fd7db9fb0ced
+                    baseline_policy_for_tenant: false
+                    name: Functional policy test
+                    description: '{"ops":[{"insert":"Test for API response\n"}]}'
+                    active: true
+                    policy_type: sfdc
+                    policy_type_slug: sfdc
+                    custom_service_type: null
+                    tags: []
+                    is_reference: false
+                    from_reference_policy: null
+                    notify_pol_owner: false
+                    notify_ms_recips: false
+                    notify_user: null
+                    service_groups:
+                    - 107310
+                    monitored_services: []
+                    role: functional
+                    mode: whitelist
+                    issue_handling: notify
+                    scheduled: true
+                    pol_interval: '12:00:00'
+                    last_run: '2023-03-24T20:53:08.344454Z'
+                    last_scheduled: '2023-03-24T20:51:33.595679Z'
+                    last_completed_scan: '2023-03-24T20:53:08.344454Z'
+                    last_policy_assessment_status: success
+                    last_policy_assessment_error_code: null
+                    targets_count: 1
+                    monitored_services_count: 0
+                    risk_statistics: {}
+                    external_data: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/policy/{id}/:
+    get:
+      operationId: getPolicy
+      summary: Get Policy
+      tags:
+      - Policies
+      description: "Response Fields\n\n Field \n Data Type \n Description \n Example \n\n id \n Integer\
+        \ \n Unique identifier for the resource \n 591391 \n\n created \n String (ISO datetime) \n Timestamp\
+        \ when the record was created \n 2024-02-20T18:48:37.189165Z \n\n modified \n String (ISO datetime)\
+        \ \n Timestamp when the record was last modified \n 2024-02-20T19:05:43.282655Z \n\n external_id\
+        \ \n Integer or null \n External system identifier \n null \n\n created_by \n Integer \n ID of\
+        \ the user who created the record \n 1526 \n\n modified_by \n String (ISO datetime) or null \n\
+        \ ID of the user who last modified the record \n null \n\n owner \n Integer \n ID of the record\
+        \ owner \n 1526 \n\n internal_id \n String (UUID) \n Internal system identifier \n 453a6236-79eb-4cf6-b38b-3cfcaf7b3277\
+        \ \n\n baseline_policy_for_tenant \n Boolean \n Baseline policy for tenant \n false \n\n name\
+        \ \n String \n Name of the resource \n Auth0: Baseline Posture Settings \n\n description \n String\
+        \ or null \n Description of the resource \n null \n\n active \n Boolean \n Whether the resource\
+        \ is active \n true \n\n policy_type \n String \n Type of policy \n auth0 \n\n policy_type_slug\
+        \ \n String \n Policy type slug \n auth0 \n\n custom_service_type \n String or null \n Type of\
+        \ custom service \n null \n\n installed_service_type \n String or null \n Type of installed service\
+        \ \n null \n\n tags \n Array \n List of associated tags \n [] \n\n is_reference \n Boolean \n\
+        \ Whether the resource is reference \n true \n\n from_reference_policy \n String or null \n From\
+        \ reference policy \n null \n\n notify_pol_owner \n Boolean \n Notify pol owner \n false \n\n\
+        \ notify_ms_recips \n Boolean \n Notify ms recips \n false \n\n notify_user \n String or null\
+        \ \n Notify user \n null \n\n service_groups \n Array \n List of service groups \n [] \n\n monitored_services\
+        \ \n Array \n List of monitored services \n [] \n\n role \n String \n Role \n monitored_service_config\
+        \ \n\n mode \n String \n Mode \n blacklist \n\n issue_handling \n String \n Issue handling \n\
+        \ notify \n\n scheduled \n Boolean \n Whether the resource is scheduled \n true \n\n pol_interval\
+        \ \n String \n Pol interval \n 08:00:00 \n\n last_run \n String or null \n Timestamp of the last\
+        \ execution \n null \n\n last_scheduled \n String or null \n Last scheduled \n null \n\n last_completed_scan\
+        \ \n String or null \n Last completed scan \n null \n\n last_policy_assessment_status \n String\
+        \ or null \n Status of last policy assessment \n null \n\n last_policy_assessment_error_code \n\
+        \ String or null \n Last policy assessment error code \n null \n\n monitored_services_count \n\
+        \ Integer \n Number of items \n 0 \n\n risk_statistics \n Object \n Risk statistics \n {} \n\n\
+        \ external_data \n String or null \n External data \n null \n\n default_action \n String or null\
+        \ \n Default action \n null \n\n asset_restrictions \n Array \n List of asset restrictions \n\
+        \ [] \n\n pers_fresh_ttl \n String \n Pers fresh ttl \n 1 00:00:00 \n\n notification_frequency\
+        \ \n String \n Notification frequency \n immediate \n\n extra_notification_emails \n Array \n\
+        \ List of extra notification emails \n [] \n\n notif_env_filter_tags \n Array \n List of notif\
+        \ env filter tags \n [] \n\n ext_services_enabled \n Array \n Whether ext services is enabled\
+        \ \n [] \n\n ext_services_configs \n Object \n Ext services configs \n {} \n\n is_runnable \n\
+        \ Boolean \n Whether the resource is runnable \n false \n\n implements_classification_configuration\
+        \ \n String or null \n Implements classification configuration \n null \n\n open_issues_count\
+        \ \n Integer \n Number of items \n 0 \n\n active_perspectives_count \n Integer \n Number of items\
+        \ \n 0 \n\n interval_total_seconds \n Integer \n Interval total seconds \n 28800 \n\n basic_notifs_enabled\
+        \ \n Boolean \n Whether basic notifs is enabled \n false \n\n enabled_notifs \n Array \n List\
+        \ of enabled notifs \n [] \n\n has_rule_requiring_auth \n Boolean \n Whether the resource has\
+        \ rule requiring auth \n false \n\n bounding_classifications \n Array \n List of bounding classifications\
+        \ \n [] \n\n workflows \n Array \n List of workflows \n [] \n\n last_policy_assessment_failure_infos\
+        \ \n Array \n List of last policy assessment failure infos \n [] \n\n last_policy_assessment_warnings\
+        \ \n Array \n List of last policy assessment warnings \n [] \n\n target_tags \n Ar"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Path parameter id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Get Policy
           content:
             application/json:
               schema:
                 type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Policy'
               examples:
-                ListPoliciesExample:
-                  x-microcks-default: true
-                  summary: Example policies list
+                GetPolicy:
+                  summary: Get Policy
                   value:
-                    data:
-                    - policyId: POL-001
-                      name: MFA Required for Admins
-                      application: Salesforce
-                      enabled: true
-                      severity: critical
+                    id: 591391
+                    created: '2024-02-20T18:48:37.189165Z'
+                    modified: '2024-02-20T19:05:43.282655Z'
+                    external_id: null
+                    created_by: 1526
+                    modified_by: null
+                    owner: 1526
+                    internal_id: 453a6236-79eb-4cf6-b38b-3cfcaf7b3277
+                    baseline_policy_for_tenant: false
+                    name: 'Auth0: Baseline Posture Settings'
+                    description: null
+                    active: true
+                    policy_type: auth0
+                    policy_type_slug: auth0
+                    custom_service_type: null
+                    installed_service_type: null
+                    tags: []
+                    is_reference: true
+                    from_reference_policy: null
+                    notify_pol_owner: false
+                    notify_ms_recips: false
+                    notify_user: null
+                    service_groups: []
+                    monitored_services: []
+                    role: monitored_service_config
+                    mode: blacklist
+                    issue_handling: notify
+                    scheduled: true
+                    pol_interval: 08:00:00
+                    last_run: null
+                    last_scheduled: null
+                    last_completed_scan: null
+                    last_policy_assessment_status: null
+                    last_policy_assessment_error_code: null
+                    monitored_services_count: 0
+                    risk_statistics: {}
+                    external_data: null
+                    default_action: null
+                    asset_restrictions: []
+                    pers_fresh_ttl: 1 00:00:00
+                    notification_frequency: immediate
+                    extra_notification_emails: []
+                    notif_env_filter_tags: []
+                    ext_services_enabled: []
+                    ext_services_configs: {}
+                    is_runnable: false
+                    implements_classification_configuration: null
+                    open_issues_count: 0
+                    active_perspectives_count: 0
+                    interval_total_seconds: 28800
+                    basic_notifs_enabled: false
+                    enabled_notifs: []
+                    has_rule_requiring_auth: false
+                    bounding_classifications: []
+                    workflows: []
+                    last_policy_assessment_failure_infos: []
+                    last_policy_assessment_warnings: []
+                    target_tags: []
+                    is_obj_comprehensive: false
+                    is_field_comprehensive: false
+                    rule_type_counts:
+                      config.org.sys_setting:
+                        rules: 23
+                        exceptions: 0
+                        by_target_type: {}
+                    not_runnable_reason: missing_monitored_service
+                    pending_assessment_started_on: null
         '401':
-          description: Unauthorized - invalid or missing authentication token
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: assignTargetTagsToPolicy
+      summary: Assign Target Tags to Policy
+      tags:
+      - Policies
+      description: "By assigning Target Tags to a Posture Policy you are able to design a policy that\
+        \ will target all monitored services that are tagged with the tags specified as Target Tags at\
+        \ scan time.\n\n Note that of the monitored services tagged with the policy's Target Tags, only\
+        \ the monitored services that are the same service type as the policy will be collected for scanning.\n\
+        \n Request Body\n\n Field \n Data Type \n Required \n Description \n Example \n\n tags \n Array[Integer]\
+        \ \n Yes \n List of tag IDs to assign to the policy \n [120, 345, 678] \n\n Response Fields\n\n\
+        \ Field \n Data Type \n Description \n Example \n\n id \n Integer \n Unique identifier for the\
+        \ policy \n 591391 \n\n created \n String (ISO datetime) \n Timestamp when created \n \"2024-02-20T18:48:37.189165Z\"\
+        \ \n\n modified \n String (ISO datetime) \n Timestamp when last modified \n \"2024-09-18T15:35:20.456Z\"\
+        \ \n\n name \n String \n Policy name \n \"Baseline Posture Settings\" \n\n description \n String\
+        \ or null \n Policy description \n \"Standard security posture policy\" \n\n active \n Boolean\
+        \ \n Whether the policy is active \n true \n\n policy_type \n String \n Type of policy \n \"o365\"\
+        \ \n\n tags \n Array[Integer] \n List of assigned tag IDs \n [120, 345, 678] \n\n monitored_services\
+        \ \n Array[Integer] \n List of assigned monitored service IDs \n [] \n\n scheduled \n Boolean\
+        \ \n Whether policy scans are scheduled \n true \n\n pol_interval \n String \n Scan interval \n\
+        \ \"08:00:00\" \n\n targets_count \n Integer \n Number of targets \n 3 \n\n Additional Notes:\n\
+        \n- This endpoint updates the tags assigned to a policy\n\n- Tags are used to target specific\
+        \ resources for policy evaluation\n\n- Returns the updated policy object"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Path parameter id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example: '{"target_tags": [tag_id, ...]}'
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/policy/{id}/scan/:
+    post:
+      operationId: startPolicyScan
+      summary: Start Policy Scan
+      tags:
+      - Policies
+      description: "POST request to begin policy scan.\n\n Response Fields\n\n Field \n Data Type \n Description\
+        \ \n Example \n\n external_id \n String (UUID) \n External system identifier \n 39b9cf55-c2f0-476d-84e3-9ae32722db53"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Path parameter id
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Start Policy Scan
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                StartPolicyScan:
+                  summary: Start Policy Scan
+                  value:
+                    external_id: 39b9cf55-c2f0-476d-84e3-9ae32722db53
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/policyassessment/check_status/:
+    get:
+      operationId: checkPolicyScanStatusAndResults
+      summary: Check Policy Scan Status and Results
+      tags:
+      - Policies
+      description: "Response Fields\n\n Field \n Data Type \n Description \n Example \n\n external_id\
+        \ \n String (UUID) \n External system identifier \n 39b9cf55-c2f0-476d-84e3-9ae32722db53 \n\n\
+        \ policy_id \n Integer \n ID of the policy \n 136740 \n\n complete \n Boolean \n Complete \n false"
+      responses:
+        '200':
+          description: Scan Incomplete
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                ScanIncomplete:
+                  summary: Scan Incomplete
+                  value:
+                    external_id: 39b9cf55-c2f0-476d-84e3-9ae32722db53
+                    policy_id: 136740
+                    complete: false
+                ScanComplete:
+                  summary: Scan Complete
+                  value:
+                    external_id: 39b9cf55-c2f0-476d-84e3-9ae32722db53
+                    policy_id: 12345
+                    complete: true
+                    completion_status: success
+                    success: true
+                    open_issues: 1
+                    new_issues: 0
+                    reopened_issues: 0
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/ruleevent/:
+    get:
+      operationId: listOpenPolicyIssues
+      summary: List Open Policy Issues
+      tags:
+      - Policies
+      description: "Response Fields\n\n Field \n Data Type \n Description \n Example \n\n id \n Integer\
+        \ \n Unique identifier for the issue \n 12345 \n\n created \n String (ISO datetime) \n Timestamp\
+        \ when the issue was created \n \"2024-09-18T10:30:45.123Z\" \n\n modified \n String (ISO datetime)\
+        \ \n Timestamp when the issue was last modified \n \"2024-09-18T14:20:30.456Z\" \n\n policy \n\
+        \ Integer \n ID of the policy that generated this issue \n 591391 \n\n policy_name \n String \n\
+        \ Name of the policy \n \"Baseline Posture Settings\" \n\n rule \n Integer \n ID of the rule that\
+        \ triggered this issue \n 78901 \n\n rule_name \n String \n Name of the rule \n \"MFA not enabled\
+        \ for admin users\" \n\n status \n String \n Current status of the issue \n \"open\" \n\n severity\
+        \ \n String \n Severity level of the issue \n \"high\" \n\n risk_score \n Integer \n Risk score\
+        \ associated with the issue \n 8 \n\n monitored_service \n Integer \n ID of the monitored service\
+        \ \n 2345 \n\n service_name \n String \n Name of the monitored service \n \"Production Salesforce\"\
+        \ \n\n first_opened \n String (ISO datetime) \n When the issue was first detected \n \"2024-09-15T08:00:00.000Z\"\
+        \ \n\n last_seen \n String (ISO datetime) \n When the issue was last observed \n \"2024-09-18T10:30:45.123Z\"\
+        \ \n\n description \n String \n Description of the issue \n \"Admin user john@example.com does\
+        \ not have MFA enabled\" \n\n All parameters are optional. This request with no filtering parameters\
+        \ will return all open Policy Issues."
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/compliance/evaluated_controls/:
+    get:
+      operationId: listComplianceControlsForPolicyRule
+      summary: List Compliance Controls for Policy Rule
+      tags:
+      - Policies
+      description: "Response Fields\n\n Field \n Data Type \n Description \n Example \n\n id \n Integer\
+        \ \n Unique identifier for the control \n 456 \n\n control_id \n String \n Compliance framework\
+        \ control ID \n \"AC-2\" \n\n framework \n String \n Compliance framework name \n \"NIST 800-53\"\
+        \ \n\n title \n String \n Control title \n \"Account Management\" \n\n description \n String \n\
+        \ Detailed description of the control \n \"The organization manages user accounts...\" \n\n category\
+        \ \n String \n Control category \n \"Access Control\" \n\n severity \n String \n Severity level\
+        \ \n \"medium\" \n\n rule_event_id \n Integer \n Associated rule event ID \n 12345 \n\n compliance_status\
+        \ \n String \n Current compliance status \n \"compliant\" \n\n last_evaluated \n String (ISO datetime)\
+        \ \n Last evaluation timestamp \n \"2024-09-18T12:00:00.000Z\" \n\n Additional Notes:\n\n- Filter\
+        \ results using the rule_event_id query parameter\n\n- Common compliance_status values: \"compliant\"\
+        , \"non_compliant\", \"not_applicable\", \"pending\""
+      parameters:
+      - name: rule_event_id
+        in: query
+        required: false
+        description: Query parameter rule_event_id
+        schema:
+          type: string
+        example: issue_id
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/{service_type}/rule/:
+    get:
+      operationId: retrieveSelectedPosturePolicyRuleOptions
+      summary: Retrieve Selected Posture Policy Rule Options
+      tags:
+      - Policies
+      description: "Response Fields\n\n Field \n Data Type \n Description \n Example \n\n rule_options\
+        \ \n Array[Object] \n List of available rule options \n [] \n\n rule_options[].sys_value \n String\
+        \ \n System value identifier \n config.sys_setting.value \n\n rule_options[].label \n String \n\
+        \ Display label for the rule option \n System Setting \n\n rule_options[].description \n String\
+        \ \n Description of what the rule detects \n Detect when a System Setting has been given a specified\
+        \ value \n\n rule_options[].binary_type \n Boolean \n Whether this is a binary type \n false \n\
+        \n rule_options[].md_kind \n String \n Metadata kind identifier \n sfdc.scp.rule.criteria.config.sys_setting.value\
+        \ \n\n rule_options[].disabled \n Boolean \n Whether the option is disabled \n false \n\n rule_options[].disabled_reason\
+        \ \n String or null \n Reason if disabled \n null \n\n rule_options[].optgroup \n String or null\
+        \ \n Option group \n null \n\n rule_options[].sspm_category \n String \n SSPM category \n system_config\
+        \ \n\n rule_options[].sspm_category_label \n String \n SSPM category display label \n System Configuration\
+        \ \n\n rule_options[].exception_handling \n String \n Exception handling type \n convert_only\
+        \ \n\n rule_options[].options_support_service_specific_categories \n Boolean \n Whether options\
+        \ support service-specific categories \n false"
+      parameters:
+      - name: service_type
+        in: path
+        required: true
+        description: Path parameter service_type
+        schema:
+          type: string
+      - name: policy
+        in: query
+        required: false
+        description: Query parameter policy
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Retrieve Selected Posture Policy Rule Options
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "{\n    \"rule_options\": [\n        {\n            \"sys_value\": \"config.sys_setting.value\"\
+                ,\n            \"label\": \"System Setting\",\n            \"description\": \"Detect when\
+                \ a System Setting has been given a specified value\",\n            \"binary_type\": false,\n\
+                \            \"md_kind\": \"sfdc.scp.rule.criteria.config.sys_setting.value\",\n     \
+                \       \"disabled\": false,\n            \"disabled_reason\": null,\n            \"optgroup\"\
+                : null,\n            \"sspm_category\": \"system_config\",\n            \"sspm_category_label\"\
+                : \"System Configuration\",\n            \"exception_handling\": \"convert_only\",\n \
+                \           \"options_support_service_specific_categories\": false\n        },\n     \
+                \   {\n            \"sys_value\": \"config.profile.functional\",\n            \"label\"\
+                : \"Profile Setting\",\n            \"description\": \"Detect when a Profile Setting has\
+                \ been assigned a specified value\",\n            \"binary_type\": false,\n          \
+                \  \"md_kind\": \"sfdc.scp.rule.criteria.config.profile.functional\",\n            \"\
+                disabled\": false,\n            \"disabled_reason\": null,\n            \"optgroup\":\
+                \ \"Profile\",\n            \"sspm_category\": \"rbac_settings\",\n            \"sspm_category_label\"\
+                : \"RBAC Element Settings\",\n            \"exception_handling\": \"convert_only\",\n\
+                \            \"options_support_service_specific_categories\": false\n        },\n    ]\n\
+                }"
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/{policy_type}/rule/:
+    get:
+      operationId: retrieveRulesForPolicy
+      summary: Retrieve Rules for Policy
+      tags:
+      - Policies
+      description: "Returns a list of rules configured for a posture policy, including rule_id(s) needed\
+        \ for other endpoints.\n\n Response Fields\n\n Field \n Data Type \n Description \n Example \n\
+        \n id \n Integer \n Unique identifier for the resource \n 443195 \n\n created \n String (ISO datetime)\
+        \ \n Timestamp when the record was created \n 2022-12-05T22:11:03.624785Z \n\n modified \n String\
+        \ (ISO datetime) \n Timestamp when the record was last modified \n 2022-12-05T22:11:03.624807Z\
+        \ \n\n external_id \n String \n External system identifier \n 195014 \n\n created_by \n Integer\
+        \ \n ID of the user who created the record \n 3362 \n\n modified_by \n String (ISO datetime) or\
+        \ null \n ID of the user who last modified the record \n null \n\n owner \n Integer \n ID of the\
+        \ record owner \n 3362 \n\n rule_type \n String \n Type of rule \n config.sys_setting.value \n\
+        \n unique_id \n String (UUID) \n ID of the unique \n 231ead69-d0af-4bce-a082-2fd8e8d5b2e6 \n\n\
+        \ policy \n Integer \n policy \n 330517 \n\n action \n String or null \n action \n null \n\n status\
+        \ \n String \n Current status of the resource \n active \n\n expires \n String or null \n expires\
+        \ \n null \n\n name \n String \n Name of the resource \n Password complexity requirement Org Setting\
+        \ Rule \n\n system_description \n Object \n system description \n {\"description\": \"Org Setting\
+        \ '{setting}' {polar... \n\n system_description.description \n String \n Description of the resource\
+        \ \n Org Setting '{setting}' {polarity} {values} \n\n system_description.placeholders \n Object\
+        \ \n system description placeholders \n {\"setting\": [{\"label\": \"Password complexity req...\
+        \ \n\n system_description.placeholders.setting \n Array[Object] \n system description placeholders\
+        \ setting \n [{\"label\": \"Password complexity requirement\", \"... \n\n system_description.placeholders.setting[].label\
+        \ \n String \n system description placeholders setting[] label \n Password complexity requirement\
+        \ \n\n system_description.placeholders.setting[].api_name \n String \n system description placeholders\
+        \ setting[] api name \n complexity \n\n system_description.placeholders.setting[].api_id \n Integer\
+        \ or null \n ID of the system description.placeholders.setting[].api \n null \n\n system_description.placeholders.setting[].md_version\
+        \ \n Integer \n system description placeholders setting[] md version \n 1 \n\n system_description.placeholders.setting[].md_kind\
+        \ \n String \n system description placeholders setting[] md kind \n core.rule.criteria.translation_placeholder\
+        \ \n\n system_description.placeholders.polarity \n Array[Object] \n system description placeholders\
+        \ polarity \n [{\"label\": \"must be\", \"api_name\": null, \"api_id... \n\n system_description.placeholders.polarity[].label\
+        \ \n String \n system description placeholders polarity[] label \n must be \n\n system_description.placeholders.polarity[].api_name\
+        \ \n String or null \n system description placeholders polarity[] api name \n null \n\n system_description.placeholders.polarity[].api_id\
+        \ \n Integer or null \n ID of the system description.placeholders.polarity[].api \n null \n\n\
+        \ system_description.placeholders.polarity[].md_version \n Integer \n system description placeholders\
+        \ polarity[] md version \n 1 \n\n system_description.placeholders.polarity[].md_kind \n String\
+        \ \n system description placeholders polarity[] md kind \n core.rule.criteria.translation_placeholder\
+        \ \n\n system_description.placeholders.values \n Array[Object] \n List of system description.placeholders.values\
+        \ \n [{\"label\": \"At least 1 letter and at least one ... \n\n system_description.placeholders.values[].label\
+        \ \n String \n system description placeholders values[] label \n At least 1 letter and at least\
+        \ one number \n\n system_description.placeholders.values[].api_name \n String \n system description\
+        \ placeholders values[] api name \n alphanumeric \n\n system_description.placeholders.values[].api_id\
+        \ \n Integer or null \n ID of the system description.placeholders.values[].api \n null \n\n system_description.placeholders.values[].md_version\
+        \ \n Integer \n system description placeholders values[] md version \n 1 \n\n system_description.placeholders.values[].md_kind\
+        \ \n String \n system description placeholders values[] md"
+      parameters:
+      - name: policy_type
+        in: path
+        required: true
+        description: Path parameter policy_type
+        schema:
+          type: string
+      - name: policy
+        in: query
+        required: false
+        description: Query parameter policy
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Retrieve Rules for Policy
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                RetrieveRulesforPolicy:
+                  summary: Retrieve Rules for Policy
+                  value:
+                    count: 9
+                    next: null
+                    previous: null
+                    results:
+                    - id: 443195
+                      created: '2022-12-05T22:11:03.624785Z'
+                      modified: '2022-12-05T22:11:03.624807Z'
+                      external_id: '195014'
+                      created_by: 3362
+                      modified_by: null
+                      owner: 3362
+                      rule_type: config.sys_setting.value
+                      unique_id: 231ead69-d0af-4bce-a082-2fd8e8d5b2e6
+                      policy: 330517
+                      action: null
+                      status: active
+                      expires: null
+                      name: Password complexity requirement Org Setting Rule
+                      system_description:
+                        description: Org Setting '{setting}' {polarity} {values}
+                        placeholders:
+                          setting:
+                          - label: Password complexity requirement
+                            api_name: complexity
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                          polarity:
+                          - label: must be
+                            api_name: null
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                          values:
+                          - label: At least 1 letter and at least one number
+                            api_name: alphanumeric
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                        md_version: 1
+                        md_kind: core.rule.criteria.translation
+                      description: null
+                      criteria:
+                        md_version: 1
+                        md_kind: sfdc.scp.rule.criteria.config.sys_setting.value
+                        setting_name: complexity
+                        setting_label: Password complexity requirement
+                        polarity: IS
+                        values:
+                        - alphanumeric
+                        value_labels:
+                        - At least 1 letter and at least one number
+                        noop_rule: false
+                        posture_subcategory: password_and_session_settings
+                      has_child_rules: false
+                      rule_posture_category: system_config
+                      rule_posture_subcategory: password_and_session_settings
+                      service_specific_category: null
+                      evaluation_errors: []
+                      tags:
+                      - 87172
+                      mode: blacklist
+                      compliance_controls:
+                      - 126
+                      - 127
+                      external_data: null
+                    - id: 443194
+                      created: '2022-12-05T22:11:03.624560Z'
+                      modified: '2022-12-05T22:11:03.624577Z'
+                      external_id: '195010'
+                      created_by: 3362
+                      modified_by: null
+                      owner: 3362
+                      rule_type: config.sys_setting.value
+                      unique_id: b260b776-4386-4b57-8c8c-7f680838a19c
+                      policy: 330517
+                      action: null
+                      status: active
+                      expires: null
+                      name: Allow non-admin users to grant Support login access Org Setting Rule
+                      system_description:
+                        description: Org Setting '{setting}' {polarity} {values}
+                        placeholders:
+                          setting:
+                          - label: Allow non-admin users to grant Support login access
+                            api_name: canUsersGrantLoginAccess
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                          polarity:
+                          - label: must be
+                            api_name: null
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                          values:
+                          - label: 'false'
+                            api_name: 'false'
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                        md_version: 1
+                        md_kind: core.rule.criteria.translation
+                      description: null
+                      criteria:
+                        md_version: 1
+                        md_kind: sfdc.scp.rule.criteria.config.sys_setting.value
+                        setting_name: canUsersGrantLoginAccess
+                        setting_label: Allow non-admin users to grant Support login access
+                        polarity: IS
+                        values:
+                        - 'false'
+                        value_labels:
+                        - 'false'
+                        noop_rule: false
+                        posture_subcategory: administrative_permissions
+                      has_child_rules: false
+                      rule_posture_category: system_config
+                      rule_posture_subcategory: administrative_permissions
+                      service_specific_category: null
+                      evaluation_errors: []
+                      tags:
+                      - 87171
+                      mode: blacklist
+                      compliance_controls:
+                      - 126
+                      external_data: null
+                    - id: 443193
+                      created: '2022-12-05T22:11:03.624395Z'
+                      modified: '2022-12-05T22:11:03.624407Z'
+                      external_id: '195003'
+                      created_by: 3362
+                      modified_by: null
+                      owner: 3362
+                      rule_type: config.sys_setting.value
+                      unique_id: cb67f6d3-d3f4-481c-a989-9626b3d9ac84
+                      policy: 330517
+                      action: null
+                      status: active
+                      expires: null
+                      name: Enable SAML-based SSO into Salesforce Org Setting Rule
+                      system_description:
+                        description: Org Setting '{setting}' {polarity} {values}
+                        placeholders:
+                          setting:
+                          - label: Enable SAML-based SSO into Salesforce
+                            api_name: enableSamlLogin
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                          polarity:
+                          - label: must be
+                            api_name: null
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                          values:
+                          - label: 'true'
+                            api_name: 'true'
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                        md_version: 1
+                        md_kind: core.rule.criteria.translation
+                      description: null
+                      criteria:
+                        md_version: 1
+                        md_kind: sfdc.scp.rule.criteria.config.sys_setting.value
+                        setting_name: enableSamlLogin
+                        setting_label: Enable SAML-based SSO into Salesforce
+                        polarity: IS
+                        values:
+                        - 'true'
+                        value_labels:
+                        - 'true'
+                        noop_rule: false
+                        posture_subcategory: identity_and_system_access
+                      has_child_rules: false
+                      rule_posture_category: system_config
+                      rule_posture_subcategory: identity_and_system_access
+                      service_specific_category: null
+                      evaluation_errors: []
+                      tags:
+                      - 87168
+                      mode: blacklist
+                      compliance_controls:
+                      - 126
+                      external_data: null
+                    - id: 443192
+                      created: '2022-12-05T22:11:03.624241Z'
+                      modified: '2022-12-05T22:11:03.624257Z'
+                      external_id: '195002'
+                      created_by: 3362
+                      modified_by: null
+                      owner: 3362
+                      rule_type: config.sys_setting.value
+                      unique_id: 5c43aa54-5f0e-41c7-977a-a59487cc813e
+                      policy: 330517
+                      action: null
+                      status: active
+                      expires: null
+                      name: Allow granting super user access to partners in Communities Org Setting Rule
+                      system_description:
+                        description: Org Setting '{setting}' {polarity} {values}
+                        placeholders:
+                          setting:
+                          - label: Allow granting super user access to partners in Communities
+                            api_name: enablePartnerSuperUserAccess
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                          polarity:
+                          - label: must be
+                            api_name: null
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                          values:
+                          - label: 'false'
+                            api_name: 'false'
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                        md_version: 1
+                        md_kind: core.rule.criteria.translation
+                      description: null
+                      criteria:
+                        md_version: 1
+                        md_kind: sfdc.scp.rule.criteria.config.sys_setting.value
+                        setting_name: enablePartnerSuperUserAccess
+                        setting_label: Allow granting super user access to partners in Communities
+                        polarity: IS
+                        values:
+                        - 'false'
+                        value_labels:
+                        - 'false'
+                        noop_rule: false
+                        posture_subcategory: authorization
+                      has_child_rules: false
+                      rule_posture_category: system_config
+                      rule_posture_subcategory: authorization
+                      service_specific_category: null
+                      evaluation_errors: []
+                      tags:
+                      - 87170
+                      mode: blacklist
+                      compliance_controls:
+                      - 126
+                      external_data: null
+                    - id: 443191
+                      created: '2022-12-05T22:11:03.624045Z'
+                      modified: '2022-12-05T22:11:03.624057Z'
+                      external_id: '195001'
+                      created_by: 3362
+                      modified_by: null
+                      owner: 3362
+                      rule_type: config.sys_setting.value
+                      unique_id: 7ba2b4ee-0bff-47c2-8480-e7ffc79dbbeb
+                      policy: 330517
+                      action: null
+                      status: active
+                      expires: null
+                      name: Enable auto-provisioning of users via SAML sign-in Org Setting Rule
+                      system_description:
+                        description: Org Setting '{setting}' {polarity} {values}
+                        placeholders:
+                          setting:
+                          - label: Enable auto-provisioning of users via SAML sign-in
+                            api_name: enableSamlJitProvisioning
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                          polarity:
+                          - label: must be
+                            api_name: null
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                          values:
+                          - label: 'false'
+                            api_name: 'false'
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                        md_version: 1
+                        md_kind: core.rule.criteria.translation
+                      description: null
+                      criteria:
+                        md_version: 1
+                        md_kind: sfdc.scp.rule.criteria.config.sys_setting.value
+                        setting_name: enableSamlJitProvisioning
+                        setting_label: Enable auto-provisioning of users via SAML sign-in
+                        polarity: IS
+                        values:
+                        - 'false'
+                        value_labels:
+                        - 'false'
+                        noop_rule: false
+                        posture_subcategory: identity_and_system_access
+                      has_child_rules: false
+                      rule_posture_category: system_config
+                      rule_posture_subcategory: identity_and_system_access
+                      service_specific_category: null
+                      evaluation_errors: []
+                      tags:
+                      - 87169
+                      mode: blacklist
+                      compliance_controls:
+                      - 125
+                      external_data: null
+                    - id: 443190
+                      created: '2022-12-05T22:11:03.623900Z'
+                      modified: '2022-12-05T22:11:03.623913Z'
+                      external_id: '194999'
+                      created_by: 3362
+                      modified_by: null
+                      owner: 3362
+                      rule_type: config.sys_setting.value
+                      unique_id: 9f001557-c1e8-4ee6-9915-5263321b3414
+                      policy: 330517
+                      action: null
+                      status: active
+                      expires: null
+                      name: Require Users to have read access to a record to see the record's name in
+                        lookup and system fields Org Setting Rule
+                      system_description:
+                        description: Org Setting '{setting}' {polarity} {values}
+                        placeholders:
+                          setting:
+                          - label: Require Users to have read access to a record to see the record's name
+                              in lookup and system fields
+                            api_name: enableRestrictAccessLookupRecords
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                          polarity:
+                          - label: must be
+                            api_name: null
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                          values:
+                          - label: 'false'
+                            api_name: 'false'
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                        md_version: 1
+                        md_kind: core.rule.criteria.translation
+                      description: null
+                      criteria:
+                        md_version: 1
+                        md_kind: sfdc.scp.rule.criteria.config.sys_setting.value
+                        setting_name: enableRestrictAccessLookupRecords
+                        setting_label: Require Users to have read access to a record to see the record's
+                          name in lookup and system fields
+                        polarity: IS
+                        values:
+                        - 'false'
+                        value_labels:
+                        - 'false'
+                        noop_rule: false
+                        posture_subcategory: authorization
+                      has_child_rules: false
+                      rule_posture_category: system_config
+                      rule_posture_subcategory: authorization
+                      service_specific_category: null
+                      evaluation_errors: []
+                      tags:
+                      - 87170
+                      mode: blacklist
+                      compliance_controls:
+                      - 125
+                      external_data: null
+                    - id: 443189
+                      created: '2022-12-05T22:11:03.623745Z'
+                      modified: '2022-12-05T22:11:03.623760Z'
+                      external_id: '194996'
+                      created_by: 3362
+                      modified_by: null
+                      owner: 3362
+                      rule_type: config.sys_setting.value
+                      unique_id: c04efee0-a599-430a-9bd1-2ed7e6ce992c
+                      policy: 330517
+                      action: null
+                      status: active
+                      expires: null
+                      name: Disable login with Salesforce credentials Org Setting Rule
+                      system_description:
+                        description: Org Setting '{setting}' {polarity} {values}
+                        placeholders:
+                          setting:
+                          - label: Disable login with Salesforce credentials
+                            api_name: isLoginWithSalesforceCredentialsDisabled
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                          polarity:
+                          - label: must be
+                            api_name: null
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                          values:
+                          - label: 'false'
+                            api_name: 'false'
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                        md_version: 1
+                        md_kind: core.rule.criteria.translation
+                      description: null
+                      criteria:
+                        md_version: 1
+                        md_kind: sfdc.scp.rule.criteria.config.sys_setting.value
+                        setting_name: isLoginWithSalesforceCredentialsDisabled
+                        setting_label: Disable login with Salesforce credentials
+                        polarity: IS
+                        values:
+                        - 'false'
+                        value_labels:
+                        - 'false'
+                        noop_rule: false
+                        posture_subcategory: identity_and_system_access
+                      has_child_rules: false
+                      rule_posture_category: system_config
+                      rule_posture_subcategory: identity_and_system_access
+                      service_specific_category: null
+                      evaluation_errors: []
+                      tags:
+                      - 87172
+                      mode: blacklist
+                      compliance_controls:
+                      - 123
+                      external_data: null
+                    - id: 443188
+                      created: '2022-12-05T22:11:03.623516Z'
+                      modified: '2022-12-05T22:11:03.623542Z'
+                      external_id: '194992'
+                      created_by: 3362
+                      modified_by: null
+                      owner: 3362
+                      rule_type: config.sys_setting.value
+                      unique_id: 7bdf102e-def5-4739-a240-e482cce237aa
+                      policy: 330517
+                      action: null
+                      status: active
+                      expires: null
+                      name: Prevent login from mobile user devices with revoked status Org Setting Rule
+                      system_description:
+                        description: Org Setting '{setting}' {polarity} {values}
+                        placeholders:
+                          setting:
+                          - label: Prevent login from mobile user devices with revoked status
+                            api_name: enforceUserDeviceRevoked
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                          polarity:
+                          - label: must be
+                            api_name: null
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                          values:
+                          - label: 'false'
+                            api_name: 'false'
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                        md_version: 1
+                        md_kind: core.rule.criteria.translation
+                      description: null
+                      criteria:
+                        md_version: 1
+                        md_kind: sfdc.scp.rule.criteria.config.sys_setting.value
+                        setting_name: enforceUserDeviceRevoked
+                        setting_label: Prevent login from mobile user devices with revoked status
+                        polarity: IS
+                        values:
+                        - 'false'
+                        value_labels:
+                        - 'false'
+                        noop_rule: false
+                        posture_subcategory: identity_and_system_access
+                      has_child_rules: false
+                      rule_posture_category: system_config
+                      rule_posture_subcategory: identity_and_system_access
+                      service_specific_category: null
+                      evaluation_errors: []
+                      tags:
+                      - 87171
+                      mode: blacklist
+                      compliance_controls:
+                      - 123
+                      external_data: null
+                    - id: 443187
+                      created: '2022-12-05T22:11:03.618630Z'
+                      modified: '2022-12-05T22:11:03.618663Z'
+                      external_id: '194991'
+                      created_by: 3362
+                      modified_by: null
+                      owner: 3362
+                      rule_type: config.sys_setting.value
+                      unique_id: 6e4467ef-1475-467b-be6f-17766b80c3e4
+                      policy: 330517
+                      action: null
+                      status: active
+                      expires: null
+                      name: Opt Out of Guest User Security Policies Org Setting Rule
+                      system_description:
+                        description: Org Setting '{setting}' {polarity} {values}
+                        placeholders:
+                          setting:
+                          - label: Opt Out of Guest User Security Policies
+                            api_name: enableGuestSecurityOptOutCruc
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                          polarity:
+                          - label: must be
+                            api_name: null
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                          values:
+                          - label: 'false'
+                            api_name: 'false'
+                            api_id: null
+                            md_version: 1
+                            md_kind: core.rule.criteria.translation_placeholder
+                        md_version: 1
+                        md_kind: core.rule.criteria.translation
+                      description: null
+                      criteria:
+                        md_version: 1
+                        md_kind: sfdc.scp.rule.criteria.config.sys_setting.value
+                        setting_name: enableGuestSecurityOptOutCruc
+                        setting_label: Opt Out of Guest User Security Policies
+                        polarity: IS
+                        values:
+                        - 'false'
+                        value_labels:
+                        - 'false'
+                        noop_rule: false
+                        posture_subcategory: authorization
+                      has_child_rules: false
+                      rule_posture_category: system_config
+                      rule_posture_subcategory: authorization
+                      service_specific_category: null
+                      evaluation_errors: []
+                      tags:
+                      - 87170
+                      mode: blacklist
+                      compliance_controls:
+                      - 102
+                      external_data: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/{service_type}/rule/{rule_id}/:
+    patch:
+      operationId: updatePolicyRule
+      summary: Update Policy Rule
+      tags:
+      - Policies
+      description: "Allows users to update the details of the specified rule for a SaaS applicaiton in\
+        \ AppOmni.\n\n WARNING \nIf you use the \"Update Policy Rule\" API endpoint to add NOTES to a\
+        \ Policy Rule, rather than using the UI method defined on the \"Manage Policy Rule\" page in the\
+        \ documentation portal, you will NOT be able to EDIT or DELETE the content you add.\n\n NOTE :\
+        \ You may update tags by sending the payload below plus the additional tags payload:\n\n { \"\
+        tags\": [ 17367 ] } \n\n Request Body\n\n Field \n Data Type \n Required \n Description \n Example\
+        \ \n\n criteria \n Object \n Yes \n Criteria \n {\"setting_name\": \"enablePartnerSuperU... \n\
+        \n criteria.setting_name \n String \n Yes \n Criteria setting name \n enablePartnerSuperUserAccess\
+        \ \n\n criteria.md_kind \n String \n Yes \n Criteria md kind \n sfdc.scp.rule.criteria.config.sys_set...\
+        \ \n\n criteria.md_version \n Integer \n Yes \n Criteria md version \n 1 \n\n criteria.polarity\
+        \ \n String \n Yes \n Criteria polarity \n IS \n\n criteria.values \n Array[String] \n Yes \n\
+        \ List of criteria.values \n [\"false\"] \n\n criteria.noop_rule \n Boolean \n Yes \n Criteria\
+        \ noop rule \n false \n\n name \n String \n Yes \n Name of the resource \n Allow granting super\
+        \ user access to p... \n\n policy \n Integer \n Yes \n Policy \n 330517 \n\n rule_type \n String\
+        \ \n Yes \n Type of rule \n config.sys_setting.value \n\n Response Fields\n\n Field \n Data Type\
+        \ \n Description \n Example \n\n id \n Integer \n Unique identifier for the resource \n 443195\
+        \ \n\n created \n String (ISO datetime) \n Timestamp when the record was created \n 2022-12-05T22:11:03.624785Z\
+        \ \n\n modified \n String (ISO datetime) \n Timestamp when the record was last modified \n 2023-03-25T01:05:37.487405Z\
+        \ \n\n external_id \n String \n External system identifier \n 195014 \n\n created_by \n Integer\
+        \ \n ID of the user who created the record \n 3362 \n\n modified_by \n Integer \n ID of the user\
+        \ who last modified the record \n 3362 \n\n owner \n Integer \n ID of the record owner \n 3362\
+        \ \n\n rule_type \n String \n Type of rule \n config.sys_setting.value \n\n unique_id \n String\
+        \ (UUID) \n ID of the unique \n 231ead69-d0af-4bce-a082-2fd8e8d5b2e6 \n\n policy \n Integer \n\
+        \ Policy \n 330517 \n\n action \n String or null \n Action \n null \n\n status \n String \n Current\
+        \ status of the resource \n active \n\n expires \n String or null \n Expires \n null \n\n name\
+        \ \n String \n Name of the resource \n Password complexity requirement Org Setting Rule \n\n system_description\
+        \ \n Object \n System description \n {\"description\": \"All Profiles' setting '{settin... \n\n\
+        \ system_description.description \n String \n Description of the resource \n All Profiles' setting\
+        \ '{setting}' {polarity} {v... \n\n system_description.placeholders \n Object \n System description\
+        \ placeholders \n {\"setting\": [{\"label\": \"API Enabled\", \"api_name... \n\n system_description.placeholders.setting\
+        \ \n Array[Object] \n System description placeholders setting \n [{\"label\": \"API Enabled\"\
+        , \"api_name\": \"permissi... \n\n system_description.placeholders.setting[].label \n String \n\
+        \ System description placeholders setting[] label \n API Enabled \n\n system_description.placeholders.setting[].api_name\
+        \ \n String \n System description placeholders setting[] api name \n permissionsapienabled \n\n\
+        \ system_description.placeholders.setting[].api_id \n Integer or null \n ID of the system description.placeholders.setting[].api\
+        \ \n null \n\n system_description.placeholders.setting[].md_version \n Integer \n System description\
+        \ placeholders setting[] md version \n 1 \n\n system_description.placeholders.setting[].md_kind\
+        \ \n String \n System description placeholders setting[] md kind \n core.rule.criteria.translation_placeholder\
+        \ \n\n system_description.placeholders.polarity \n Array[Object] \n System description placeholders\
+        \ polarity \n [{\"label\": \"must be\", \"api_name\": null, \"api_id... \n\n system_description.placeholders.polarity[].label\
+        \ \n String \n System description placeholders polarity[] label \n must be \n\n system_description.placeholders.polarity[].api_name\
+        \ \n String or null \n System description placeholders polarity[] api name \n null \n\n system_description.placeholders.polarity[].api_id\
+        \ \n Integer or null \n ID o"
+      parameters:
+      - name: service_type
+        in: path
+        required: true
+        description: Path parameter service_type
+        schema:
+          type: string
+      - name: rule_id
+        in: path
+        required: true
+        description: Path parameter rule_id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              criteria:
+                setting_name: enablePartnerSuperUserAccess
+                md_kind: sfdc.scp.rule.criteria.config.sys_setting.value
+                md_version: 1
+                polarity: IS
+                values:
+                - 'false'
+                noop_rule: false
+              name: Allow granting super user access to partners in Communities Org Setting Rule
+              policy: 330517
+              rule_type: config.sys_setting.value
+      responses:
+        '200':
+          description: Update Policy Rule
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                UpdatePolicyRule:
+                  summary: Update Policy Rule
+                  value:
+                    id: 443195
+                    created: '2022-12-05T22:11:03.624785Z'
+                    modified: '2023-03-25T01:05:37.487405Z'
+                    external_id: '195014'
+                    created_by: 3362
+                    modified_by: 3362
+                    owner: 3362
+                    rule_type: config.sys_setting.value
+                    unique_id: 231ead69-d0af-4bce-a082-2fd8e8d5b2e6
+                    policy: 330517
+                    action: null
+                    status: active
+                    expires: null
+                    name: Password complexity requirement Org Setting Rule
+                    system_description:
+                      description: All Profiles' setting '{setting}' {polarity} {values}
+                      placeholders:
+                        setting:
+                        - label: API Enabled
+                          api_name: permissionsapienabled
+                          api_id: null
+                          md_version: 1
+                          md_kind: core.rule.criteria.translation_placeholder
+                        polarity:
+                        - label: must be
+                          api_name: null
+                          api_id: null
+                          md_version: 1
+                          md_kind: core.rule.criteria.translation_placeholder
+                        values:
+                        - label: 'false'
+                          api_name: 'false'
+                          api_id: null
+                          md_version: 1
+                          md_kind: core.rule.criteria.translation_placeholder
+                      md_version: 1
+                      md_kind: core.rule.criteria.translation
+                    description: null
+                    criteria:
+                      md_version: 1
+                      md_kind: sfdc.scp.rule.criteria.config.profile.all_setting
+                      setting_name: permissionsapienabled
+                      polarity: IS
+                      values:
+                      - 'false'
+                      value_labels:
+                      - 'false'
+                      noop_rule: false
+                    has_child_rules: false
+                    rule_posture_category: system_config
+                    rule_posture_subcategory: password_and_session_settings
+                    service_specific_category: null
+                    evaluation_errors: []
+                    tags:
+                    - 87172
+                    mode: blacklist
+                    compliance_controls:
+                    - 126
+                    - 127
+                    external_data: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/tag/:
+    get:
+      operationId: retrieveImpactTags
+      summary: Retrieve Impact Tags
+      tags:
+      - Policies
+      description: "Returns a list of Impact tags identifiers so you can update impact tags for posture\
+        \ rules.\n\n Response Fields\n\n Field \n Data Type \n Description \n Example \n\n id \n Integer\
+        \ \n Unique identifier for the resource \n 87167 \n\n created \n String (ISO datetime) \n Timestamp\
+        \ when the record was created \n 2022-11-26T22:10:52.885519Z \n\n modified \n String (ISO datetime)\
+        \ \n Timestamp when the record was last modified \n 2022-11-26T22:10:52.885524Z \n\n external_id\
+        \ \n Integer or null \n External system identifier \n null \n\n created_by \n String (ISO datetime)\
+        \ or null \n ID of the user who created the record \n null \n\n modified_by \n String (ISO datetime)\
+        \ or null \n ID of the user who last modified the record \n null \n\n owner \n String or null\
+        \ \n ID of the record owner \n null \n\n name \n String \n Name of the resource \n Confidentiality:Critical\
+        \ \n\n short_name \n String or null \n Short name \n null \n\n type \n String \n Type \n impact\
+        \ \n\n color \n String \n Color \n DB0300 \n\n immutable \n Boolean \n Immutable \n true \n\n\
+        \ confidentiality_score \n Integer \n Confidentiality score \n 100 \n\n integrity_score \n String\
+        \ or null \n Integrity score \n null \n\n confidentiality_multiplier \n Integer or null \n Confidentiality\
+        \ multiplier \n null \n\n integrity_multiplier \n String or null \n Integrity multiplier \n null"
+      parameters:
+      - name: type
+        in: query
+        required: false
+        description: Query parameter type
+        schema:
+          type: string
+        example: impact
+      responses:
+        '200':
+          description: Retreive Impact Tags
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              examples:
+                RetreiveImpactTags:
+                  summary: Retreive Impact Tags
+                  value:
+                  - id: 87167
+                    created: '2022-11-26T22:10:52.885519Z'
+                    modified: '2022-11-26T22:10:52.885524Z'
+                    external_id: null
+                    created_by: null
+                    modified_by: null
+                    owner: null
+                    name: Confidentiality:Critical
+                    short_name: null
+                    type: impact
+                    color: DB0300
+                    immutable: true
+                    confidentiality_score: 100
+                    integrity_score: null
+                    confidentiality_multiplier: null
+                    integrity_multiplier: null
+                  - id: 87166
+                    created: '2022-11-26T22:10:52.885490Z'
+                    modified: '2022-11-26T22:10:52.885494Z'
+                    external_id: null
+                    created_by: null
+                    modified_by: null
+                    owner: null
+                    name: Confidentiality:High
+                    short_name: null
+                    type: impact
+                    color: FD7A79
+                    immutable: true
+                    confidentiality_score: 75
+                    integrity_score: null
+                    confidentiality_multiplier: null
+                    integrity_multiplier: null
+                  - id: 87164
+                    created: '2022-11-26T22:10:52.885430Z'
+                    modified: '2022-11-26T22:10:52.885435Z'
+                    external_id: null
+                    created_by: null
+                    modified_by: null
+                    owner: null
+                    name: Confidentiality:Low
+                    short_name: null
+                    type: impact
+                    color: E6C128
+                    immutable: true
+                    confidentiality_score: 25
+                    integrity_score: null
+                    confidentiality_multiplier: null
+                    integrity_multiplier: null
+                  - id: 87165
+                    created: '2022-11-26T22:10:52.885460Z'
+                    modified: '2022-11-26T22:10:52.885465Z'
+                    external_id: null
+                    created_by: null
+                    modified_by: null
+                    owner: null
+                    name: Confidentiality:Medium
+                    short_name: null
+                    type: impact
+                    color: FFB000
+                    immutable: true
+                    confidentiality_score: 50
+                    integrity_score: null
+                    confidentiality_multiplier: null
+                    integrity_multiplier: null
+                  - id: 87172
+                    created: '2022-11-26T22:10:52.885684Z'
+                    modified: '2022-11-26T22:10:52.885689Z'
+                    external_id: null
+                    created_by: null
+                    modified_by: null
+                    owner: null
+                    name: Integrity:Critical
+                    short_name: null
+                    type: impact
+                    color: DB0300
+                    immutable: true
+                    confidentiality_score: null
+                    integrity_score: 100
+                    confidentiality_multiplier: null
+                    integrity_multiplier: null
+                  - id: 87171
+                    created: '2022-11-26T22:10:52.885653Z'
+                    modified: '2022-11-26T22:10:52.885658Z'
+                    external_id: null
+                    created_by: null
+                    modified_by: null
+                    owner: null
+                    name: Integrity:High
+                    short_name: null
+                    type: impact
+                    color: FD7A79
+                    immutable: true
+                    confidentiality_score: null
+                    integrity_score: 75
+                    confidentiality_multiplier: null
+                    integrity_multiplier: null
+                  - id: 87169
+                    created: '2022-11-26T22:10:52.885583Z'
+                    modified: '2022-11-26T22:10:52.885591Z'
+                    external_id: null
+                    created_by: null
+                    modified_by: null
+                    owner: null
+                    name: Integrity:Low
+                    short_name: null
+                    type: impact
+                    color: E6C128
+                    immutable: true
+                    confidentiality_score: null
+                    integrity_score: 25
+                    confidentiality_multiplier: null
+                    integrity_multiplier: null
+                  - id: 87170
+                    created: '2022-11-26T22:10:52.885623Z'
+                    modified: '2022-11-26T22:10:52.885628Z'
+                    external_id: null
+                    created_by: null
+                    modified_by: null
+                    owner: null
+                    name: Integrity:Medium
+                    short_name: null
+                    type: impact
+                    color: FFB000
+                    immutable: true
+                    confidentiality_score: null
+                    integrity_score: 50
+                    confidentiality_multiplier: null
+                    integrity_multiplier: null
+                  - id: 87168
+                    created: '2022-11-26T22:10:52.885548Z'
+                    modified: '2022-11-26T22:10:52.885557Z'
+                    external_id: null
+                    created_by: null
+                    modified_by: null
+                    owner: null
+                    name: Integrity:None
+                    short_name: null
+                    type: impact
+                    color: null
+                    immutable: true
+                    confidentiality_score: null
+                    integrity_score: 0
+                    confidentiality_multiplier: null
+                    integrity_multiplier: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/{service_type}/ruleevent/{id}/list_instances/:
+    get:
+      operationId: listOpenPolicyViolations
+      summary: List open policy violations
+      tags:
+      - Policies
+      description: "Given the service type and the issue id, this request returns a list of violations\
+        \ associated with that issue.\n\n Response Fields\n\n Field \n Data Type \n Description \n Example\
+        \ \n\n bulk_action_only \n Boolean \n Bulk action only \n true \n\n count \n Integer \n Total\
+        \ number of results available \n 1 \n\n is_truncated \n Boolean \n Whether the resource is truncated\
+        \ \n false \n\n results \n Array[Object] \n Array of result objects \n [{\"instance_id\": \"47897358\"\
+        , \"opened_at\": \"2023... \n\n instance_id \n String \n ID of the instance \n 47897358 \n\n results[].opened_at\
+        \ \n String (ISO datetime) \n opened at \n 2023-05-04T19:23:19.087260Z \n\n results[].context\
+        \ \n Object \n context \n {\"md_version\": 1, \"md_kind\": \"sfdc.dam.ruleeven... \n\n results[].context.md_version\
+        \ \n Integer \n context md version \n 1 \n\n results[].context.md_kind \n String \n context md\
+        \ kind \n sfdc.dam.ruleevent.context.object.access \n\n results[].context.access \n String \n\
+        \ context access \n edit \n\n results[].target_data \n Object \n target data \n {\"primary_target_label\"\
+        : \"Content Document\", \"s... \n\n results[].target_data.primary_target_label \n String \n target\
+        \ data primary target label \n Content Document \n\n results[].target_data.secondary_target_label\
+        \ \n String \n target data secondary target label \n Edit \n\n results[].target_data.primary_target_api_name\
+        \ \n String \n target data primary target api name \n contentdocument \n\n results[].target_data.primary_target_api_id\
+        \ \n Integer or null \n ID of the results[].target data.primary target api \n null \n\n results[].target_data.secondary_target_api_name\
+        \ \n String \n target data secondary target api name \n edit \n\n results[].target_data.secondary_target_api_id\
+        \ \n Integer or null \n ID of the results[].target data.secondary target api \n null \n\n results[].target_data.md_version\
+        \ \n Integer \n target data md version \n 1 \n\n results[].target_data.md_kind \n String \n target\
+        \ data md kind \n core.ruleevent.context.translation \n\n results[].reasons \n Array[Object] \n\
+        \ List of results[].reasons \n [{\"oid\": \"\", \"name\": \"Observed\", \"tier\": \"prima... \n\
+        \n results[].reasons[].oid \n String \n reasons[] oid \n\n results[].reasons[].name \n String\
+        \ \n Name of the resource \n Observed \n\n results[].reasons[].tier \n String \n reasons[] tier\
+        \ \n primary \n\n results[].reasons[].source \n String \n reasons[] source \n observation \n\n\
+        \ results[].reasons[].target \n String \n reasons[] target \n ContentDocument \n\n results[].reasons[].details\
+        \ \n String or null \n reasons[] details \n null \n\n results[].reasons[].setting \n String \n\
+        \ reasons[] setting \n edit \n\n results[].reasons[].category \n String \n reasons[] category\
+        \ \n observed \n\n results[].reasons[].target_id \n Integer or null \n ID of the results[].reasons[].target\
+        \ \n null \n\n results[].reasons[].classifications \n Array \n List of results[].reasons[].classifications\
+        \ \n [] \n\n results[].reasons[].translated_details \n Object \n reasons[] translated details\
+        \ \n {\"entity_type\": \"observation\", \"entity_type_lab... \n\n results[].reasons[].translated_details.entity_type\
+        \ \n String \n Type of results[].reasons[].translated details.entity \n observation \n\n results[].reasons[].translated_details.entity_type_label\
+        \ \n String \n reasons[] translated details entity type label \n Observed Access \n\n results[].reasons[].translated_details.entity_id\
+        \ \n String \n ID of the results[].reasons[].translated details.entity \n\n results[].reasons[].translated_details.entity_label\
+        \ \n String \n reasons[] translated details entity label \n Observed \n\n results[].reasons[].translated_details.setting_category\
+        \ \n String \n reasons[] translated details setting category \n observed \n\n results[].reasons[].translated_details.setting_category_label\
+        \ \n String \n reasons[] translated details setting category label \n Observed \n\n results[].reasons[].translated_details.setting_api_name\
+        \ \n String \n reasons[] translated details setting api name \n edit \n\n results[].reasons[].translated_details.setting_label\
+        \ \n String \n reasons[] translated details setting label \n edit \n\n results[].reasons[].translated_details.target\
+        \ \n String \n reasons[] translated details target \n "
+      parameters:
+      - name: service_type
+        in: path
+        required: true
+        description: Path parameter service_type
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: Path parameter id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List open policy violations
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                Listopenpolicyviolations:
+                  summary: List open policy violations
+                  value:
+                    bulk_action_only: true
+                    count: 1
+                    is_truncated: false
+                    results:
+                    - instance_id: '47897358'
+                      opened_at: '2023-05-04T19:23:19.087260Z'
+                      context:
+                        md_version: 1
+                        md_kind: sfdc.dam.ruleevent.context.object.access
+                        access: edit
+                      target_data:
+                        primary_target_label: Content Document
+                        secondary_target_label: Edit
+                        primary_target_api_name: contentdocument
+                        primary_target_api_id: null
+                        secondary_target_api_name: edit
+                        secondary_target_api_id: null
+                        md_version: 1
+                        md_kind: core.ruleevent.context.translation
+                      reasons:
+                      - oid: ''
+                        name: Observed
+                        tier: primary
+                        source: observation
+                        target: ContentDocument
+                        details: null
+                        setting: edit
+                        category: observed
+                        target_id: null
+                        classifications: []
+                        translated_details:
+                          entity_type: observation
+                          entity_type_label: Observed Access
+                          entity_id: ''
+                          entity_label: Observed
+                          setting_category: observed
+                          setting_category_label: Observed
+                          setting_api_name: edit
+                          setting_label: edit
+                          target: ContentDocument
+                          target_label: ContentDocument
+                          explanation_str: Observed access - this may be default or system level access
+                      monitored_service_id: 26063
+                      monitored_service_name: AppOmni
+                      perspective_id: 88772
+                      perspective_name: Susan Michalski
+                      actionable: true
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/{service_type}/ruleevent/meta/:
+    get:
+      operationId: getCurrentUserSPermissionsForPolicyIssues
+      summary: Get current user's permissions for policy issues
+      tags:
+      - Policies
+      description: "This request returns the permissions for the currently authenticated user for viewing,\
+        \ creating, updating, and deleting policy issues.\n\n Response Fields\n\n Field \n Data Type \n\
+        \ Description \n Example \n\n permissions \n Object \n List of permissions \n {\"list\": true,\
+        \ \"create\": true, \"update\": true, ... \n\n permissions.list \n Boolean \n Permissions list\
+        \ \n true \n\n permissions.create \n Boolean \n Permissions create \n true \n\n permissions.update\
+        \ \n Boolean \n Permissions update \n true \n\n permissions.partial_update \n Boolean \n Permissions\
+        \ partial update \n true \n\n permissions.delete \n Boolean \n Permissions delete \n true"
+      parameters:
+      - name: service_type
+        in: path
+        required: true
+        description: Path parameter service_type
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Get current user's permissions for policy issues
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                Getcurrentuserspermissionsforpolicyissues:
+                  summary: Get current user's permissions for policy issues
+                  value:
+                    permissions:
+                      list: true
+                      create: true
+                      update: true
+                      partial_update: true
+                      delete: true
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/{service_type}/ruleevent/convert_to_exception/:
+    post:
+      operationId: allowRuleEventViolation
+      summary: Allow rule event violation
+      tags:
+      - Policies
+      description: "This request provides the issue id and the action allow in the payload, which creates\
+        \ an exception for violations for that issue in the queried environment.\n\n expires (date/time)\
+        \ is optional. It is only needed when allowing an issue with a expiration date.\n\n The records\
+        \ array contains all issues being allowed.\n\n Request Body\n\n Field \n Data Type \n Required\
+        \ \n Description \n Example \n\n records \n Array[Object] \n Yes \n List of records \n [{\"rule_event\"\
+        : 957611, \"action\": \"al... \n\n records[].rule_event \n Integer \n Yes \n Records[] rule event\
+        \ \n 957611 \n\n records[].action \n String \n Yes \n Records[] action \n allow \n\n message \n\
+        \ String \n Yes \n Message \n allow event \n\n expires \n String (ISO datetime) \n Yes \n Expires\
+        \ \n 2023-09-17T04:00:00.000Z \n\n Response Fields\n\n Field \n Data Type \n Description \n Example\
+        \ \n\n handle_async \n Boolean \n Handle async \n false \n\n rule_events \n Array[Object] \n List\
+        \ of rule events \n [{\"success\": true, \"event\": 957611, \"instance\":... \n\n rule_events[].success\
+        \ \n Boolean \n Rule events[] success \n true \n\n rule_events[].event \n Integer \n Rule events[]\
+        \ event \n 957611 \n\n rule_events[].instance \n String or null \n Rule events[] instance \n null\
+        \ \n\n rule_events[].event_status \n String \n Status of rule events[].event \n closed"
+      parameters:
+      - name: service_type
+        in: path
+        required: true
+        description: Path parameter service_type
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              records:
+              - rule_event: 957611
+                action: allow
+              message: allow event
+              expires: '2023-09-17T04:00:00.000Z'
+      responses:
+        '200':
+          description: Allow rulleevent violation
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                Allowrulleeventviolation:
+                  summary: Allow rulleevent violation
+                  value:
+                    handle_async: false
+                    rule_events:
+                    - success: true
+                      event: 957611
+                      instance: null
+                      event_status: closed
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/{service_type}/ruleevent/close/:
+    patch:
+      operationId: closeRuleEventViolation
+      summary: Close rule event violation
+      tags:
+      - Policies
+      description: "This request passes the issue id and the closed_status in the payload, thereby closing\
+        \ the violations for the specified issue in the queried environment.\n\n The records array contains\
+        \ all issues being closed.\n\n Request Body\n\n Field \n Data Type \n Required \n Description\
+        \ \n Example \n\n records \n Array[Object] \n Yes \n List of records \n [{\"closed_status\": \"\
+        ignored\", \"messag... \n\n records[].closed_status \n String \n Yes \n Status of records[].closed\
+        \ \n ignored \n\n records[].message \n String \n Yes \n Records[] message \n\n records[].rule_event\
+        \ \n Integer \n Yes \n Records[] rule event \n 881891 \n\n Response Fields\n\n Field \n Data Type\
+        \ \n Description \n Example \n\n handle_async \n Boolean \n Handle async \n false \n\n rule_events\
+        \ \n Array[Object] \n List of rule events \n [{\"success\": true, \"event\": 881891, \"instance\"\
+        :... \n\n rule_events[].success \n Boolean \n Rule events[] success \n true \n\n rule_events[].event\
+        \ \n Integer \n Rule events[] event \n 881891 \n\n rule_events[].instance \n String or null \n\
+        \ Rule events[] instance \n null \n\n rule_events[].event_status \n String \n Status of rule events[].event\
+        \ \n closed"
+      parameters:
+      - name: service_type
+        in: path
+        required: true
+        description: Path parameter service_type
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              records:
+              - closed_status: ignored
+                message: ''
+                rule_event: 881891
+      responses:
+        '200':
+          description: Close ruleevent violation
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                Closeruleeventviolation:
+                  summary: Close ruleevent violation
+                  value:
+                    handle_async: false
+                    rule_events:
+                    - success: true
+                      event: 881891
+                      instance: null
+                      event_status: closed
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/{service_type}/rule/{id}/:
+    delete:
+      operationId: deleteAnIndividualRuleWithinAPolicy
+      summary: Delete an individual rule within a policy
+      tags:
+      - Policies
+      description: This request deletes the rule specified by the id passed in.
+      parameters:
+      - name: service_type
+        in: path
+        required: true
+        description: Path parameter service_type
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: Path parameter id
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Delete an individual rule within a policy
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/{service_type}/rule/bulk_delete/:
+    delete:
+      operationId: bulkDeleteRulesWithinAPolicy
+      summary: Bulk delete rules within a policy
+      tags:
+      - Policies
+      description: Multiple rule ids may be passed in through the payload, separated by commas. The specified
+        rules are deleted from the queried environment.
+      parameters:
+      - name: service_type
+        in: path
+        required: true
+        description: Path parameter service_type
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              ids:
+              - 443194
+              - 443193
+      responses:
+        '204':
+          description: Bulk delete rules within a policy
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/monitoredservice/{id}/last_successful_policy_assessments/:
+    get:
+      operationId: listTheLastSuccessfulScanTimeForTheActivePoliciesInAGivenMonitor
+      summary: List the last successful scan time for the active policies in a given monitored service
+      tags:
+      - Policies
+      description: "Returns the last successful scan time for all active policies for the specified monitored\
+        \ service id.\n\n Response Fields\n\n Field \n Data Type \n Description \n Example \n\n unique_id\
+        \ \n String (UUID) \n ID of the unique \n 961dcbf3-da1a-4a8d-8f39-33fc221de080 \n\n created \n\
+        \ String (ISO datetime) \n Timestamp when the record was created \n 2023-03-24T09:54:16.681653Z\
+        \ \n\n modified \n String (ISO datetime) \n Timestamp when the record was last modified \n 2023-03-24T09:55:19.825023Z\
+        \ \n\n external_id \n String (UUID) \n External system identifier \n 3e11c869-82f8-43b4-9d29-70f4fdcd4620\
+        \ \n\n policy \n Integer \n Policy \n 330517 \n\n completion_status \n String \n Status of completion\
+        \ \n success \n\n completion_date \n String (ISO datetime) \n Timestamp for completion \n 2023-03-24T09:54:27.431321Z"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Path parameter id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List the last successful scan time for the active policies in a given monitored
+            service
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              examples:
+                Listthelastsuccessfulscantimefortheactivepoliciesinagivenmonitoredservice:
+                  summary: List the last successful scan time for the active policies in a given monitored
+                    service
+                  value:
+                  - unique_id: 961dcbf3-da1a-4a8d-8f39-33fc221de080
+                    created: '2023-03-24T09:54:16.681653Z'
+                    modified: '2023-03-24T09:55:19.825023Z'
+                    external_id: 3e11c869-82f8-43b4-9d29-70f4fdcd4620
+                    policy: 330517
+                    completion_status: success
+                    completion_date: '2023-03-24T09:54:27.431321Z'
+                  - unique_id: 2e8e5390-bd9f-476b-ad4c-2d939364cf70
+                    created: '2023-09-18T12:54:15.140099Z'
+                    modified: '2023-09-18T12:54:46.320401Z'
+                    external_id: a2011302-1716-4b21-a31e-fc28d160d06b
+                    policy: 372224
+                    completion_status: success
+                    completion_date: '2023-09-18T12:54:21.574818Z'
+                  - unique_id: eff7514e-cfe1-455b-addf-ba676fcdcf64
+                    created: '2023-09-18T12:54:15.292540Z'
+                    modified: '2023-09-18T12:54:48.367066Z'
+                    external_id: a2011302-1716-4b21-a31e-fc28d160d06b
+                    policy: 473174
+                    completion_status: success
+                    completion_date: '2023-09-18T12:54:21.574818Z'
+                  - unique_id: 2010c649-5309-4f77-a6a3-9ea284904d31
+                    created: '2023-09-18T15:07:21.808364Z'
+                    modified: '2023-09-18T15:08:45.772402Z'
+                    external_id: 01002033-e7ad-4b31-b130-62610d231a91
+                    policy: 330518
+                    completion_status: success
+                    completion_date: '2023-09-18T15:07:35.959192Z'
+                  - unique_id: 97076661-2e74-484e-a308-7dc16c3fa593
+                    created: '2023-09-18T15:41:23.215168Z'
+                    modified: '2023-09-18T15:41:51.532207Z'
+                    external_id: 7fab80aa-40b5-4999-b1c5-d546a9cf054a
+                    policy: 418440
+                    completion_status: success
+                    completion_date: '2023-09-18T15:41:30.185936Z'
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/policy/{id}/last_successful_policy_assessments/:
+    get:
+      operationId: listTheLastSuccessfulScanTimeForAllMonitoredServicesOnAGivenActi
+      summary: List the last successful scan time for all monitored services on a given active policy
+      tags:
+      - Policies
+      description: "Returns the last successful scan time for all monitored services for the specified\
+        \ active policy id.\n\n API results account for all monitored services associated with a given\
+        \ policy, including those added directly and those added indirectly using Target Tags.\n\n Response\
+        \ Fields\n\n Field \n Data Type \n Description \n Example \n\n 26063 \n Object \n 26063 \n {\"\
+        unique_id\": \"a35e064b-c713-4f85-9079-895f6f3d... \n\n 26063.unique_id \n String (UUID) \n ID\
+        \ of the 26063.unique \n a35e064b-c713-4f85-9079-895f6f3dd6ea \n\n 26063.created \n String (ISO\
+        \ datetime) \n Timestamp when the record was created \n 2023-09-18T16:04:06.189913Z \n\n 26063.modified\
+        \ \n String (ISO datetime) \n Timestamp when the record was last modified \n 2023-09-18T16:06:45.253276Z\
+        \ \n\n 26063.external_id \n String (UUID) \n External system identifier \n d9335070-e680-48b9-8bb9-51665f12009c\
+        \ \n\n 26063.policy \n Integer \n 26063 policy \n 330517 \n\n 26063.completion_status \n String\
+        \ \n Status of 26063.completion \n success \n\n 26063.completion_date \n String (ISO datetime)\
+        \ \n Timestamp for 26063.completion \n 2023-09-18T16:04:14.440094Z"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Path parameter id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List the last successful scan time for all monitored services on a given active
+            policy
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                Listthelastsuccessfulscantimeforallmonitoredservicesonagivenactivepolicy:
+                  summary: List the last successful scan time for all monitored services on a given active
+                    policy
+                  value:
+                    '26063':
+                      unique_id: a35e064b-c713-4f85-9079-895f6f3dd6ea
+                      created: '2023-09-18T16:04:06.189913Z'
+                      modified: '2023-09-18T16:06:45.253276Z'
+                      external_id: d9335070-e680-48b9-8bb9-51665f12009c
+                      policy: 330517
+                      completion_status: success
+                      completion_date: '2023-09-18T16:04:14.440094Z'
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/{serviceType}/svcexp/{serviceId}/servicesettings/:
+    get:
+      operationId: listMSServiceSettings
+      summary: List MS Service Settings
+      tags:
+      - Policies
+      description: "Response Fields\n\n Field \n Data Type \n Description \n Example \n\n setting \n String\
+        \ \n setting \n Total global admins \n\n category \n String \n category \n service_features_and_config\
+        \ \n\n category_label \n String \n category label \n Service Features and Configuration \n\n criticality\
+        \ \n String \n criticality \n high \n\n criticality_score \n Integer \n criticality score \n 75\
+        \ \n\n current_value \n String \n current value \n 3 \n\n api_name \n String \n api name \n total_global_admins\
+        \ \n\n ao_modeling_metadata \n String or null \n ao modeling metadata \n null \n\n optgroup \n\
+        \ String or null \n optgroup \n null \n\n setting_id \n String \n ID of the setting \n 4912921d8bd3ca58ef1a5a6fb1c2e791\
+        \ \n\n service_category \n String \n service category \n azure_ad"
+      parameters:
+      - name: serviceType
+        in: path
+        required: true
+        description: Path parameter serviceType
+        schema:
+          type: string
+      - name: serviceId
+        in: path
+        required: true
+        description: Path parameter serviceId
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List MS System Settings
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                ListMSSystemSettings:
+                  summary: List MS System Settings
+                  value:
+                    count: 644
+                    next: https://[your-domain].appomni.com/api/v1/o365/svcexp/27539/servicesettings/?=&limit=25&offset=25
+                    previous: null
+                    results:
+                    - setting: Total global admins
+                      category: service_features_and_config
+                      category_label: Service Features and Configuration
+                      criticality: high
+                      criticality_score: 75
+                      current_value: '3'
+                      api_name: total_global_admins
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: 4912921d8bd3ca58ef1a5a6fb1c2e791
+                      service_category: azure_ad
+                    - setting: Total global admins including apps
+                      category: service_features_and_config
+                      category_label: Service Features and Configuration
+                      criticality: high
+                      criticality_score: 75
+                      current_value: '3'
+                      api_name: total_global_admins_including_apps
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: 7c2150f3ca7e9193b847fa370a876ce6
+                      service_category: azure_ad
+                    - setting: Total global admins - just apps
+                      category: service_features_and_config
+                      category_label: Service Features and Configuration
+                      criticality: high
+                      criticality_score: 75
+                      current_value: '0'
+                      api_name: total_global_admins_just_apps
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: 14ee5e9e7d43b23cc1831721c1a3026a
+                      service_category: azure_ad
+                    - setting: Enable Email One Time Passcode For Guests
+                      category: identity_and_system_access
+                      category_label: Identity and System Access
+                      criticality: critical
+                      criticality_score: 100
+                      current_value: 'True'
+                      api_name: enable_email_one_time_passcode_for_guests
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: 443251016a2c07d6c685fc8339cc95fe
+                      service_category: azure_ad
+                    - setting: External Collaboration Settings - Collaboration Restrictions - Blocked
+                        Domains
+                      category: identity_and_system_access
+                      category_label: Identity and System Access
+                      criticality: critical
+                      criticality_score: 100
+                      current_value: '[]'
+                      api_name: blocked_domains
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: 07a99632e04a9245dd7155bbc9cad228
+                      service_category: azure_ad
+                    - setting: External Collaboration Settings - Collaboration Restrictions - Allowed
+                        Domains
+                      category: identity_and_system_access
+                      category_label: Identity and System Access
+                      criticality: critical
+                      criticality_score: 100
+                      current_value: '[]'
+                      api_name: allowed_domains
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: cf11682ad6d23539b115c24b0305b564
+                      service_category: azure_ad
+                    - setting: Security Defaults
+                      category: other_security_settings
+                      category_label: Other Security Settings
+                      criticality: high
+                      criticality_score: 75
+                      current_value: 'True'
+                      api_name: security_defaults_enabled
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: 62a2c722669e0bd0afa7725d97e8022c
+                      service_category: azure_ad
+                    - setting: Enable MIP Labels
+                      category: service_features_and_config
+                      category_label: Service Features and Configuration
+                      criticality: low
+                      criticality_score: 25
+                      current_value: 'False'
+                      api_name: enable_mip_labels
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: 07d166262aa1b46afe6dbb6ffca9c4f8
+                      service_category: azure_ad
+                    - setting: Enable MS standard blocked words
+                      category: service_features_and_config
+                      category_label: Service Features and Configuration
+                      criticality: low
+                      criticality_score: 25
+                      current_value: <Missing>
+                      api_name: enable_ms_standard_blocked_words
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: b9065e568946e557917e50f149e89132
+                      service_category: azure_ad
+                    - setting: Allow guests to own group
+                      category: other_security_settings
+                      category_label: Other Security Settings
+                      criticality: medium
+                      criticality_score: 50
+                      current_value: 'False'
+                      api_name: allow_guests_to_be_group_owner
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: 38ef41823fbcc25bfaebbad7df4721ce
+                      service_category: azure_ad
+                    - setting: Allow guests to access groups
+                      category: authorization
+                      category_label: Authorization
+                      criticality: medium
+                      criticality_score: 50
+                      current_value: 'True'
+                      api_name: allow_guests_to_access_groups
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: c8dceaccd34e100ececec74934b718c5
+                      service_category: azure_ad
+                    - setting: Guests allowed in groups
+                      category: authorization
+                      category_label: Authorization
+                      criticality: medium
+                      criticality_score: 50
+                      current_value: 'True'
+                      api_name: allow_to_add_guests
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: e402d5b1e76504ab604b6fa92f5c9ad4
+                      service_category: azure_ad
+                    - setting: Enable group creation
+                      category: service_features_and_config
+                      category_label: Service Features and Configuration
+                      criticality: low
+                      criticality_score: 25
+                      current_value: 'True'
+                      api_name: enable_group_creation
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: b034896f8aac921a0f402181b2ed5aba
+                      service_category: azure_ad
+                    - setting: Check for app privileged updates
+                      category: other_security_settings
+                      category_label: Other Security Settings
+                      criticality: medium
+                      criticality_score: 50
+                      current_value: 'False'
+                      api_name: enable_access_check_for_privileged_application_updates
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: 5cd7dbfe896310c9930a3487dc7fa3fc
+                      service_category: azure_ad
+                    - setting: Enable banned password check
+                      category: password_and_session_settings
+                      category_label: Password and Session Settings
+                      criticality: medium
+                      criticality_score: 50
+                      current_value: 'True'
+                      api_name: enable_banned_password_check
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: 6c41dd2fa3324c94e67d40ba379c4c9f
+                      service_category: azure_ad
+                    - setting: Lockout duration (seconds)
+                      category: password_and_session_settings
+                      category_label: Password and Session Settings
+                      criticality: medium
+                      criticality_score: 50
+                      current_value: '60'
+                      api_name: lockout_duration_in_seconds
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: 54a3ad208c5a708920b6bbdbdf086106
+                      service_category: azure_ad
+                    - setting: Lockout threshold (number of attempts)
+                      category: password_and_session_settings
+                      category_label: Password and Session Settings
+                      criticality: medium
+                      criticality_score: 50
+                      current_value: '10'
+                      api_name: lockout_threshold
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: 7c2d90286bb9ddf2f13af709d6557dc4
+                      service_category: azure_ad
+                    - setting: Disable name validation against TM
+                      category: service_features_and_config
+                      category_label: Service Features and Configuration
+                      criticality: low
+                      criticality_score: 25
+                      current_value: 'False'
+                      api_name: do_not_validate_against_trademark
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: 5c7506f1a3391cc5c7c35eb096130d24
+                      service_category: azure_ad
+                    - setting: Group owners can grant group permissions
+                      category: authorization
+                      category_label: Authorization
+                      criticality: medium
+                      criticality_score: 50
+                      current_value: 'False'
+                      api_name: enable_group_specific_consent
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: cba5b141dca2f84036821f17bddad67a
+                      service_category: azure_ad
+                    - setting: Block user consent for risky apps
+                      category: other_security_settings
+                      category_label: Other Security Settings
+                      criticality: medium
+                      criticality_score: 50
+                      current_value: 'True'
+                      api_name: block_user_consent_for_risky_apps
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: 5b11b0a0a8778b17f38892a02b913ed0
+                      service_category: azure_ad
+                    - setting: Enable admin consent requests
+                      category: service_features_and_config
+                      category_label: Service Features and Configuration
+                      criticality: medium
+                      criticality_score: 50
+                      current_value: 'False'
+                      api_name: enable_admin_consent_requests
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: d3e3b103c91290c3cb69d5146719b6f7
+                      service_category: azure_ad
+                    - setting: Guest self-service sign-up enabled
+                      category: identity_and_system_access
+                      category_label: Identity and System Access
+                      criticality: high
+                      criticality_score: 75
+                      current_value: 'False'
+                      api_name: self_service_sign_up_enabled
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: 6026d76cd333bee96b1ad7dbf825badc
+                      service_category: azure_ad
+                    - setting: All users have default password policy
+                      category: password_and_session_settings
+                      category_label: Password and Session Settings
+                      criticality: high
+                      criticality_score: 75
+                      current_value: 'True'
+                      api_name: all_users_have_default_password_policy
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: d8c0ad37a529644c9180d20674d48d3b
+                      service_category: azure_ad
+                    - setting: Has maximum secure score
+                      category: other_security_settings
+                      category_label: Other Security Settings
+                      criticality: medium
+                      criticality_score: 50
+                      current_value: 'False'
+                      api_name: has_max_secure_score
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: 7cddcc4e0b5b03fb14fdf2b82cab59b5
+                      service_category: secure_scores
+                    - setting: 'Secure Score (%): Integrated Apps'
+                      category: other_security_settings
+                      category_label: Other Security Settings
+                      criticality: medium
+                      criticality_score: 50
+                      current_value: '0'
+                      api_name: secure_score_integrated_apps
+                      ao_modeling_metadata: null
+                      optgroup: null
+                      setting_id: 78c85921b825902fe03989269ce7ad5a
+                      service_category: secure_scores
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/o365/svcexp/{serviceId}/policy/:
+    get:
+      operationId: listPolicySettingsM365Only
+      summary: List Policy Settings - M365 Only
+      tags:
+      - Policies
+      description: "Returns a list of policy settings specific to Microsoft 365 service.\n\n Response\
+        \ Fields\n\n Field \n Data Type \n Description \n Example \n\n policy_id \n String \n Unique identifier\
+        \ for the policy \n f250f7fc-c869-46c2-b786-10dcf9a16f3a \n\n name \n String \n Name of the policy\
+        \ \n f250f7fc-c869-46c2-b786-10dcf9a16f3a \n\n service_type \n String \n Type of service \n o365\
+        \ \n\n active \n Boolean \n Whether the policy is active \n true \n\n description \n String or\
+        \ null \n Policy description \n null \n\n notes \n String or null \n Additional notes \n null\
+        \ \n\n notes_last_updated_by \n String or null \n User who last updated notes \n null \n\n notes_last_updated\
+        \ \n String (ISO datetime) or null \n When notes were last updated \n null \n\n observed_settings_count\
+        \ \n Integer \n Number of observed settings \n 34 \n\n policy_category \n String \n Category of\
+        \ the policy \n m365crosstenantaccesspolicy \n\n policy_category_label \n String \n Display label\
+        \ for the policy category \n M365 Cross Tenant Access Policy \n\n data_type \n String or null\
+        \ \n Data type of the policy \n null"
+      parameters:
+      - name: serviceId
+        in: path
+        required: true
+        description: Path parameter serviceId
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List Policy Settings - M365 Only
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              examples:
+                ListPolicySettingsM365Only:
+                  summary: List Policy Settings - M365 Only
+                  value:
+                  - policy_id: f250f7fc-c869-46c2-b786-10dcf9a16f3a
+                    name: f250f7fc-c869-46c2-b786-10dcf9a16f3a
+                    service_type: o365
+                    active: true
+                    description: null
+                    notes: null
+                    notes_last_updated_by: null
+                    notes_last_updated: null
+                    observed_settings_count: 34
+                    policy_category: m365crosstenantaccesspolicy
+                    policy_category_label: M365 Cross Tenant Access Policy
+                    data_type: null
+                  - policy_id: xnc5q.onmicrosoft.com
+                    name: xnc5q.onmicrosoft.com
+                    service_type: o365
+                    active: true
+                    description: null
+                    notes: null
+                    notes_last_updated_by: null
+                    notes_last_updated: null
+                    observed_settings_count: 11
+                    policy_category: m365domain
+                    policy_category_label: M365 Domain
+                    data_type: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/policy/snapshot/:
+    post:
+      operationId: createAPosturePolicySnapshot
+      summary: Create a Posture Policy Snapshot
+      tags:
+      - Policies
+      description: "STEPS:\n\n- GET - List Monitored Services [your_subdomain]/api/v1/core/monitoredservice/\
+        \ \n\n- GET - List monitored service policy settings - M365 only [your_subdomain]/api/v1/o365/svcexp/:serviceId/policy\
+        \ \n\n- POST - Create a Posture Policy Collections Snapshot [your_subdomain]/api/v1/core/policy/snapshot\
+        \ \n\n * `“name”` - The name you are giving the snapshot that is being created\n* `”baseline_monitored_service”`\
+        \ - maps to `”id”` from List Monitored Services - The monitored service that has the base policy\
+        \ content that is being snapshotted. \n* \"target_monitored_services\" - maps to `”id”` from List\
+        \ Monitored Services - The monitored services that the snapshot is saved to.\n* `”description”`\
+        \ - string - *optional\n* `“tags”` - maps to `“tags”` from List Monitored Services expressed as\
+        \ integers (environment or target tags) - *optional\n* `“policy_category”` - maps to `“policy_category”`\
+        \ from List monitored service policy settings -M365 only\n* `“policy_id”` - maps to `“policy_id”`\
+        \ from List monitored service policy settings \n\n PAYLOAD (BODY)\n\n {\n “type”: “policies”\n\
+        \ “collections”: [\n {\n “name”: “<string>”,\n “description”: “<string>”,\n “baseline_monitored_service_id”:\
+        \ “<monitored service ID>”,\n “target_monitored_service_ids”: “<related monitored service IDs>”,\n\
+        \ “policy_category”: “<string>”,\n “policy_id”: “<policy ID>”,\n “tags”: “<related tag IDs>”,\n\
+        \ }\n ] \n }\n\n Request Parameters\n\n Field \n Data Type \n Required \n Description \n Example\
+        \ \n\n type \n String \n Yes \n Type \n policies \n\n collections \n Array[Object] \n Yes \n List\
+        \ of collections \n [{\"name\": \"appomni\", \"description\": \"... \n\n collections[].name \n\
+        \ String \n Yes \n Name of the resource \n appomni \n\n collections[].description \n String (UUID)\
+        \ \n Yes \n Description of the resource \n 74691f58-52a4-453e-9c22-b88c0e2cc851 \n\n collections[].baseline_monitored_service\
+        \ \n Integer \n Yes \n Collections[] baseline monitored service \n 17690 \n\n collections[].target_monitored_services\
+        \ \n Array[Integer] \n Yes \n List of collections[].target monitored services \n [17690] \n\n\
+        \ collections[].policy_category \n String \n Yes \n Collections[] policy category \n m365exchangeaccepteddomain\
+        \ \n\n collections[].policy_id \n String (UUID) \n Yes \n ID of the collections[].policy \n 4f07749c-6a46-492f-96fc-aa597238281b"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              type: policies
+              collections:
+              - name: appomni
+                description: 74691f58-52a4-453e-9c22-b88c0e2cc851
+                baseline_monitored_service: 17690
+                target_monitored_services:
+                - 17690
+                policy_category: m365exchangeaccepteddomain
+                policy_id: 4f07749c-6a46-492f-96fc-aa597238281b
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/monitoredservice/score/policycomponents/{policy_id}/:
+    get:
+      operationId: getPolicyStats
+      summary: Get policy stats
+      tags:
+      - '[Beta] Policy Assessment Stats'
+      description: "BETA - The policy_stats endpoint retrieves policy assessment statistics for a specified\
+        \ policy ID.\n\n This endpoint only works for posture policies. It will return a 404 for functional\
+        \ and data security policies.\n\n The stats are not realtime; they are based on the last recalculation,\
+        \ which happens once per day.\n\n Response Fields\n\n Field \n Data Type \n Description \n Example\
+        \ \n\n id \n String \n The ID of the monitored service \n \"93\" \n\n name \n String \n The name\
+        \ of the monitored service \n \"O365 - Prod\" \n\n stats \n Object \n A dictionary containing\
+        \ stats for risk levels \n See nested fields below \n\n stats.critical \n Object \n Stats for\
+        \ critical risk level \n See nested fields below \n\n stats.critical.count_passing \n Integer\
+        \ \n Number of passing instances for critical risk level \n 35 \n\n stats.critical.count_failing\
+        \ \n Integer \n Number of failing instances for critical risk level \n 35 \n\n stats.high \n Object\
+        \ \n Stats for high risk level \n See nested fields below \n\n stats.high.count_passing \n Integer\
+        \ \n Number of passing instances for high risk level \n 30 \n\n stats.high.count_failing \n Integer\
+        \ \n Number of failing instances for high risk level \n 30 \n\n stats.medium \n Object \n Stats\
+        \ for medium risk level \n See nested fields below \n\n stats.medium.count_passing \n Integer\
+        \ \n Number of passing instances for medium risk level \n 25 \n\n stats.medium.count_failing \n\
+        \ Integer \n Number of failing instances for medium risk level \n 25 \n\n Error Responses\n\n\
+        \ Status Code \n Description \n\n 400 \n The policy exists but is not a Posture policy, and therefore\
+        \ does not have score components \n\n 404 \n \"Policy not found\" - The specified policy ID does\
+        \ not exist \n\n 404 \n \"Policy has not been used in a score for a monitored service. Only scannable\
+        \ posture policies are currently supported for scoring.\" - The policy exists but does not have\
+        \ a score"
+      parameters:
+      - name: policy_id
+        in: path
+        required: true
+        description: Path parameter policy_id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Get policy stats
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              examples:
+                Getpolicystats:
+                  summary: Get policy stats
+                  value:
+                  - id: '93'
+                    name: O365 - Prod
+                    stats:
+                      critical:
+                        count_passing: 35
+                        count_failing: 35
+                      high:
+                        count_passing: 30
+                        count_failing: 30
+                      medium:
+                        count_passing: 25
+                        count_failing: 25
+                  - id: '94'
+                    name: SFDCOrg 1f51478c-d96f-1324-a228-d78187f07dc4
+                    stats:
+                      critical:
+                        count_passing: 30
+                        count_failing: 30
+                      high:
+                        count_passing: 25
+                        count_failing: 25
+                      medium:
+                        count_passing: 20
+                        count_failing: 20
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
-  schemas:
-    Policy:
-      title: Policy
-      description: A security policy for a monitored SaaS application
-      type: object
-      properties:
-        policyId:
-          type: string
-          description: Unique policy identifier
-        name:
-          type: string
-          description: Policy name
-        application:
-          type: string
-          description: SaaS application the policy applies to
-        enabled:
-          type: boolean
-          description: Whether the policy is active
-        severity:
-          type: string
-          enum:
-          - critical
-          - high
-          - medium
-          - low
-          description: Severity of policy violations
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
-      bearerFormat: JWT
+      description: 'AppOmni API access token, created and managed in the AppOmni platform under Settings
+        > API Settings. Sent as `Authorization: Bearer <token>`.'
+  schemas:
+    Error:
+      type: object
+      title: Error
+      description: Standard Django REST Framework error envelope returned by the AppOmni API.
+      properties:
+        detail:
+          type: string
+          description: Human readable error message

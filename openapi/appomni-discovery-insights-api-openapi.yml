@@ -1,0 +1,1248 @@
+openapi: 3.1.0
+info:
+  title: AppOmni Discovery, Insights and Audit API
+  description: 'SaaS discovery, security Insights and the AppOmni platform audit log.
+
+
+    Derived faithfully from the AppOmni public Postman collection published by AppOmni at https://api.appomni.com/
+    — every path, method, parameter, request body and example response below is taken verbatim from that
+    collection. No operation was invented.'
+  version: 1.0.0
+  contact:
+    name: AppOmni
+    url: https://appomni.com/support/
+  license:
+    name: Proprietary
+    url: https://appomni.com/terms-of-service/
+  x-generated-from: AppOmni public Postman collection (publishedId 2sBXc7Mjib, published 2026-02-04)
+  x-generated-source: https://api.appomni.com/api/collections/45135595/2sBXc7Mjib?segregateAuth=true&versionTag=latest
+  x-generated-method: derived
+  x-generated-date: '2026-09-04'
+servers:
+- url: https://{instance}.appomni.com
+  description: AppOmni tenant. Replace {instance} with your AppOmni subdomain — e.g. `acme` if you log
+    in at acme.appomni.com.
+  variables:
+    instance:
+      default: example
+      description: Your AppOmni tenant subdomain
+security:
+- bearerAuth: []
+tags:
+- name: Discovery
+- name: Insights
+- name: Audit Logs
+paths:
+  /api/v1/discovery/apps/:
+    get:
+      operationId: retrieveAppDiscoveryApp
+      summary: Retrieve App Discovery App
+      tags:
+      - Discovery
+      description: "Returns a specific Discovery App.\n\n Response Fields\n\n Same fields as List Discovery\
+        \ apps endpoint, but returns a single object instead of an array."
+      parameters:
+      - name: app
+        in: query
+        required: false
+        description: Query parameter app
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Retrieve Discovery App
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                RetrieveDiscoveryApp:
+                  summary: Retrieve Discovery App
+                  value:
+                    saas_application:
+                      name: AppOmni
+                      saas_domain: appomni.com
+                      company_name: AppOmni
+                      categories: '[''Cloud Management'', ''Cloud Security'', ''Cyber Security'', ''SaaS'',
+                        ''Software'']'
+                      description: AppOmni SaaS security helps security and IT teams protect and monitor
+                        their entire SaaS environment, from each vendor to every end-user.
+                      founded_on: '2018'
+                      headquarters_city: San Francisco
+                      headquarters_country: United States
+                    owner: user1@example.com
+                    segments: /example1 /example2
+                    subdomains: example
+                    status: approved
+                    criticality: high
+                    cached_unique_users_count: 3
+                    cached_total_ingress_kb: 100
+                    cached_total_egress_kb: 100
+                    cached_total_duration_ms: 60000
+                    cached_first_seen: '1960-01-01T0:00:00.0000Z'
+                    cached_last_seen: '2025-05-15T0:00:00.0000Z'
+                    stats_last_updated: '2025-05-15T0:00:00.0000Z'
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/discovery/user-app-pages/:
+    get:
+      operationId: retrieveAppDiscoveryUserAppPage
+      summary: Retrieve App Discovery UserAppPage
+      tags:
+      - Discovery
+      description: "Returns Discovery UserAppPages filtered by user and/or app.\n\n Response Fields\n\n\
+        \ Returns an array of UserAppPage objects with the same fields as List Discovery UserAppPages\
+        \ endpoint."
+      parameters:
+      - name: user
+        in: query
+        required: false
+        description: Query parameter user
+        schema:
+          type: string
+      - name: app
+        in: query
+        required: false
+        description: Query parameter app
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Retrieve Discovery UserAppPage
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              examples:
+                RetrieveDiscoveryUserAppPage:
+                  summary: Retrieve Discovery UserAppPage
+                  value:
+                  - identity:
+                      email: user1@example.com
+                      user_agents_seen: '["Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+                        (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"]'
+                    org_saas_application:
+                      saas_application:
+                        name: AppOmni
+                        saas_domain: appomni.com
+                        company_name: AppOmni
+                        categories: '[''Cloud Management'', ''Cloud Security'', ''Cyber Security'', ''SaaS'',
+                          ''Software'']'
+                        description: AppOmni SaaS security helps security and IT teams protect and monitor
+                          their entire SaaS environment, from each vendor to every end-user.
+                        founded_on: '2018'
+                        headquarters_city: San Francisco
+                        headquarters_country: United States
+                      owner: user1@example.com
+                      segments: /example1 /example2
+                      subdomains: example
+                      status: approved
+                      criticality: high
+                      cached_unique_users_count: 3
+                      cached_total_ingress_kb: 100
+                      cached_total_egress_kb: 100
+                      cached_total_duration_ms: 60000
+                      cached_first_seen: '1960-01-01T0:00:00.0000Z'
+                      cached_last_seen: '2025-05-15T0:00:00.0000Z'
+                      stats_last_updated: '2025-05-15T0:00:00.0000Z'
+                    segments: /example1
+                    subdomains: example
+                    duration_ms: 30000
+                    data_ingress_kb: 50
+                    data_egress_kb: 50
+                    visits_count: 12
+                    first_visited_at: '1960-01-01T0:00:00.0000Z'
+                    last_visited_at: '2025-05-15T0:00:00.0000Z'
+                  - identity:
+                      email: user1@example.com
+                      user_agents_seen: '["Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+                        (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"]'
+                    org_saas_application:
+                      saas_application:
+                        name: Omniscreen
+                        saas_domain: omniscreen.io
+                        company_name: Omniscreen
+                        categories: '[''Cyber Security'']'
+                        description: Omniscreen is the industry's most effective network security posture
+                          management (NSPM) tool, enabling organizations to apply open-source, third-party,
+                          or proprietary scanning methodologies against the web-facing infrastructure
+                          of their cloud implementations.
+                        founded_on: '2024'
+                        headquarters_city: Austin
+                        headquarters_country: United States
+                      owner: user2@example.com
+                      segments: ''
+                      subdomains: ''
+                      status: approved
+                      criticality: high
+                      cached_unique_users_count: 5
+                      cached_total_ingress_kb: 200
+                      cached_total_egress_kb: 200
+                      cached_total_duration_ms: 1200000
+                      cached_first_seen: '1960-01-01T0:00:00.0000Z'
+                      cached_last_seen: '2025-05-15T0:00:00.0000Z'
+                      stats_last_updated: '2025-05-15T0:00:00.0000Z'
+                    segments: ''
+                    subdomains: ''
+                    duration_ms: 10000
+                    data_ingress_kb: 100
+                    data_egress_kb: 100
+                    visits_count: 50
+                    first_visited_at: '1960-01-01T0:00:00.0000Z'
+                    last_visited_at: '2025-05-15T0:00:00.0000Z'
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/discovery/users/:
+    get:
+      operationId: retrieveAppDiscoveryUser
+      summary: Retrieve App Discovery User
+      tags:
+      - Discovery
+      description: "Returns a specific Discovery user.\n\n Response Fields\n\n Field \n Data Type \n Description\
+        \ \n Example \n\n email \n String \n The email address of the Discovery user \n \" user1@example.com\
+        \ \" \n\n user_agents_seen \n String \n JSON array of user agent strings the Discovery user has\
+        \ generated \n \"[\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)...\"]\""
+      parameters:
+      - name: user
+        in: query
+        required: false
+        description: Query parameter user
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Retrieve Discovery User
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                RetrieveDiscoveryUser:
+                  summary: Retrieve Discovery User
+                  value:
+                    email: user1@example.com
+                    user_agents_seen: '["Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+                      (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"]'
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/insights/discoveredinsight/:
+    get:
+      operationId: listInsights
+      summary: List Insights
+      tags:
+      - Insights
+      description: "Returns a list of all insights matching the specified filter criteria.\n\n This request\
+        \ returns a list of insights filtered by the specified parameters. If no parameters are set, all\
+        \ insights are returned for the tenant.\n\n Response Fields\n\n Field \n Data Type \n Description\
+        \ \n Example \n\n id \n Integer \n Unique identifier for the insight \n 102455 \n\n created \n\
+        \ String (ISO datetime) \n Timestamp when the insight was first created \n \"2025-09-04T03:45:55.343531Z\"\
+        \ \n\n modified \n String (ISO datetime) \n Timestamp when the insight was last modified \n \"\
+        2025-09-17T17:52:48.138399Z\" \n\n external_id \n String or null \n External system identifier,\
+        \ typically null \n null \n\n created_by \n Integer \n ID of the user who created the insight\
+        \ \n 65 \n\n modified_by \n Integer \n ID of the user who last modified the insight \n 6734 \n\
+        \n owner \n Integer or null \n ID of the user who owns the insight, typically null \n null \n\n\
+        \ label \n String \n Human-readable title/summary of the insight \n \"Data records exposed to\
+        \ anonymous world\" \n\n open_occurrences_summary \n Integer \n Number of currently open occurrences\
+        \ for this insight \n 1 \n\n dismissed_occurrences_summary \n Integer \n Number of dismissed occurrences\
+        \ for this insight \n 0 \n\n description \n String \n Detailed explanation of what the insight\
+        \ represents \n \"Data records exposed to the anonymous world...\" \n\n service_type \n String\
+        \ \n Type of service where the insight was discovered \n \"sfdc\" \n\n insight_type \n String\
+        \ \n Category type of the insight \n \"data_access\" \n\n insight_category \n String \n Specific\
+        \ subcategory of the insight \n \"authorization\" \n\n risk_score \n Integer \n Current risk score\
+        \ (0-100) after any user customizations \n 100 \n\n risk_level \n String \n Current risk level\
+        \ classification \n \"critical\" \n\n appomni_risk_score \n Integer \n Original risk score calculated\
+        \ by AppOmni (0-100) \n 100 \n\n appomni_risk_level \n String \n Original risk level classification\
+        \ by AppOmni \n \"critical\" \n\n confidence \n Integer \n Confidence level of the insight accuracy\
+        \ (0-100) \n 100 \n\n first_seen \n String (ISO datetime) \n When the insight was first detected/discovered\
+        \ \n \"2025-09-04T03:45:55.343622Z\" \n\n last_seen \n String (ISO datetime) \n When the insight\
+        \ was most recently observed \n \"2025-09-17T17:52:38.035581Z\" \n\n last_evaluated \n String\
+        \ (ISO datetime) \n When the insight was last evaluated by the system \n \"2025-09-17T08:19:24.773115Z\"\
+        \ \n\n status \n String \n Current status of the insight \n \"open\" \n\n tags \n Array[Integer]\
+        \ \n List of tag IDs associated with this insight \n [] \n\n dismissal_expires \n String (ISO\
+        \ datetime) or null \n When the dismissal expires if insight is dismissed \n null \n\n dismissed_on\
+        \ \n String (ISO datetime) or null \n When the insight was dismissed, if applicable \n null \n\
+        \n internal_name \n String \n Internal system identifier for the insight type \n \"sfdc.scheduled.guest.GuestAccessibleRecordsInsight\"\
+        \ \n\n external_data \n Object or null \n Additional external data associated with the insight\
+        \ \n null \n\n internal_id \n String (UUID) \n Internal unique identifier for the insight \n \"\
+        f1c4a87d-6f83-4b2e-a960-2f8e3fdba9d2\" \n\n last_resolved_on \n String (ISO datetime) or null\
+        \ \n When the insight was last marked as resolved \n \"2025-09-17T17:52:24.153210Z\" \n\n total_filtered_instance_data_count\
+        \ \n Integer \n Total count of data instances after applying filters \n 1 \n\n dismissed_monitored_service\
+        \ \n Array[Integer] \n IDs of monitored services where insight is dismissed \n [] \n\n dismissed_environments\
+        \ \n Array[Integer] \n IDs of environments where insight is dismissed \n [] \n\n dismissal_reason_value\
+        \ \n String or null \n Internal code for dismissal reason \n null \n\n dismissal_reason_label\
+        \ \n String or null \n Human-readable dismissal reason \n null \n\n has_max_occurrences \n Boolean\
+        \ \n Whether insight has reached maximum occurrence limit \n false"
+      responses:
+        '200':
+          description: List Insights
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                ListInsights:
+                  summary: List Insights
+                  value:
+                    count: 245
+                    next: https://example.appomni.com/api/v1/insights/discoveredinsight/?limit=50&offset=50
+                    previous: null
+                    results:
+                    - id: 102455
+                      created: '2025-09-04T03:45:55.343531Z'
+                      modified: '2025-09-17T17:52:48.138399Z'
+                      external_id: null
+                      created_by: 65
+                      modified_by: 6734
+                      owner: null
+                      label: Data records exposed to anonymous world
+                      open_occurrences_summary: 1
+                      dismissed_occurrences_summary: 0
+                      description: Data records exposed to the anonymous world should be limited to public
+                        data.
+                      service_type: sfdc
+                      insight_type: data_access
+                      insight_category: authorization
+                      risk_score: 100
+                      risk_level: critical
+                      appomni_risk_score: 100
+                      appomni_risk_level: critical
+                      confidence: 100
+                      first_seen: '2025-09-04T03:45:55.343622Z'
+                      last_seen: '2025-09-17T17:52:38.035581Z'
+                      last_evaluated: '2025-09-17T08:19:24.773115Z'
+                      status: open
+                      tags: []
+                      dismissal_expires: null
+                      dismissed_on: null
+                      internal_name: sfdc.scheduled.guest.GuestAccessibleRecordsInsight
+                      external_data: null
+                      internal_id: f1c4a87d-6f83-4b2e-a960-2f8e3fdba9d2
+                      last_resolved_on: '2025-09-17T17:52:24.153210Z'
+                      total_filtered_instance_data_count: 1
+                      dismissed_monitored_service: []
+                      dismissed_environments: []
+                      dismissal_reason_value: null
+                      dismissal_reason_label: null
+                      has_max_occurrences: false
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/insights/discoveredinsight/{insight_id}/dismiss/:
+    patch:
+      operationId: dismissInsightDismissASingleInsight
+      summary: Dismiss Insight [Dismiss a single insight]
+      tags:
+      - Insights
+      description: "This endpoint updates the specified insight by setting the status to dismissed.\n\n\
+        \ Request Body Fields: \n\n- message: String - Optional comment for dismissal (required)\n\n-\
+        \ expires: String (ISO datetime) - Optional expiration date for dismissal"
+      parameters:
+      - name: insight_id
+        in: path
+        required: true
+        description: Path parameter insight_id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              message: '{{optional_comment_for_feed_log}}'
+              expires: '{{iso_datetime_for_dismissal_expiration_date_omit_for_permanent_dismissal}}'
+      responses:
+        '200':
+          description: Dismiss Insight [Dismiss a single insight]
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: '/*
+
+                RESPONSE SCHEMA DOCUMENTATION:
+
+
+                | Field                              | Data Type                     | Description                                          |
+                Example                                     |
+
+                |------------------------------------|-------------------------------|------------------------------------------------------|---------------------------------------------|
+
+                | id                                 | Integer                       | Unique identifier                                    |
+                3563                                        |
+
+                | created                            | String (ISO datetime)        | Timestamp when record
+                was created                    | "2022-06-10T08:23:31.577633Z"             |
+
+                | modified                           | String (ISO datetime)        | Timestamp when record
+                was last modified              | "2023-02-24T23:41:07.792650Z"             |
+
+                | external_id                        | String or null                | External system
+                identifier                           | null                                        |
+
+                | created_by                         | Integer                       | ID of user who
+                created the record                    | 1010                                        |
+
+                | modified_by                        | Integer                       | ID of user who
+                last modified the record              | 1010                                        |
+
+                | owner                              | Integer or null               | ID of the record
+                owner  '
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/insights/discoveredinsightinstanceoccurrence/:
+    get:
+      operationId: listOccurrencesDB
+      summary: List Occurrences (DB)
+      tags:
+      - Insights
+      description: "Returns a list of occurrences for all Insights for a tenant.\n\n NOTE : The default\
+        \ behavior of this endpoint uses pagination with a limit of 100 results per request, so you do\
+        \ not need to specify offset or limit .\n\n However, changing the default limit is supported and\
+        \ offset is still required to access additional pages apart from the first one.\n\n Response Fields\n\
+        \n Field \n Data Type \n Description \n Example \n\n id \n String (UUID) \n Unique identifier\
+        \ for the occurrence \n \"98b3b123-e017-4377-b864-7134e5e2b84b\" \n\n external_id \n String or\
+        \ null \n External system identifier, typically null \n null \n\n org \n Integer \n Organization\
+        \ ID \n 23 \n\n owner \n Integer or null \n ID of the user who owns the occurrence \n null \n\n\
+        \ created_by \n Integer \n ID of the user who created the occurrence \n 65 \n\n modified_by \n\
+        \ Integer \n ID of the user who last modified the occurrence \n 65 \n\n unique_identifier \n String\
+        \ (JSON) \n JSON string containing context information \n \"{\"service_type\": \"sfdc\", \"object_type\"\
+        : \"sobject\", \"monitored_service_id\": 81964, \"object_id\": \"0DBDX000000CmgL4AS\", \"perspective_id\"\
+        : 169439}\" \n\n md_kind \n String \n Metadata kind identifier for the object type \n \"sfdc.aotypes.objects.sfdcserviceobject\"\
+        \ \n\n md_version \n Integer \n Metadata version number \n 1 \n\n object_id \n String \n Identifier\
+        \ of the specific object instance \n \"0DBDX000000CmgL4AS\" \n\n object_label \n String \n Human-readable\
+        \ label for the object \n \"OmniCommunity#4638\" \n\n object_type \n String \n Type of the object\
+        \ \n \"sobject\" \n\n object_type_label \n String \n Human-readable label for the object type\
+        \ \n \"SObject\" \n\n search_data \n String \n Searchable text data for the occurrence \n \"network\
+        \ OmniCommunity#4638 https://business-app-4638-dev-ed.scratch.my.site.com/\" \n\n monitored_service_id\
+        \ \n Integer \n ID of the monitored service this occurrence belongs to \n 81964 \n\n discovered_insight\
+        \ \n Integer \n ID of the parent insight \n 102455 \n\n discovered_insight_instance \n Integer\
+        \ \n ID of the parent insight instance \n 317109 \n\n perspective \n Integer or null \n ID of\
+        \ the perspective/user context \n 169439 \n\n data \n Array[Object] \n Array of data objects containing\
+        \ specific details \n [{ \"data_type\": \"field\", \"key\": \"id\", \"value\": \"0DBDX000000CmgL4AS\"\
+        , \"md_kind\": \"ServiceObjectData\", \"md_version\": 1 }] \n\n first_seen \n String (ISO datetime)\
+        \ \n When occurrence was first detected \n \"2025-09-04T03:45:56.443826+00:00\" \n\n last_seen\
+        \ \n String (ISO datetime) \n When occurrence was last observed \n \"2025-09-10T04:52:47.726083+00:00\"\
+        \ \n\n dismissed_by \n Integer or null \n ID of user who dismissed the occurrence \n null \n\n\
+        \ dismissal_message \n String or null \n Message provided when dismissing \n null \n\n created\
+        \ \n String (ISO datetime) \n Timestamp when occurrence was created \n \"2025-09-04T03:45:56.471885+00:00\"\
+        \ \n\n modified \n String (ISO datetime) \n Timestamp when occurrence was last modified \n \"\
+        2025-09-10T04:52:47.726083+00:00\" \n\n sobject_name \n String \n Name of the SObject type \n\
+        \ \"network\" \n\n sobject_label \n String \n Label of the SObject type \n \"Network\" \n\n table_name\
+        \ \n String or null \n Database table name \n null \n\n internal_table_name \n String or null\
+        \ \n Internal database table name \n null \n\n record_type \n String or null \n Record type identifier\
+        \ \n null \n\n ai_tags \n Array or null \n AI-generated tags \n null \n\n di_status \n String\
+        \ \n Parent insight status \n \"open\" \n\n dii_status \n String \n Insight instance status \n\
+        \ \"open\" \n\n monitored_service_name \n String \n Name of the monitored service \n \"SFDC-Coretest-Scratch-Int\"\
+        \ \n\n service_type \n String \n Type of service \n \"sfdc\" \n\n perspective_username \n String\
+        \ or null \n Username of the perspective user \n \" test-voxziptfghvx@example.com \" \n\n thread_label\
+        \ \n String \n Label for the insight instance thread \n \"Network\" \n\n internal_name \n String\
+        \ \n Internal system name for the insight \n \"sfdc.scheduled.guest.GuestAccessibleRecordsInsight\"\
+        \ \n\n risk_score \n Integer \n Risk score associated with this occurrence \n 100 \n\n status\
+        \ \n String \n Current status of the occurrence \n \"open\" \n\n dismissal_reason_value \n String "
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        description: Query parameter limit
+        schema:
+          type: integer
+        example: '100'
+      - name: offset
+        in: query
+        required: false
+        description: Query parameter offset
+        schema:
+          type: integer
+        example: '0'
+      responses:
+        '200':
+          description: List Occurrences (DB)
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                ListOccurrencesDB:
+                  summary: List Occurrences (DB)
+                  value:
+                    count: 1247
+                    next: https://example.appomni.com/api/v1/insights/discoveredinsightinstanceoccurrence/?limit=100&offset=100
+                    previous: null
+                    results:
+                    - DiscoveredInsightInstanceOccurrence_ai_tags+: null
+                      external_id: null
+                      org: 23
+                      owner: null
+                      created_by: 65
+                      modified_by: 65
+                      id: 98b3b123-e017-4377-b864-7134e5e2b84b
+                      unique_identifier: '{"service_type": "sfdc", "object_type": "sobject", "monitored_service_id":
+                        81964, "object_id": "0DBDX000000CmgL4AS", "perspective_id": 169439}'
+                      md_kind: sfdc.aotypes.objects.sfdcserviceobject
+                      md_version: 1
+                      object_id: 0DBDX000000CmgL4AS
+                      object_label: OmniCommunity#4638
+                      object_type: sobject
+                      object_type_label: SObject
+                      search_data: network OmniCommunity#4638 https://business-app-4638-dev-ed.scratch.my.site.com/
+                      monitored_service_id: 81964
+                      discovered_insight: 102455
+                      discovered_insight_instance: 317109
+                      perspective: 169439
+                      data:
+                      - data_type: field
+                        key: id
+                        value: 0DBDX000000CmgL4AS
+                        md_kind: ServiceObjectData
+                        md_version: 1
+                      - data_type: field
+                        key: name
+                        value: OmniCommunity#4638
+                        md_kind: ServiceObjectData
+                        md_version: 1
+                      - data_type: field
+                        key: sobjecttype
+                        value: Network
+                        md_kind: ServiceObjectData
+                        md_version: 1
+                      - data_type: field
+                        key: object_name
+                        value: network
+                        md_kind: ServiceObjectData
+                        md_version: 1
+                      - data_type: field
+                        key: object_label
+                        value: Network
+                        md_kind: ServiceObjectData
+                        md_version: 1
+                      - data_type: field
+                        key: url
+                        value: https://business-app-4638-dev-ed.scratch.my.site.com/
+                        md_kind: ServiceObjectData
+                        md_version: 1
+                      first_seen: '2025-09-04T03:45:56.443826+00:00'
+                      last_seen: '2025-09-10T04:52:47.726083+00:00'
+                      dismissed_by: null
+                      dismissal_message: null
+                      created: '2025-09-04T03:45:56.471885+00:00'
+                      modified: '2025-09-10T04:52:47.726083+00:00'
+                      sobject_name: network
+                      sobject_label: Network
+                      table_name: null
+                      internal_table_name: null
+                      record_type: null
+                      ai_tags: null
+                      di_status: open
+                      dii_status: open
+                      monitored_service_name: SFDC-Coretest-Scratch-Int
+                      service_type: sfdc
+                      perspective_username: test-voxziptfghvx@example.com
+                      thread_label: Network
+                      internal_name: sfdc.scheduled.guest.GuestAccessibleRecordsInsight
+                      risk_score: 100
+                      status: open
+                      dismissal_reason_value: null
+                      remediation_due: null
+                      remediation_start: null
+                      dismissed_on: null
+                      dismissal_expires: null
+                      message: 'SObject: network
+
+                        Record: OmniCommunity#4638
+
+                        Site: https://business-app-4638-dev-ed.scratch.my.site.com/
+
+                        '
+                      message_data:
+                      - label: SObject
+                        value: network
+                        type: string
+                      - label: Record
+                        value: OmniCommunity#4638
+                        type: string
+                      - label: Site
+                        value: https://business-app-4638-dev-ed.scratch.my.site.com/
+                        type: string
+                      dynamic_data:
+                        sobject: network
+                        record: OmniCommunity#4638
+                        site: https://business-app-4638-dev-ed.scratch.my.site.com/
+                      dismissal_reason_label: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/insights/discoveredinsightinstanceoccurrence/{id}/:
+    get:
+      operationId: getOccurrenceDetailsDB
+      summary: Get occurrence details (DB)
+      tags:
+      - Insights
+      description: "Returns the details for an occurrence when you pass the uid of occurrence. The API\
+        \ endpoint corresponds to database storage for Insights.\n\n Status definitions :\nStatuses may\
+        \ be:\n\n- open : action is required\n\n- dismissed : discovered occurrences have been set to\
+        \ dismissed manually\n\n- closed : the occurrence has been remediated and is no longer observed\n\
+        \n- inherited (dismissed by inheritance) : the parent Insight or the parent thread has been set\
+        \ to dismissed, so child threads/occurrences are set to dismissed by inheritance.\n\n Status types\
+        \ : \n\n- di_status : (parent) Insight status \n\n- dii_status : thread status \n\n- status :\
+        \ occurrence status\n\n Response Fields\n\n Field \n Data Type \n Description \n Example \n\n\
+        \ external_id \n String or null \n External system identifier \n null \n\n org \n Integer \n Organization\
+        \ ID \n 177 \n\n owner \n Integer or null \n ID of the record owner \n null \n\n created_by \n\
+        \ Integer \n ID of user who created the record \n 3362 \n\n modified_by \n Integer \n ID of user\
+        \ who last modified the record \n 3362 \n\n id \n String (UUID) \n Unique identifier \n \"b65b4c33-dcbc-4844-b9e0-807408b347b4\"\
+        \ \n\n unique_identifier \n String (JSON) \n JSON string containing context information \n JSON\
+        \ object with service_type, object_type, monitored_service_id, object_id, perspective_id \n\n\
+        \ md_kind \n String \n Metadata kind identifier \n \"sfdc.aotypes.objects.sfdcserviceobject\"\
+        \ \n\n md_version \n Integer \n Metadata version number \n 1 \n\n object_id \n String \n Object\
+        \ identifier \n \"permissionset/PermissionsCanVerifyComment\" \n\n object_label \n String \n Human-readable\
+        \ object label \n \"\" \n\n object_type \n String \n Type of the object \n \"sobject\" \n\n object_type_label\
+        \ \n String \n Human-readable object type label \n \"SObject\" \n\n search_data \n String \n Searchable\
+        \ text data \n \"Permission Set Verify Answers to Chatter Questions\" \n\n monitored_service_id\
+        \ \n Integer \n ID of the monitored service \n 26063 \n\n discovered_insight \n Integer \n ID\
+        \ of the parent insight \n 4661 \n\n discovered_insight_instance \n Integer \n ID of the parent\
+        \ insight instance \n 109830 \n\n perspective \n Integer or null \n ID of the perspective/user\
+        \ context \n null \n\n data \n Array[Object] \n Array of data objects with detailed information\
+        \ \n See example response \n\n first_seen \n String (ISO datetime) \n When first detected \n \"\
+        2023-08-24T02:27:35.704700+00:00\" \n\n last_seen \n String (ISO datetime) \n When last detected\
+        \ \n \"2023-10-13T13:22:35.929543+00:00\" \n\n created \n String (ISO datetime) \n When record\
+        \ was created \n \"2023-08-24T02:27:36.841438+00:00\" \n\n modified \n String (ISO datetime) \n\
+        \ When record was last modified \n \"2023-10-13T13:22:35.929543+00:00\" \n\n sobject_name \n String\
+        \ \n SObject name \n \"schema\" \n\n sobject_label \n String \n SObject label \n \"schema\" \n\
+        \n table_name \n String or null \n Database table name \n null \n\n internal_table_name \n String\
+        \ or null \n Internal table name \n null \n\n di_status \n String \n Parent insight status \n\
+        \ \"open\" \n\n dii_status \n String \n Insight instance status \n \"open\" \n\n monitored_service_name\
+        \ \n String \n Name of monitored service \n \"AppOmni\" \n\n service_type \n String \n Type of\
+        \ service \n \"sfdc\" \n\n perspective_username \n String or null \n Username of perspective user\
+        \ \n null \n\n thread_label \n String \n Thread label \n \"schema\" \n\n internal_name \n String\
+        \ \n Internal system name \n \"sfdc.scheduled.schema.InlineHelpTextMissingInsight\" \n\n risk_score\
+        \ \n Integer \n Risk score from 0-100 \n 0 \n\n status \n String \n Current status \n \"open\"\
+        \ \n\n dismissal_reason_value \n String or null \n Internal dismissal reason code \n null \n\n\
+        \ remediation_due \n String or null \n When remediation is due \n null \n\n remediation_start\
+        \ \n String \n When remediation should start \n \"2023-08-24T02:27:35.704700+00:00\" \n\n dismissed_on\
+        \ \n String (ISO datetime) or null \n When record was dismissed \n null \n\n dismissal_expires\
+        \ \n String (ISO datetime) or null \n When dismissal expires \n null \n\n message \n String \n\
+        \ Human-readable message \n \"sObject: Permission Set\nField: Verify Answers to Chatter Questions\"\
+        \ \n\n message_data \n Array[Object] \n Structured message data \n Ar"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Path parameter id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Get occurrence details (DB)
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                GetoccurrencedetailsDB:
+                  summary: Get occurrence details (DB)
+                  value:
+                    external_id: null
+                    org: 177
+                    owner: null
+                    created_by: 3362
+                    modified_by: 3362
+                    id: b65b4c33-dcbc-4844-b9e0-807408b347b4
+                    unique_identifier: '{"service_type": "sfdc", "object_type": "sobject", "monitored_service_id":
+                      26063, "object_id": "permissionset/PermissionsCanVerifyComment", "perspective_id":
+                      null}'
+                    md_kind: sfdc.aotypes.objects.sfdcserviceobject
+                    md_version: 1
+                    object_id: permissionset/PermissionsCanVerifyComment
+                    object_label: ''
+                    object_type: sobject
+                    object_type_label: SObject
+                    search_data: Permission Set Verify Answers to Chatter Questions
+                    monitored_service_id: 26063
+                    discovered_insight: 4661
+                    discovered_insight_instance: 109830
+                    perspective: null
+                    data:
+                    - data_type: field
+                      key: sobject_label
+                      value: Permission Set
+                      md_kind: ServiceObjectData
+                      md_version: 1
+                    - data_type: field
+                      key: sobject_name
+                      value: permissionset
+                      md_kind: ServiceObjectData
+                      md_version: 1
+                    - data_type: field
+                      key: field_label
+                      value: Verify Answers to Chatter Questions
+                      md_kind: ServiceObjectData
+                      md_version: 1
+                    - data_type: field
+                      key: field_name
+                      value: PermissionsCanVerifyComment
+                      md_kind: ServiceObjectData
+                      md_version: 1
+                    - data_type: field
+                      key: field_count
+                      value: 15782
+                      md_kind: ServiceObjectData
+                      md_version: 1
+                    first_seen: '2023-08-24T02:27:35.704700+00:00'
+                    last_seen: '2023-10-13T13:22:35.929543+00:00'
+                    created: '2023-08-24T02:27:36.841438+00:00'
+                    modified: '2023-10-13T13:22:35.929543+00:00'
+                    sobject_name: schema
+                    sobject_label: schema
+                    table_name: null
+                    internal_table_name: null
+                    di_status: open
+                    dii_status: open
+                    monitored_service_name: AppOmni
+                    service_type: sfdc
+                    perspective_username: null
+                    thread_label: schema
+                    internal_name: sfdc.scheduled.schema.InlineHelpTextMissingInsight
+                    risk_score: 0
+                    status: open
+                    dismissal_reason_value: null
+                    remediation_due: null
+                    remediation_start: '2023-08-24T02:27:35.704700+00:00'
+                    dismissed_on: null
+                    dismissal_expires: null
+                    message: 'sObject: Permission Set
+
+                      Field: Verify Answers to Chatter Questions
+
+                      '
+                    message_data:
+                    - label: sObject
+                      value: Permission Set
+                      type: string
+                    - label: Field
+                      value: Verify Answers to Chatter Questions
+                      type: string
+                    dynamic_data:
+                      sobject: Permission Set
+                      field: Verify Answers to Chatter Questions
+                    dismissal_reason_label: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/insights/discoveredinsightinstanceoccurrence/bulk_dismiss/:
+    patch:
+      operationId: bulkDismissOccurrencesDB
+      summary: Bulk dismiss Occurrences (DB)
+      tags:
+      - Insights
+      description: "Dismisses a list of occurrences when you pass the uids (comma delimited). The API\
+        \ endpoint corresponds to database storage for Insights.\n\n Request Body\n\n Field \n Data type\
+        \ \n Required \n Description \n Example \n\n discovered_insight_instance_occurrence__in \n Array[String]\
+        \ \n Yes \n List of occurrences to dismiss \n ['1234-5555-ggg-adsds']"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              discovered_insight_instance_occurrence__in:
+              - '{{occurrence_uuid}}'
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/insights/discoveredinsightinstanceoccurrence/bulk_restore/:
+    patch:
+      operationId: bulkRestoreOccurrencesDB
+      summary: Bulk restore Occurrences (DB)
+      tags:
+      - Insights
+      description: "Restores a list of occurrences when you pass the uids (comma delimited). The API endpoint\
+        \ corresponds to database storage for Insights.\n\n Request Body\n\n Field \n Data type \n Required\
+        \ \n Description \n Example \n\n discovered_insight_instance_occurrence__in \n Array[String] \n\
+        \ Yes \n List of occurrences to dismiss \n ['1234-5555-ggg-adsds'] \n\n message \n String \n Yes\
+        \ \n Reason for restoring occurrence \n 'false_positive'"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              message: '{{restore_reason}}'
+              discovered_insight_instance_occurrence__in:
+              - '{{occurrence_uuid}}'
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/auditlogs/:
+    get:
+      operationId: getAuditLogs
+      summary: Get audit logs
+      tags:
+      - Audit Logs
+      description: "Use this API route to retrieve AppOmni audit logs programmatically.\n\n For most use\
+        \ cases, its is recommended that you download AppOmni audit logs via the Reports feature. Audit\
+        \ logs are stored for 180 days; for longer term storage it is recommended you use Destinations\
+        \ to have logs sent to your SIEM.\n\n AppOmni audit logs will be immediately sent to configured\
+        \ Threat Detection event sinks (e.g. a SIEM).\n\n Response Fields\n\n Field \n Data Type \n Description\
+        \ \n Example \n\n identifier \n String (UUID) \n Unique identifier for the audit log entry \n\
+        \ 24e94fd4-7d17-4302-9e98-1b9e468187a1 \n\n user_id \n Integer or null \n ID of the user who performed\
+        \ the action \n 21 \n\n action_at \n String (ISO datetime) \n Timestamp when the action occurred\
+        \ \n 2025-05-02T13:30:06.948560Z \n\n action_type \n String \n Type of action performed \n policy_scan_ended\
+        \ \n\n service_id \n Integer or null \n ID of the monitored service \n null \n\n service_type\
+        \ \n String or null \n Type of the monitored service \n null \n\n service_name \n String or null\
+        \ \n Name of the monitored service \n null \n\n policy_id \n Integer or null \n ID of the related\
+        \ policy \n 311371 \n\n perspective_id \n Integer or null \n ID of the perspective \n null \n\n\
+        \ perspective_name \n String or null \n Name of the perspective \n null \n\n action_data \n Object\
+        \ \n Detailed data about the action \n See action_data fields below \n\n action_data Fields\n\n\
+        \ Field \n Data Type \n Description \n Example \n\n rule_id \n Integer or null \n ID of the related\
+        \ rule \n null \n\n rule_name \n String or null \n Name of the related rule \n null \n\n ruleexception_id\
+        \ \n Integer or null \n ID of the rule exception \n null \n\n ruleevent_id \n Integer or null\
+        \ \n ID of the rule event \n null \n\n message \n String or null \n Action message \n null \n\n\
+        \ expiration \n String or null \n Expiration timestamp \n null \n\n instance_id \n Integer or\
+        \ null \n Instance ID \n null \n\n assignee_id \n Integer or null \n ID of the assignee \n null\
+        \ \n\n assignee_username \n String or null \n Username of the assignee \n null \n\n policy_id\
+        \ \n Integer or null \n Policy ID (in action_data) \n 311371 \n\n policy_name \n String or null\
+        \ \n Policy name \n LP1 \n\n exception_data \n Object or null \n Exception data \n null \n\n policy_assessment_id\
+        \ \n Integer or null \n Policy assessment ID \n null \n\n policy_assessment_completion_date \n\
+        \ String or null \n Policy assessment completion date \n null \n\n workflow_instance_id \n Integer\
+        \ or null \n Workflow instance ID \n null \n\n workflow_instance_name \n String or null \n Workflow\
+        \ instance name \n null \n\n platform_ingest_job_id \n Integer or null \n Platform ingest job\
+        \ ID \n null \n\n file_id \n Integer or null \n File ID \n null \n\n third_party_application_id\
+        \ \n Integer or null \n Third party application ID \n null \n\n third_party_application_name \n\
+        \ String or null \n Third party application name \n null \n\n oauth_application_id \n Integer\
+        \ or null \n OAuth application ID \n null \n\n refresh_token_id \n Integer or null \n Refresh\
+        \ token ID \n null \n\n access_token_id \n Integer or null \n Access token ID \n null \n\n external_entity_id\
+        \ \n Integer or null \n External entity ID \n null \n\n group_id \n Integer or null \n Group ID\
+        \ \n null \n\n group_name \n String or null \n Group name \n null \n\n tag_id \n Integer or null\
+        \ \n Tag ID \n null \n\n tag_name \n String or null \n Tag name \n null \n\n type_str \n String\
+        \ or null \n Type string \n null \n\n reason_str \n String or null \n Reason string \n null \n\
+        \n detail_str \n String or null \n Detail string \n Completion Status: Success \n\n error_str\
+        \ \n String or null \n Error string \n null \n\n user_ip \n String or null \n User IP address\
+        \ \n 71.178.255.92 \n\n user_agent \n String or null \n User agent string \n Mozilla/5.0 (Macintosh;\
+        \ Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36\
+        \ \n\n unified_identity_id \n Integer or null \n Unified identity ID \n null \n\n unified_identity_email\
+        \ \n String or null \n Unified identity email \n null \n\n target_user_id \n Integer or null \n\
+        \ Target user ID \n null \n\n target_user_username \n String or null \n Target user username \n\
+        \ null \n\n user_username \n String or null \n Username who p"
+      responses:
+        '200':
+          description: Get Audit Logs
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                GetAuditLogs:
+                  summary: Get Audit Logs
+                  value:
+                    count: 2
+                    next: 'null'
+                    previous: null
+                    results:
+                    - identifier: 24e94fd4-7d17-4302-9e98-1b9e468187a1
+                      user_id: null
+                      action_at: '2025-05-02T13:30:06.948560Z'
+                      action_type: policy_scan_ended
+                      service_id: null
+                      service_type: null
+                      service_name: null
+                      policy_id: 311371
+                      perspective_id: null
+                      perspective_name: null
+                      action_data:
+                        rule_id: null
+                        rule_name: null
+                        ruleexception_id: null
+                        ruleevent_id: null
+                        message: null
+                        expiration: null
+                        instance_id: null
+                        assignee_id: null
+                        assignee_username: null
+                        policy_id: 311371
+                        policy_name: LP1
+                        exception_data: null
+                        policy_assessment_id: null
+                        policy_assessment_completion_date: null
+                        workflow_instance_id: null
+                        workflow_instance_name: null
+                        platform_ingest_job_id: null
+                        file_id: null
+                        third_party_application_id: null
+                        third_party_application_name: null
+                        oauth_application_id: null
+                        refresh_token_id: null
+                        access_token_id: null
+                        external_entity_id: null
+                        group_id: null
+                        group_name: null
+                        tag_id: null
+                        tag_name: null
+                        type_str: null
+                        reason_str: null
+                        detail_str: 'Completion Status: Success'
+                        error_str: null
+                        user_ip: null
+                        user_agent: null
+                        unified_identity_id: null
+                        unified_identity_email: null
+                        target_user_id: null
+                        target_user_username: null
+                        user_username: null
+                        setting_name: null
+                        old_value: null
+                        new_value: null
+                        scim_mapping_id: null
+                        scim_attribute: null
+                        scim_attribute_value: null
+                        scim_group_targets: null
+                        sink_id: null
+                        sink_name: null
+                        detection_rule_id: null
+                        detection_rule_name: null
+                        detection_ruleset_id: null
+                        detection_ruleset_name: null
+                        detection_alert_id: null
+                        detection_alert_count: null
+                        destination_id: null
+                        destination_name: null
+                        destination_hash: null
+                        destination_type: null
+                        external_connection_id: null
+                        external_connection_name: null
+                        external_connection_provider_type: null
+                        external_connection_auth_type: null
+                        eventsource_id: null
+                        eventsource_name: null
+                        eventsource_type: null
+                        eventsource_dataset: null
+                        investigation_id: null
+                        investigation_subject: null
+                        element_list_id: null
+                        element_id: null
+                        element_type: null
+                        global_value_list_collection_id: null
+                        email_addresses: null
+                        email_identifier: null
+                        email_reason: null
+                        insight_name: null
+                        thread_name: null
+                        occurrence_name: null
+                        insight_id: null
+                        thread_id: null
+                        occurrence_id: null
+                    - identifier: b0712e14-4e02-4f67-99f9-6e597a2c1663
+                      user_id: 21
+                      action_at: '2025-05-02T13:26:56.974998Z'
+                      action_type: user_login_saml
+                      service_id: null
+                      service_type: null
+                      service_name: null
+                      policy_id: null
+                      perspective_id: null
+                      perspective_name: null
+                      action_data:
+                        rule_id: null
+                        rule_name: null
+                        ruleexception_id: null
+                        ruleevent_id: null
+                        message: null
+                        expiration: null
+                        instance_id: null
+                        assignee_id: null
+                        assignee_username: null
+                        policy_id: null
+                        policy_name: null
+                        exception_data: null
+                        policy_assessment_id: null
+                        policy_assessment_completion_date: null
+                        workflow_instance_id: null
+                        workflow_instance_name: null
+                        platform_ingest_job_id: null
+                        file_id: null
+                        third_party_application_id: null
+                        third_party_application_name: null
+                        oauth_application_id: null
+                        refresh_token_id: null
+                        access_token_id: null
+                        external_entity_id: null
+                        group_id: null
+                        group_name: null
+                        tag_id: null
+                        tag_name: null
+                        type_str: null
+                        reason_str: null
+                        detail_str: null
+                        error_str: null
+                        user_ip: 71.178.255.92
+                        user_agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+                          (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+                        unified_identity_id: null
+                        unified_identity_email: null
+                        target_user_id: null
+                        target_user_username: null
+                        user_username: John Doe
+                        setting_name: null
+                        old_value: null
+                        new_value: null
+                        scim_mapping_id: null
+                        scim_attribute: null
+                        scim_attribute_value: null
+                        scim_group_targets: null
+                        sink_id: null
+                        sink_name: null
+                        detection_rule_id: null
+                        detection_rule_name: null
+                        detection_ruleset_id: null
+                        detection_ruleset_name: null
+                        detection_alert_id: null
+                        detection_alert_count: null
+                        destination_id: null
+                        destination_name: null
+                        destination_hash: null
+                        destination_type: null
+                        external_connection_id: null
+                        external_connection_name: null
+                        external_connection_provider_type: null
+                        external_connection_auth_type: null
+                        eventsource_id: null
+                        eventsource_name: null
+                        eventsource_type: null
+                        eventsource_dataset: null
+                        investigation_id: null
+                        investigation_subject: null
+                        element_list_id: null
+                        element_id: null
+                        element_type: null
+                        global_value_list_collection_id: null
+                        email_addresses: null
+                        email_identifier: null
+                        email_reason: null
+                        insight_name: null
+                        thread_name: null
+                        occurrence_name: null
+                        insight_id: null
+                        thread_id: null
+                        occurrence_id: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/auditlogs/action_types/:
+    get:
+      operationId: listAuditActionTypes
+      summary: List audit action types
+      tags:
+      - Audit Logs
+      description: "Use this API route to programatically retrieve all possible Audit record action types,\
+        \ to use in filtering the Get Audit Logs endpoint if desired.\n\n This endpoint will return all\
+        \ possible Audit action types, which may include some action types not seen in your tenant.\n\n\
+        \ Response Fields\n\n Field \n Data Type \n Description \n Example \n\n action_type \n String\
+        \ \n The action type identifier used in audit logs \n policy_scan_ended \n\n description \n String\
+        \ \n Human-readable description of the action type \n Policy Scan Completed"
+      responses:
+        '200':
+          description: List Audit Action Types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              examples:
+                ListAuditActionTypes:
+                  summary: List Audit Action Types
+                  value:
+                  - action_type: ao_sys_setting_auth_change
+                    description: AppOmni Auth Setting Change
+                  - action_type: ao_sys_setting_change
+                    description: AppOmni System Setting Change
+                  - action_type: ao_scim_setting_change
+                    description: AppOmni SCIM Mapping Change
+                  - action_type: ao_oidc_setting_change
+                    description: AppOmni OIDC Setting Change
+                  - action_type: ao_idp_attribute_mapping_created
+                    description: AppOmni IdP Attribute Mapping Created
+                  - action_type: ao_idp_attribute_mapping_updated
+                    description: AppOmni IdP Attribute Mapping Updated
+                  - action_type: ao_idp_attribute_mapping_deleted
+                    description: AppOmni IdP Attribute Mapping Deleted
+                  - action_type: asmt_started_role
+                    description: Role (Data Access) Assessment Started
+                  - action_type: asmt_started_ms
+                    description: Service Assessment Started
+                  - action_type: asmt_ended_role
+                    description: Role (Data Access) Assessment Completed
+                  - action_type: asmt_ended_ms
+                    description: Service Assessment Completed
+                  - action_type: policy_scan_requested
+                    description: Policy Scan Requested
+                  - action_type: policy_scan_started
+                    description: Policy Scan Started
+                  - action_type: policy_scan_ended
+                    description: Policy Scan Completed
+                  - action_type: policy_disabled
+                    description: Policy Disabled
+                  - action_type: policy_enabled
+                    description: Policy Enabled
+                  - action_type: policy_created
+                    description: Policy Created
+                  - action_type: policy_deleted
+                    description: Policy Deleted
+                  - action_type: rule_created
+                    description: Rule Created
+                  - action_type: rule_deleted
+                    description: Rule Deleted
+                  - action_type: rule_modified
+                    description: Rule Modified
+                  - action_type: exception_created
+                    description: Policy Rule Exception Created
+                  - action_type: exception_deleted
+                    description: Policy Rule Exception Deleted
+                  - action_type: ms_created
+                    description: Monitored Service Added
+                  - action_type: ms_deleted
+                    description: Monitored Service Removed
+                  - action_type: ms_auth_failed
+                    description: Monitored Service Authentication Failed
+                  - action_type: ms_renamed
+                    description: Monitored Service Renamed
+                  - action_type: event_allowed
+                    description: Policy Issue Allowed
+                  - action_type: event_ignored
+                    description: Policy Issue Closed
+                  - action_type: event_assigned
+                    description: Policy Issue Assigned
+                  - action_type: user_login_saml
+                    description: User SAML Login
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'AppOmni API access token, created and managed in the AppOmni platform under Settings
+        > API Settings. Sent as `Authorization: Bearer <token>`.'
+  schemas:
+    Error:
+      type: object
+      title: Error
+      description: Standard Django REST Framework error envelope returned by the AppOmni API.
+      properties:
+        detail:
+          type: string
+          description: Human readable error message

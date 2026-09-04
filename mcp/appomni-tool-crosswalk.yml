@@ -1,0 +1,43 @@
+generated: '2026-09-04'
+method: derived
+source: mcp/appomni-mcp.yml + openapi/*.yml
+description: >-
+  Crosswalk between AppOmni's MCP surface (AskOmni) and its REST surface. It is intentionally EMPTY on
+  the MCP side: AskOmni's tool list is not published and a tools/list probe requires a tenant endpoint
+  plus credentials, so there is nothing real to bind. Mapping tools by guesswork would fabricate the
+  one thing this artifact exists to measure.
+surfaces:
+  openapi:
+    files:
+      - openapi/appomni-security-events-api-openapi.yml
+      - openapi/appomni-policies-api-openapi.yml
+      - openapi/appomni-compliance-api-openapi.yml
+      - openapi/appomni-monitored-services-api-openapi.yml
+      - openapi/appomni-identity-api-openapi.yml
+      - openapi/appomni-scim-api-openapi.yml
+      - openapi/appomni-discovery-insights-api-openapi.yml
+      - openapi/appomni-developer-platform-api-openapi.yml
+      - openapi/appomni-ai-api-openapi.yml
+    operations: 132
+    gated: false
+    note: >-
+      Public. Derived operation-by-operation from AppOmni's own public Postman collection at
+      https://api.appomni.com/. Calling it requires a tenant and an API token.
+  graphql:
+    endpoint: null
+    note: No GraphQL surface published. github.com/appomni carries a fork of strawberry-graphql-django,
+      which is a third-party project, not an AppOmni GraphQL API.
+  mcp:
+    url: null
+    gated: true
+    note: AskOmni MCP server is tenant-hosted and customer-only; no endpoint, no manifest, no tool list.
+crosswalk: []
+mcp_only: []
+rest_only: []
+coverage:
+  mcp_tools_known: 0
+  rest_operations: 132
+  bound: 0
+  unbound_rest: 132
+  confidence: none
+  blocked_by: MCP tool list is not published and the endpoint is customer-only.

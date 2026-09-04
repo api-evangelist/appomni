@@ -1,0 +1,78 @@
+# AppOmni
+
+> AppOmni is a SaaS and AI security platform (SSPM) that gives security teams continuous visibility into the posture, identities, third-party connections and data exposure of the SaaS applications that run an enterprise. AppOmni publishes a tenant-scoped REST API — every customer calls it on their own subdomain, `https://{instance}.appomni.com`.
+
+Provenance: generated 2026-09-04 by the API Evangelist enrichment pipeline from this repository
+(github.com/api-evangelist/appomni). AppOmni does not serve an llms.txt of its own —
+https://appomni.com/llms.txt returns 404 — so this file is written by API Evangelist, not by AppOmni.
+AppOmni does publish an AI-facing company information page, linked below.
+
+## What AppOmni publishes
+
+AppOmni's machine-readable contract is a **public Postman collection**, not an OpenAPI document.
+It is served at https://api.appomni.com/ (Postman Documenter, publishedId `2sBXc7Mjib`, published
+2026-02-04) and contains 144 requests across 18 product areas with 127 saved example responses.
+The nine OpenAPI 3.1.0 documents in this repository were derived from that collection operation by
+operation — 132 operations, no invented paths.
+
+Base URL: `https://{instance}.appomni.com` — replace `{instance}` with your AppOmni subdomain
+(e.g. `acme` if you log in at acme.appomni.com). There is no shared multi-tenant API host.
+
+Auth: `Authorization: Bearer <token>`, where the token is created in the AppOmni platform under
+Settings > API Settings. AgentGuard and the Developer Platform ingest endpoint use a different
+credential, the `X-AppOmni-Ingest-Token` header. OAuth 2.0 refresh-token grant, RFC 7662 introspection
+and RFC 7009 revocation are all supported at `/oauth/token/`, `/oauth/introspect/` and `/oauth/revoke/`.
+
+## APIs
+
+- [AppOmni Posture Findings API](openapi/appomni-security-events-api-openapi.yml): Findings and occurrences — list, filter, assign, close by exception, and restore.
+- [AppOmni Policies API](openapi/appomni-policies-api-openapi.yml): Policies, rules, policy assessments and rule events.
+- [AppOmni Compliance and Reports API](openapi/appomni-compliance-api-openapi.yml): Evaluated compliance controls, report generation and report groups.
+- [AppOmni Monitored Services API](openapi/appomni-monitored-services-api-openapi.yml): Monitored SaaS services, data syncs, ingest tokens, custom fields, tags and value lists.
+- [AppOmni Identity and Access API](openapi/appomni-identity-api-openapi.yml): Unified identities, platform users, RBAC roles, breakglass access and OAuth applications.
+- [AppOmni SCIM 2.0 API](openapi/appomni-scim-api-openapi.yml): SCIM 2.0 user and group provisioning (urn:ietf:params:scim:schemas:core:2.0:User).
+- [AppOmni Discovery, Insights and Audit API](openapi/appomni-discovery-insights-api-openapi.yml): SaaS discovery, Insights occurrences and the platform audit log.
+- [AppOmni Developer Platform API](openapi/appomni-developer-platform-api-openapi.yml): Custom monitored service types (AODP) and the event ingest endpoint.
+- [AppOmni AI API](openapi/appomni-ai-api-openapi.yml): Marlin AI analysis plans and AgentGuard prompt classification.
+
+## Agent surfaces
+
+- [AskOmni MCP server](mcp/appomni-mcp.yml): AppOmni publishes AskOmni as an MCP server (announced 2025-04-28). It runs inside the customer's own tenant; AppOmni does not publish a public endpoint URL or tool list, so the tools are not enumerated here.
+- [AgentGuard](openapi/appomni-ai-api-openapi.yml): `POST /api/v1/ai/prompts/agents/classify` returns an allow/block verdict with DLP and prompt-firewall scores. Shipped as the n8n community node `@appomni/n8n-nodes-agentguard`.
+- [Agentic access contracts](agentic-access/appomni-agentic-access.yml): recommended `x-agentic-access` execution contracts for all 132 operations.
+- [Agent skills](skills/_index.yml): packaged operating instructions for the marquee flows.
+
+## Runtime semantics an agent needs
+
+- [Conventions](conventions/appomni-conventions.yml): limit/offset pagination, `?ordering=`, `?search=`, Django-style field lookups, trailing-slash routes. **No idempotency mechanism exists** — `idempotency.coverage: none`. Reversal operations DO exist (restore, bulk_restore, disable_breakglass) but no reversal window is published.
+- [Rate limits](rate-limits/appomni-rate-limits.yml): a single `X-RateLimit: <used>/<limit>` response header; the observed limit is 2000. No Retry-After, no reset timestamp, no published window.
+- [Errors](errors/appomni-problem-types.yml): the Django REST Framework envelope `{"detail": "..."}`. Not RFC 9457.
+- [Authentication](authentication/appomni-authentication.yml)
+- [Data model](data-model/appomni-data-model.yml)
+- [Lifecycle and SLA](lifecycle/appomni-lifecycle.yml)
+
+## Compliance
+
+- [Conformance and compliance](conformance/appomni-conformance.yml): SCIM 2.0, OAuth 2.0 (RFC 6749/7662/7009), RFC 6750. FedRAMP Moderate ATO, TX-RAMP, SOC 2 Type II, VPAT, NIST CSF, EU-US / UK / Swiss Data Privacy Frameworks.
+- [Responsible disclosure policy](https://appomni.com/ao-labs-vulnerability-disclosure-policy/): AO Labs, 90-day embargo from vendor notification.
+- [Trust center](https://trust.appomni.com/)
+
+## Links
+
+- [Website](https://appomni.com/)
+- [API reference — public Postman collection](https://api.appomni.com/)
+- [Official AppOmni company information for AI](https://appomni.com/official-appomni-company-information-for-ai/)
+- [Resources](https://appomni.com/resources/)
+- [Support](https://appomni.com/support/)
+- [Status](https://status.appomni.com/)
+- [Service Level Agreement](https://appomni.com/service-level-agreement/)
+- [Terms of Service](https://appomni.com/terms-of-service/)
+- [Privacy Policy](https://appomni.com/privacy-policy/)
+- [GitHub](https://github.com/appomni)
+- [Request a demo](https://appomni.com/demo-request/)
+
+## Optional
+
+- AppOmni publishes no pricing page; access is sales-assisted. See [plans](plans/appomni-plans-pricing.yml).
+- AppOmni publishes no changelog, no deprecation policy, no webhooks or AsyncAPI event surface, no CLI, and no client SDK. See [packages](packages/appomni-packages.yml).
+- No `/.well-known/` document is served on any AppOmni host. See [well-known probe](well-known/appomni-well-known.yml).

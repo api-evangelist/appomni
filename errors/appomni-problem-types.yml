@@ -1,0 +1,57 @@
+generated: '2026-09-04'
+method: derived
+source: openapi/*.yml (derived from https://api.appomni.com/)
+format: drf
+format_note: >-
+  NOT RFC 9457. AppOmni returns the Django REST Framework error envelope as application/json.
+  No application/problem+json media type appears anywhere in the published surface.
+envelope:
+  media_type: application/json
+  shape:
+    detail: Human-readable error message
+  example:
+    detail: Authentication credentials were not provided.
+problem_types:
+  - status: 400
+    title: Bad Request
+    description: >-
+      The request body or query parameters failed validation. DRF returns either {"detail": "..."} or a
+      field-keyed object mapping each invalid field to a list of messages.
+    remediation: Correct the named field(s) and retry. Bulk endpoints validate the whole payload.
+  - status: 401
+    title: Unauthorized
+    description: >-
+      Missing or invalid credentials. The platform API expects `Authorization: Bearer <token>` with an
+      access token created under Settings > API Settings; AgentGuard and the AODP ingest endpoint expect
+      the `X-AppOmni-Ingest-Token` header instead.
+    remediation: >-
+      Check which credential the endpoint wants. For an expired OAuth-granted access token, exchange the
+      refresh token at POST /oauth/token/ (operationId exchangeRefreshTokenForNewAccessToken) rather than
+      re-authenticating.
+    reversible: false
+  - status: 403
+    title: Forbidden
+    description: >-
+      The token is valid but the AppOmni user it was granted under lacks permission on this object. The
+      API exposes a per-object permission probe — GET the object's permissions route, which returns
+      {"permissions": {"list": true, "create": true, "update": true, "partial_update": true, "delete": true}}.
+    remediation: Read the permissions object before attempting a write, or grant the role the missing permission.
+  - status: 404
+    title: Not Found
+    description: The object id does not exist in this tenant, or the caller cannot see it.
+  - status: 429
+    title: Too Many Requests
+    description: >-
+      Rate limit exhausted. AppOmni returns an `X-RateLimit` response header on every response in the
+      form `<used>/<limit>` — see rate-limits/appomni-rate-limits.yml. The 429 status itself is not
+      demonstrated in AppOmni's published examples, so it is recorded here as inferred, not observed.
+    observed: false
+  - status: 500
+    title: Internal Server Error
+    description: Unhandled server-side error.
+notes:
+  - >-
+    AppOmni publishes no error-code registry and no numeric error taxonomy. The 127 saved example
+    responses in the public Postman collection are all success responses (200/201/202/204) — there is
+    not one 4xx or 5xx example among them, so every entry above is derived from the auth model and the
+    DRF stack the API is visibly built on rather than harvested from a published error reference.

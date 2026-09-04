@@ -1,0 +1,49 @@
+generated: '2026-09-04'
+method: searched
+source: https://registry.npmjs.org/-/v1/search?text=appomni + https://github.com/appomni
+description: >-
+  First-party packages published by AppOmni. AppOmni does NOT publish a general-purpose client SDK for
+  its REST API in any language registry — npm, PyPI, RubyGems and crates.io were all searched on
+  2026-09-04 and the only first-party artifact is the AgentGuard n8n community node. The published
+  integration surface for the REST API is the public Postman collection at https://api.appomni.com/.
+registries_searched:
+  - registry: npm
+    query: https://registry.npmjs.org/-/v1/search?text=appomni
+    result: 1 first-party package (@appomni/n8n-nodes-agentguard)
+  - registry: pypi
+    query: https://pypi.org/pypi/appomni/json
+    result: 404 — no package named appomni, appomni-sdk or appomni-api
+  - registry: rubygems
+    query: https://rubygems.org/api/v1/search.json?query=appomni
+    result: empty result set
+  - registry: crates.io
+    query: https://crates.io/api/v1/crates?q=appomni
+    result: 0 crates
+packages:
+  - name: '@appomni/n8n-nodes-agentguard'
+    registry: npm
+    official: true
+    kind: integration-node
+    language: TypeScript
+    description: >-
+      AppOmni AgentGuard n8n community node. Wraps the AgentGuard prompt-classification endpoint
+      (POST /api/v1/ai/prompts/agents/classify) so an n8n workflow can route agent prompts through
+      AppOmni DLP and prompt-firewall analysis before they reach an LLM. Two outputs — Allowed and Blocked.
+    url: https://www.npmjs.com/package/@appomni/n8n-nodes-agentguard
+    repository: https://github.com/appomni/n8n-nodes-agentguard
+    version: 0.1.2
+    published: '2026-05-22'
+    first_published: '2026-05-07'
+    versions_published: 3
+    covers_api: appomni:appomni-ai-api
+    auth: X-AppOmni-Ingest-Token header against the customer's AppOmni tenant URL
+    source: https://registry.npmjs.org/@appomni%2Fn8n-nodes-agentguard
+notes:
+  - >-
+    No first-party REST client SDK exists. Because an n8n community node is a workflow connector rather
+    than a general-purpose client library, no `SDKs` pointer is emitted for this repository — that would
+    overstate what AppOmni ships.
+  - >-
+    The remaining eight repositories in github.com/appomni are forks of third-party projects
+    (strawberry-graphql-django, ecs, drf-batch-requests, logstash-input-google_pubsub, SpiffWorkflow,
+    xmltodict, vcrpy, simple-salesforce), not AppOmni-authored packages.

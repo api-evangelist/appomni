@@ -1,0 +1,55 @@
+generated: '2026-09-04'
+method: searched
+source: https://appomni.com/service-level-agreement/ + https://status.appomni.com/ + https://api.appomni.com/
+versioning:
+  scheme: url-path
+  current: v1
+  evidence: >-
+    Every platform route is prefixed /api/v1/. SCIM is versioned separately at /scim/v2/ (SCIM 2.0),
+    and the AODP ingest endpoint is at /platform/ingest/v2/. No Accept-header or query-parameter
+    versioning is used.
+  source: https://api.appomni.com/
+status_page:
+  url: https://status.appomni.com/
+  vendor: Atlassian Statuspage
+  status: 200
+  checked: '2026-09-04'
+sla:
+  url: https://appomni.com/service-level-agreement/
+  status: 200
+  published: true
+  summary: >-
+    AppOmni publishes a customer-facing Service Level Agreement defining System Availability
+    (excluding Scheduled Maintenance and Emergency Maintenance), severity tiers (Critical Business
+    Impact, Serious Business Impact), support Business Hours (currently 9:00am-6:00pm US Pacific,
+    Monday-Friday excluding US federal holidays) and named Scheduled Maintenance Windows.
+  maintenance_windows:
+    - region: North and South America
+      window: Thursday 18:00-20:00 and Friday 18:00 through Monday 05:00 US Pacific
+    - region: EMEA and APAC
+      window: Friday 10:00 through Sunday 13:00 US Pacific
+  emergency_maintenance: >-
+    AppOmni commits to contacting the customer with expected start time, planned duration and expected
+    availability impact before applying urgent patches outside the Scheduled Maintenance Window.
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  note: >-
+    No deprecation or sunset policy is published, and no RFC 8594 Sunset or Deprecation response header
+    appears in any of the 127 saved example responses in AppOmni's public Postman collection. No
+    Deprecation pointer is emitted. AppOmni does mark one surface as pre-release in the contract itself
+    — the "[Beta] Policy Assessment Stats" folder carries "THIS FEATURE IS IN BETA - Please contact
+    Customer Success to enable this early access API".
+  deprecated_operations: []
+changelog:
+  published: false
+  note: >-
+    No public release notes or changelog page was found on appomni.com (searched 2026-09-04);
+    product updates appear only in the newsroom and blog. No ChangeLog pointer is emitted.
+support_stability:
+  quote: Routes and functionality not documented here are not guaranteed to be supported.
+  source: https://api.appomni.com/
+  note: >-
+    AppOmni's own stability statement in the Postman collection description. Undocumented routes carry
+    no support commitment, which is the closest thing published to a compatibility policy.

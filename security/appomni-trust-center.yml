@@ -1,14 +1,36 @@
-generated: '2026-07-11'
+generated: '2026-09-04'
 method: searched
-probe: true
-source: https://trust.appomni.com/
+source: https://appomni.com/official-appomni-company-information-for-ai/ + https://trust.appomni.com/
 url: https://trust.appomni.com/
+probe: true
 certifications:
-- SOC 2
-- FedRAMP
+- FedRAMP Moderate Authority to Operate
+- TX-RAMP
+- SOC 2 Type II
+- VPAT
+- NIST CSF
+- EU-US Data Privacy Framework
+- UK Extension to the EU-US Data Privacy Framework
+- Swiss-US Data Privacy Framework
+supporting_documents:
+- name: Product Privacy Data Sheet
+  url: https://appomni.com/product-privacy-data-sheet/
+- name: Privacy Policy
+  url: https://appomni.com/privacy-policy/
+- name: Service Level Agreement
+  url: https://appomni.com/service-level-agreement/
+- name: Software as a Service Terms and Conditions
+  url: https://appomni.com/software-as-a-services-terms-and-conditions/
+- name: AO Labs Responsible Disclosure Policy
+  url: https://appomni.com/ao-labs-vulnerability-disclosure-policy/
 evidence:
+- source: https://appomni.com/official-appomni-company-information-for-ai/
+  status: 200
+  quote: 'Security: FedRAMP Moderate Authority to Operate, TX-RAMP, SOC 2 Type II, VPAT, NIST CSF, EU-US DPF, UK
+    Extension to EU-US DPF, Swiss-US DPF'
 - source: https://trust.appomni.com/
-  keywords:
-  - soc 2
-  - fedramp
-  - trust center
+  status: 403
+  note: Cloudflare interactive JS challenge to our crawler on 2026-09-04. The trust center exists and a prior pass
+    (2026-07-11) read SOC 2 and FedRAMP from it; the fuller certification list above is read from AppOmni's own
+    AI-facing company information page, which is not challenged.
+note: Upgraded 2026-09-04 from a two-item list (SOC 2, FedRAMP) to the eight programmes AppOmni itself enumerates.

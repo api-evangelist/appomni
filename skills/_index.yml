@@ -1,0 +1,38 @@
+generated: '2026-09-04'
+method: generated
+source: openapi/*.yml + conventions/appomni-conventions.yml + errors/appomni-problem-types.yml
+provider: AppOmni
+providerId: appomni
+description: >-
+  Packaged Agent Skills for the AppOmni platform API. Each skill is grounded in operationIds that exist
+  in this repository's OpenAPI documents — every id was checked against the specs, none was invented —
+  and each carries the cross-cutting rules an agent has to know before it writes: no idempotency, a
+  single X-RateLimit header with no reset, a Django REST Framework error envelope, and which operations
+  can be undone.
+searched_for_provider_published: true
+searched_result: >-
+  AppOmni publishes no skills/ directory and no AGENTS.md of its own. The AGENTS.md in
+  github.com/appomni/n8n-nodes-agentguard is n8n's own community-node authoring boilerplate, not an
+  AppOmni agent skill, so it was not saved.
+skills:
+  - name: appomni-triage-posture-findings
+    file: appomni-triage-posture-findings.md
+    api: appomni:appomni-security-events-api
+    summary: List, inspect, assign, close-by-exception and restore Posture Findings occurrences.
+    operations: 10
+  - name: appomni-manage-policies-and-rules
+    file: appomni-manage-policies-and-rules.md
+    api: appomni:appomni-policies-api
+    summary: Read and change policies and rules, run assessments, and handle rule-event violations.
+    operations: 15
+    warning: Covers the two irreversible rule DELETE operations; requires human confirmation.
+  - name: appomni-provision-users-scim
+    file: appomni-provision-users-scim.md
+    api: appomni:appomni-scim-api
+    summary: SCIM 2.0 provisioning and direct AppOmni user/RBAC administration, including breakglass.
+    operations: 12
+  - name: appomni-agentguard-prompt-firewall
+    file: appomni-agentguard-prompt-firewall.md
+    api: appomni:appomni-ai-api
+    summary: Classify agent prompts through AgentGuard and handle the allow/block verdict and quarantine.
+    operations: 2

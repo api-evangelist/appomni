@@ -1,176 +1,742 @@
-openapi: 3.0.3
+openapi: 3.1.0
 info:
-  title: AppOmni SaaS Security Compliance Security Events API
-  description: API for the AppOmni SaaS security management platform, providing access to security events, policy management, compliance reporting, and threat detection across enterprise SaaS applications like Salesforce, Microsoft 365, and Slack.
+  title: AppOmni Posture Findings API
+  description: 'Posture findings, policy issues and rule events detected by AppOmni across monitored SaaS
+    applications.
+
+
+    Derived faithfully from the AppOmni public Postman collection published by AppOmni at https://api.appomni.com/
+    — every path, method, parameter, request body and example response below is taken verbatim from that
+    collection. No operation was invented.'
   version: 1.0.0
   contact:
     name: AppOmni
-    url: https://www.appomni.com
+    url: https://appomni.com/support/
   license:
     name: Proprietary
+    url: https://appomni.com/terms-of-service/
+  x-generated-from: AppOmni public Postman collection (publishedId 2sBXc7Mjib, published 2026-02-04)
+  x-generated-source: https://api.appomni.com/api/collections/45135595/2sBXc7Mjib?segregateAuth=true&versionTag=latest
+  x-generated-method: derived
+  x-generated-date: '2026-09-04'
 servers:
-- url: https://api.appomni.com/v1
-  description: AppOmni SaaS Security API
+- url: https://{instance}.appomni.com
+  description: AppOmni tenant. Replace {instance} with your AppOmni subdomain — e.g. `acme` if you log
+    in at acme.appomni.com.
+  variables:
+    instance:
+      default: example
+      description: Your AppOmni tenant subdomain
 security:
 - bearerAuth: []
 tags:
-- name: Security Events
-  description: SaaS security event monitoring and management
+- name: Posture Findings
+  description: "Posture Findings consolidates policy issues and Insights into a single view, allowing\
+    \ you to efficiently manage and resolve alerts.\n\n The Posture Findings API will exist concurrently\
+    \ with Insights and policy issues API's for a period of time; at a later date Insights and policy\
+    \ issues API's will be deprecated."
 paths:
-  /events:
+  /api/v1/findings/finding/:
     get:
-      operationId: listSecurityEvents
-      summary: AppOmni - List Security Events
-      description: Returns a list of security events detected across monitored SaaS applications
+      operationId: listFindings
+      summary: List findings
       tags:
-      - Security Events
-      parameters:
-      - name: severity
-        in: query
-        description: Filter by event severity (critical, high, medium, low, info)
-        schema:
-          type: string
-          enum:
-          - critical
-          - high
-          - medium
-          - low
-          - info
-      - name: application
-        in: query
-        description: Filter by SaaS application name
-        schema:
-          type: string
-      - name: status
-        in: query
-        description: Filter by event status (open, investigating, resolved, dismissed)
-        schema:
-          type: string
-      - name: from
-        in: query
-        description: Start date for filtering events (ISO 8601)
-        schema:
-          type: string
-          format: date-time
-      - name: to
-        in: query
-        description: End date for filtering events (ISO 8601)
-        schema:
-          type: string
-          format: date-time
+      - Posture Findings
+      description: "Returns a list of findings. Findings are comprised of policy rule violations and Insights.\n\
+        \n This endpoint returns paginated results, even if not specifically specified on the request\
+        \ by having limit/offset params..\n\n The default limit/offset for all requests is 100 with an\
+        \ offset of 0. These parameters can still be specified on the request by the user. The maximum\
+        \ allowed value for limit is 100. If the value exceeds this, an error response of 400 is returned.\n\
+        \n Response Fields \n\n Field \n Data Type \n Description \n Example \n\n appomni_risk_level \n\
+        \ String \n Optional string field for AppOmni risk level \n \"Informational\" \n\n appomni_risk_score\
+        \ \n Integer \n Optional integer field for AppOmni risk score \n 5 \n\n assignee \n Integer \n\
+        \ Optional integer field for assignee ID \n 123 \n\n compliance_controls \n Array[Integer] \n\
+        \ List of integer compliance control IDs \n [1, 2, 3] \n\n compliance_frameworks \n Array[Integer]\
+        \ \n List of integer compliance framework IDs \n [1, 2] \n\n description \n String \n Optional\
+        \ string field for finding description \n \"Detect improper access to Account\" \n\n external_id\
+        \ \n String \n Optional integer external ID \n 12345 \n\n external_ticket_data \n Array[Object]\
+        \ \n List of dictionaries containing external ticket information \n [{\"id\": \"74859\", \"url\"\
+        : \" https://example.com\" , \"ticket_id\": \"INC0017034\"}] \n\n first_opened \n Datetime \n\
+        \ ISO 8601 string for when finding was first opened \n \"2025-01-13T14:16:14.860715Z\" \n\n has_occurrences_truncated\
+        \ \n Boolean \n Boolean indicating if occurrences are truncated \n true \n\n has_new_occurrences\
+        \ \n Boolean \n Boolean indicating if there are new occurrences \n true \n\n id \n String \n UUID\
+        \ string for the finding ID \n \"0194600e-3cf0-7512-903f-cd01893a255c\" \n\n identity_hash \n\
+        \ String \n String hash for identity \n \"01309b5b74daccdf68bc398ab4dd2589c0c047fc8f94cbb71559728bfc37eed4\"\
+        \ \n\n last_closed \n Datetime \n Optional ISO 8601 string for when finding was last closed \n\
+        \ \"2025-01-13T14:16:14.860715Z\" \n\n last_opened \n Datetime \n ISO 8601 string for when finding\
+        \ was last opened \n \"2025-01-13T14:16:14.860715Z\" \n\n last_scanned \n Datetime \n ISO 8601\
+        \ string for when finding was last scanned \n \"2025-01-13T14:17:54.036709Z\" \n\n legacy_finding_id\
+        \ \n Integer \n Integer legacy finding ID \n 1653424 \n\n monitored_service_external_id \n String\
+        \ \n String custom ID generated by customers \n \"custom-service-123\" \n\n monitored_service_id\
+        \ \n Integer \n Integer monitored service ID \n 67448 \n\n monitored_service_name \n String \n\
+        \ String name of the monitored service \n \"SFDC-Coretest-Scratch-Int\" \n\n monitored_service_owner\
+        \ \n Object \n Dictionary containing monitored service owner information \n {\"username\": \"\
+        \ test@appomni.com \", \"id\": 65, \"first_name\": \"Foo\", \"last_name\": \"Bar\"} \n\n monitored_service_service_type_slug\
+        \ \n String \n String slug for the service type (same as service_type) \n \"sfdc\" \n\n monitored_service_connected\
+        \ \n Boolean \n Boolean indicating if monitored service is connected \n true \n\n monitored_service_tags\
+        \ \n Array[Object] \n List of dictionaries containing monitored service tags \n [{\"id\": 115,\
+        \ \"name\": \"Production\", \"type\": \"environment\"}] \n\n notes \n String \n Optional string\
+        \ field for customer-supplied notes \n \"Customer-provided content\" \n\n num_occurrences_closed\
+        \ \n Integer \n Integer count of closed occurrences \n 0 \n\n num_occurrences_open \n Integer\
+        \ \n Integer count of open occurrences \n 2 \n\n policy_id \n Integer \n Optional integer policy\
+        \ ID \n 679998 \n\n policy_name \n String \n Optional string policy name \n \"omni-test-united-sfdc-functional-policy-test\"\
+        \ \n\n remediation_description \n Object \n Dictionary containing remediation description \n {\"\
+        content\": \"1. Visit the Users page...\", \"format\": \"markdown\"} \n\n risk_description \n\
+        \ Object \n Dictionary containing risk description \n {\"content\": \"Microsoft 365's inactive\
+        \ user accounts...\", \"format\": \"markdown\"} \n\n risk_level \n String \n String risk level\
+        \ \n \"Informational\" \n\n risk_score \n Integer \n Integer risk score \n 0 \n\n service_type\
+        \ \n String \n String indicating the SaaS service being monitored \n \"sfdc\" \n\n sour"
       responses:
         '200':
-          description: A list of security events
+          description: List Findings
           content:
             application/json:
               schema:
                 type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/SecurityEvent'
-                  total:
-                    type: integer
               examples:
-                ListEventsExample:
-                  x-microcks-default: true
-                  summary: Example security events list
+                ListFindings:
+                  summary: List Findings
                   value:
-                    data:
-                    - eventId: EVT-2026-00042
-                      severity: high
-                      type: anomaly
-                      application: Salesforce
-                      description: Unusual bulk data export detected
-                      detectedAt: '2026-04-19T02:15:00Z'
+                    count: 1922
+                    next: https://[your_subdomain].appomni.com/api/v1/findings/finding/?limit=25&offset=25&ordering=-first_opened
+                    previous: null
+                    results:
+                    - appomni_risk_level: Informational
+                      appomni_risk_score: null
+                      assignee: null
+                      compliance_controls: []
+                      compliance_frameworks: []
+                      description: Detect improper access to Account
+                      external_id: null
+                      external_ticket_data:
+                      - id: '74859'
+                        url: https://dev144531.service-now.com/incident.do?sys_id=25f1c8534779ce50b38b0bdbd36d43a6
+                        ticket_id: INC0017034
+                      - id: '77593'
+                        url: https://dev144578.service-now.com/incident.do?sys_id=d0b4d4659713ced0d9e2fa67f053afb8
+                        ticket_id: INC0100832
+                      - id: '94839'
+                        url: https://dev243199.service-now.com/incident.do?sys_id=f4039c09832ed6d0e9aff696feaad348
+                        ticket_id: INC0016036
+                      first_opened: '2025-01-13T14:16:14.860715Z'
+                      has_max_open_occurrences: false
+                      has_new_occurrences: true
+                      id: 0194600e-3cf0-7512-903f-cd01893a255c
+                      identity_hash: 01309b5b74daccdf68bc398ab4dd2589c0c047fc8f94cbb71559728bfc37eed4
+                      last_closed: null
+                      last_opened: '2025-01-13T14:16:14.860715Z'
+                      last_scanned: '2025-01-13T14:17:54.036709Z'
+                      legacy_finding_id: 1653424
+                      monitored_service_id: 67448
+                      monitored_service_name: SFDC-Coretest-Scratch-Int
+                      monitored_service_connected: true
+                      monitored_service_tags:
+                      - id: 115
+                        name: Production
+                        short_name: null
+                        type: environment
+                      monitored_service_owner:
+                        username: test@appomni.com
+                        id: 65
+                        first_name: Foo
+                        last_name: Bar
+                      notes: null
+                      num_occurrences_closed: 0
+                      num_occurrences_open: 2
+                      policy_id: 679998
+                      policy_name: omni-test-united-sfdc-functional-policy-test
+                      remediation_description: null
+                      risk_description: null
+                      risk_level: Informational
+                      risk_score: 0
+                      service_type: sfdc
+                      source_id: 1605359
+                      source_internal_name: sfdc.object.access
+                      source_name: Account Object Access Rule
+                      source_type: policy_rule
                       status: open
-                    total: 1
+                      tags: []
         '401':
-          description: Unauthorized - invalid or missing authentication token
-  /events/{eventId}:
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/findings/finding/{id}/:
     get:
-      operationId: getSecurityEvent
-      summary: AppOmni - Get Security Event
-      description: Returns details for a specific security event
+      operationId: getFindingDetails
+      summary: Get finding details
       tags:
-      - Security Events
+      - Posture Findings
+      description: Returns the details of a finding given the id. Findings are comprised of policy rule
+        violations and Insights.
       parameters:
-      - name: eventId
+      - name: id
         in: path
         required: true
-        description: Unique security event identifier
+        description: Path parameter id
         schema:
           type: string
       responses:
         '200':
-          description: Security event details
+          description: Get Finding Details
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SecurityEvent'
+                type: object
               examples:
-                GetEventExample:
-                  x-microcks-default: true
-                  summary: Example security event detail
+                GetFindingDetails:
+                  summary: Get Finding Details
                   value:
-                    eventId: EVT-2026-00042
-                    severity: high
-                    type: anomaly
-                    application: Salesforce
-                    description: Unusual bulk data export detected - user exported 50,000 records outside business hours
-                    detectedAt: '2026-04-19T02:15:00Z'
+                    appomni_risk_level: Informational
+                    appomni_risk_score: null
+                    assignee: null
+                    compliance_controls: []
+                    compliance_frameworks: []
+                    description: Detect improper access to Account
+                    external_id: null
+                    external_ticket_data:
+                    - id: '74859'
+                      url: https://dev144531.service-now.com/incident.do?sys_id=25f1c8534779ce50b38b0bdbd36d43a6
+                      ticket_id: INC0017034
+                    - id: '77593'
+                      url: https://dev144578.service-now.com/incident.do?sys_id=d0b4d4659713ced0d9e2fa67f053afb8
+                      ticket_id: INC0100832
+                    - id: '94839'
+                      url: https://dev243199.service-now.com/incident.do?sys_id=f4039c09832ed6d0e9aff696feaad348
+                      ticket_id: INC0016036
+                    first_opened: '2025-01-13T14:16:14.860715Z'
+                    has_max_open_occurrences: false
+                    has_new_occurrences: true
+                    id: 0194600e-3cf0-7512-903f-cd01893a255c
+                    identity_hash: 01309b5b74daccdf68bc398ab4dd2589c0c047fc8f94cbb71559728bfc37eed4
+                    last_closed: null
+                    last_opened: '2025-01-13T14:16:14.860715Z'
+                    last_scanned: '2025-01-13T14:17:54.036709Z'
+                    legacy_finding_id: 1653424
+                    monitored_service_id: 67448
+                    monitored_service_name: SFDC-Coretest-Scratch-Int
+                    monitored_service_connected: true
+                    monitored_service_tags:
+                    - id: 115
+                      name: Production
+                      short_name: null
+                      type: environment
+                    notes:
+                      content: Customer-provided content
+                      format: markdown
+                    num_occurrences_closed: 0
+                    num_occurrences_open: 2
+                    policy_id: 679998
+                    policy_name: omni-test-united-sfdc-functional-policy-test
+                    remediation_description:
+                      content: "1. Visit the Users->Active Users page in the admin center.\n2. Locate\
+                        \ and select the user you wish to delete. \n3. Click 'Delete user'."
+                      format: markdown
+                    risk_description:
+                      content: 'Microsoft 365''s inactive user accounts may be prone to security threats
+                        through unauthorized access that endangers sensitive data. Inactive accounts should
+                        be disabled or deleted to reduce this risk.
+
+
+                        Inactive user accounts can be compromised. It is a best practice to rescind access
+                        rights for users who no longer require them.'
+                      format: markdown
+                    risk_level: Informational
+                    risk_score: 0
+                    service_type: sfdc
+                    source_id: 1605359
+                    source_internal_name: sfdc.object.access
+                    source_name: Account Object Access Rule
+                    source_type: policy_rule
                     status: open
-                    userId: user@example.com
-        '404':
-          description: Security event not found
+                    tags: []
         '401':
-          description: Unauthorized - invalid or missing authentication token
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/findings/occurrence/:
+    get:
+      operationId: getFindingOccurrences
+      summary: Get finding occurrences
+      tags:
+      - Posture Findings
+      description: "Returns a list of all finding occurrences and can be filtered. Findings are comprised\
+        \ of policy rule violations and Insights.\n\n The API schema will be enhanced and made extensible\
+        \ with dynamic metadata based on finding type.\n\n This endpoint returns paginated results, even\
+        \ if not specifically specified on the request by having limit/offset params..\n\n The default\
+        \ limit/offset for all requests is 100 with an offset of 0. These parameters can still be specified\
+        \ on the request by the user. The maximum allowed value for limit is 100. If the value exceeds\
+        \ this, an error response of 400 is returned.\n\n As a best practice for efficiency, AppOmni recommends\
+        \ retrieving all occurrences for a given monitored service in a single call using this endpoint,\
+        \ rather than retrieving occurrences one-by-one, which could result in hitting rate limits.\n\n\
+        \ Response Fields\n\n Field \n Data Type \n Description \n Example \n\n context \n Object \n Dictionary\
+        \ containing context attributes that vary by insight and rule type \n {\"user_id\": \"00u4eiqzlpM0YNfpb5d7\"\
+        , \"group_id\": \"00g2uvbqiq89VNgJe5d7\", \"user_name\": \"Test User 358 Mocked\"} \n\n detailed_status_label\
+        \ \n String \n String label for the detailed status \n \"New\" \n\n detailed_status_name \n String\
+        \ \n String name for the detailed status \n \"new\" \n\n finding_id \n String \n UUID string for\
+        \ the finding ID \n \"0193472c-68ac-7365-ae7a-9a0e70b4442e\" \n\n first_opened \n Datetime \n\
+        \ ISO 8601 string for when occurrence was first opened \n \"2024-08-29T01:12:21.528946Z\" \n\n\
+        \ id \n String \n UUID string for the occurrence ID \n \"0193472c-6db5-72ce-b4ca-068181e76277\"\
+        \ \n\n identity_hash \n String \n String hash for identity \n \"70ed419bc83ba09d003323fa3484956ec7cb9362516b513fb58116c9ad0035cc\"\
+        \ \n\n last_closed \n Datetime \n Optional ISO 8601 string for when occurrence was last closed\
+        \ \n \"2024-08-29T01:12:21.528946Z\" \n\n last_opened \n Datetime \n ISO 8601 string for when\
+        \ occurrence was last opened \n \"2024-08-29T01:12:21.528946Z\" \n\n monitored_service_id \n Integer\
+        \ \n Integer monitored service ID \n 19681 \n\n reasons \n Array[String] \n List of strings explaining\
+        \ why the occurrence exists \n [\"User test358@example.com is assigned the Everyone Group.\"]\
+        \ \n\n status \n String \n String occurrence status \n \"open\""
+      responses:
+        '200':
+          description: Get Finding Occurrences
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "{\n    \"count\": 32818,\n    \"next\": \"https://[your_subdomain].appomni.com/api/v1/findings/occurrence/?limit=500&offset=500\"\
+                ,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"context\": {\n\
+                \                \"user_id\": \"00u4eiqzlpM0YNfpb5d7\",\n                \"group_id\"\
+                : \"00g2uvbqiq89VNgJe5d7\",\n                \"user_name\": \"Test User 358 Mocked\",\n\
+                \                \"group_name\": \"Everyone\",\n                \"user_email\": \"test358@example.com\"\
+                ,\n                \"user_username\": \"test358@example.com\"\n            },\n      \
+                \      \"detailed_status_label\": \"New\",\n            \"detailed_status_name\": \"new\"\
+                ,\n            \"finding_id\": \"0193472c-68ac-7365-ae7a-9a0e70b4442e\",\n           \
+                \ \"first_opened\": \"2024-08-29T01:12:21.528946Z\",\n            \"id\": \"0193472c-6db5-72ce-b4ca-068181e76277\"\
+                ,\n            \"identity_hash\": \"70ed419bc83ba09d003323fa3484956ec7cb9362516b513fb58116c9ad0035cc\"\
+                ,\n            \"last_closed\": null,\n            \"last_opened\": \"2024-08-29T01:12:21.528946Z\"\
+                ,\n            \"monitored_service_id\": 19681,\n            \"reasons\": [\n        \
+                \        \"User test358@example.com is assigned the Everyone Group.\"\n            ],\n\
+                \            \"status\": \"open\"\n        },\n        ...\n      ]\n  }"
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/findings/occurrence/{occurrence_id}/:
+    get:
+      operationId: findingOccurrencesDetailView
+      summary: Finding occurrences detail view
+      tags:
+      - Posture Findings
+      description: Returns the details of a finding occurrence by occurrence_ id and by monitored service.
+      parameters:
+      - name: occurrence_id
+        in: path
+        required: true
+        description: Path parameter occurrence_id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Finding Occurrences Detail View
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                FindingOccurrencesDetailView:
+                  summary: Finding Occurrences Detail View
+                  value:
+                    context:
+                      user_id: WF3CFhMMTKiL32by8TY4xw
+                      perm_name: zoomdevelopers:read
+                      user_name: Tim Bach
+                      perm_label: ZoomDevelopers:Read
+                      user_email: tim@appomni.com
+                      user_username: tim@appomni.com
+                    detailed_status_label: New
+                    detailed_status_name: new
+                    finding_id: 019346da-85fc-7893-8ec6-472bb74207d4
+                    first_opened: '2024-09-26T20:14:20.130205Z'
+                    id: 019346da-8604-76bd-8640-2c50947a5fad
+                    identity_hash: 2d92691b4937854bffde549174ee35987641ceff71201f49d23ea87ac8bfa934
+                    last_closed: null
+                    last_opened: '2024-09-26T20:14:20.130205Z'
+                    monitored_service_id: 10861
+                    reasons:
+                    - Role Developer is configured with permission Developer privileges to view app settings
+                      enabled
+                    status: open
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/findings/occurrence/update_detailed_status/:
+    patch:
+      operationId: updateFindingOccurrenceDetailedStatusByOccurrenceIDs
+      summary: Update finding occurrence detailed status by occurrence IDs
+      tags:
+      - Posture Findings
+      description: "Updates the status of a finding occurrence via occurrence_id. Findings are comprised\
+        \ of policy rule violations and Insights.\n\n- Only detailed statuses of new , in_research , in_remediation\
+        \ , done are allowed for the detailed_status properties values\n\n- The parent finding’s status\
+        \ must be open \n\n Request Body\n\n Field \n Data Type \n Example / Usage \n Description \n Required\
+        \ \n\n detailed_status \n str \n { detailed_status: 'remediated' } \n A user defined status which\
+        \ can be applied to one or more occurrences \n\nAccepted options: \n\n new \n\n in_research \n\
+        \n in_remediation \n\n done \n y \n\n occurrence_ids \n List[str] \n { ids: ['bd055aec-60c7-42f3-920f-be72b8021227']\
+        \ \n A list of one or more finding occurrence GUIDs to be updated \n\n Important Note: the entire\
+        \ request will fail if a single occurrence ID is invalid \n y \n\n Example Responses:\n\n Status\
+        \ Code: 204 No Content\n\n Status Code: 400 Bad Request\n{\n \"ids\": [\n \"This field is required.\"\
+        \n ],\n \"detailed_status\": [\n \"This field is required.\"\n ]\n}\n\n Status Code: 400 Bad Request\n\
+        \"At least one occurrence is Closed. Ensure that you are only updating Open occurrences in this\
+        \ request.\"\n\n 400 Bad Request\n\"Invalid detailed status provided '{invalid detailed status}'\""
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example: "{\n  ids: ['bd055aec-60c7-42f3-920f-be72b8021227'],\n  detailed_status: 'remediated'\
+              \ \n}"
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/findings/occurrence/update_detailed_status_by_filter/:
+    patch:
+      operationId: updateFndingOccurrenceDetailedStatusByFilter
+      summary: Update fnding occurrence detailed status by filter
+      tags:
+      - Posture Findings
+      description: "Updates the status of a finding occurrence using filters. Findings are comprised of\
+        \ policy rule violations and Insights.\n\n- Only detailed statuses of new , in_research , in_remediation\
+        \ , done are allowed for the detailed_status properties values\n\n- The parent finding’s status\
+        \ must be open \n\n Request Body\n\n Fields \n Data Type \n Example / Usage \n Description \n\
+        \ Required \n\n Detailed Status \n str \n { detailed_status: ‘in_remediation’ } \n A user defined\
+        \ status which can be applied to one or more occurrences \n\nAccepted options: \n\n new \n\n in_research\
+        \ \n\n in_remediation \n\n done \n y \n\n Response reference\n\n Status Code: 204 No Content\n\
+        \n Status Code: 400 Bad Request\n{\n \"ids\": [\n \"This field is required.\"\n ],\n \"detailed_status\"\
+        : [\n \"This field is required.\"\n ]\n}\n\n Status Code: 400 Bad Request\n\"At least one occurrence\
+        \ is Closed. Ensure that you are only updating Open occurrences in this request.\"\n\n 400 Bad\
+        \ Request\n\"Invalid detailed status provided '{invalid detailed status}'\""
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example: "{\n    \"detailed_status\": \"new\" | \"in_research\" | \"in_remediation\" | \"\
+              done\"\n}"
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/findings/occurrence/close_by_exception/:
+    patch:
+      operationId: closeOccurrenceByException
+      summary: Close occurrence by exception
+      tags:
+      - Posture Findings
+      description: "Close an occurrence by exception.\n\n Request Body\n\n Field \n Data Type \n Example\
+        \ / Usage \n Description \n Required \n\n Occurrence ID(s) \n List[str] \n { ids: ['bd055aec-60c7-42f3-920f-be72b8021227']\
+        \ } \n A list of one or more finding occurrence GUIDs to be updated. Note: 1) The entire request\
+        \ will fail if a single occurrence ID is invalid. \n2) Occurrences provided must exist in the\
+        \ tenant and all must be in an \"open\" state to be valid. \n y \n\n Reason \n str \n { reason:\
+        \ 'risk_accepted' } \n A value from the following list: risk_accepted; false_positive; compensating_controls;\
+        \ not_applicable; confirmed_intended \n y \n\n Expiration date \n str (ISO 8601) or undefined\
+        \ \n { expires: '2025-01-21T15:30:00Z' } \n A string representation of an ISO8601 date in the\
+        \ future when the exception will be automatically removed. If set to undefined , the exception\
+        \ never expires. This API accepts \"null\" for an exception that never expires. \n n \n\n Comment\
+        \ \n str \n { message: 'Some string explaining why' } \n A plain text, user-entered comment allowing\
+        \ a user to add context to this action. \n n \n\n Example success response:\n\n {\n \"closed_count\"\
+        : 1\n}\n\n Example failure responses:\n\n 400 Bad Request { \"ids\": [ \"This field is required.\"\
+        \ ], \"expires\": [ \"This field is required.\" ] } \n\n 400 Bad Request \"At least one occurrence\
+        \ is Closed. Ensure that you are only creating an exception for Open occurrences in this request.\"\
+        \ \n\n 400 Bad Request \"{invalid reason} is not a valid choice.\" \n\n 400 Bad Request \"The\
+        \ occurrences of provided ids must exist in Open status for an Exception to be created.\" \n\n\
+        \ 400 Bad Request \"The occurrences of provided ids must exist in Open status for an Exception\
+        \ to be created.\""
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              ids:
+              - 0193651f-ae54-7e5f-8e60-befcbd2f497f
+              reason: risk_accepted
+              expires: '2025-04-25T22:30:00Z'
+              message: Some string explaining why
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/findings/occurrence/close_by_exception_by_filter/:
+    patch:
+      operationId: closeOccurrenceByExceptionByFilter
+      summary: Close occurrence by exception by filter
+      tags:
+      - Posture Findings
+      description: "Close an occurrence by exception by filter.\n\n Pass in any filters to the URL as\
+        \ query parameters to update all occurrences based on that filter set.\n\n Request Body\n\n Field\
+        \ \n Data Type \n Example / Usage \n Description \n Required \n\n Reason \n str \n { reason: 'risk_accepted'\
+        \ } \n A value from the following list: risk_accepted; false_positive; compensating_controls;\
+        \ not_applicable; confirmed_intended \n y \n\n Expiration date \n str (ISO 8601) or undefined\
+        \ \n { expires: '2025-01-21T15:30:00Z' } \n A string representation of an ISO8601 date in the\
+        \ future when the exception will be automatically removed. If set to undefined , the exception\
+        \ never expires. This API accepts \"null\" for an exception that never expires. \n n \n\n Comment\
+        \ \n str \n { message: 'Some string explaining why' } \n A plain text, user-entered comment allowing\
+        \ a user to add context to this action. \n n \n\n Example Success Response:\n\n 2Status Code:\
+        \ 200 OK \n\n { \"closed_count\": 500 } \n\n Example Failure Responses:\n\n Status Code: 400 Bad\
+        \ Request \n\n 400 Bad Request \n\n \"{invalid reason} is not a valid choice.\""
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              reason: risk_accepted
+              expires: '2025-04-25T22:30:00Z'
+              message: Some string explaining why
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/findings/occurrence/restore/:
+    patch:
+      operationId: restoreAnOccurrence
+      summary: Restore an occurrence
+      tags:
+      - Posture Findings
+      description: "Restore an occurrence that has been closed by exception.\n\n Utilize any parameters\
+        \ from the GET Finding Occurrences endpoint.\n\n To verify expected occurrences, you may want\
+        \ to execute a GET request on the /findings/occurrence/ endpoint with a query before attempting\
+        \ to restore any Occurrences.\n\n If the request is made with NO query parameters, EVERY Occurrence\
+        \ will be queued for having an exception added.\n\n Request Body\n\n Field \n Data Type \n Example\
+        \ \n Required \n\n ids \n List[str] \n\n Y \n\n Example Success Response:\n\n { \"restored_count\"\
+        : 1 } \n\n Example Failure Responses:\n\n 400 - Bad Request - {'non_field_error': 'The occurrences\
+        \ of provided `filters` must exist in `Closed by Exception` status for them to be restored.'}\
+        \ \n\n 500 - Internal Server Error"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              ids:
+              - 0193651f-ae54-7e5f-8e60-befcbd2f497f
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/findings/occurrence/restore_by_filter/:
+    patch:
+      operationId: restoreOccurrencesByFilter
+      summary: Restore occurrences by filter
+      tags:
+      - Posture Findings
+      description: "Restore an occurrence by filter for an occurrence that was closed by exception.\n\n\
+        \ To verify expected occurrences, you may want to execute a GET request on the /findings/occurrence/\
+        \ endpoint with a query before attempting to restore any Occurrences.\n\n Note : Including finding_id__in\
+        \ as a query parameter is strongly recommended, otherwise your request will restore many unintended\
+        \ occurrences. If the request is made with NO query parameters, EVERY Occurrence will be queued\
+        \ for having an exception added.\n\n Request Body\n\n Field \n Data Type \n Example \n Required\
+        \ \n\n ids \n List[str] \n\n Y \n\n Example Success Response:\n\n { \"restored_count\": 1 } \n\
+        \n Example Failure Responses:\n\n 200 - Returns 200 if auth is valid \n\n 404 - Not Found (if\
+        \ any of the ids are invalid)\n\n 500 - Internal Server Error"
+      responses:
+        '200':
+          description: Restore Occurrences By Filter
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                RestoreOccurrencesByFilter:
+                  summary: Restore Occurrences By Filter
+                  value:
+                    restored_count: 1
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/findings/finding/assign/:
+    patch:
+      operationId: assignFindings
+      summary: Assign findings
+      tags:
+      - Posture Findings
+      description: "Assigns findings to users.\n\n id - Finding ID. Required in request payload.\n\n assignee_id\
+        \ - ID of the user. Required in request payload.\n\n If the assignee_id is null , then the finding\
+        \ is unassigned."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example: "{\n    \"records\": [\n        {\n            \"id\": \"01951fab-7900-717f-b4f9-fb1d22d78c87\"\
+              , // finding id\n            \"assignee_id\": 2 // user id\n        },\n        {\n    \
+              \        \"id\": \"01951fab-793d-7431-905d-fefbb80af82b\",\n            \"assignee_id\"\
+              : null // when null, the finding is unassigned\n        },\n    ]\n}"
+      responses:
+        '200':
+          description: Assign Findings
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                AssignFindings:
+                  summary: Assign Findings
+                  value:
+                    records:
+                    - success: true
+                      message: ''
+                      id: 01951fab-7900-717f-b4f9-fb1d22d78c87
+                    - success: true
+                      message: ''
+                      id: 01951fab-793d-7431-905d-fefbb80af82b
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/findings/finding/service_ids:
+    get:
+      operationId: listServiceIDs
+      summary: List service IDs
+      tags:
+      - Posture Findings
+      description: "Returns a list of monitored service service ids associated with your findings\n\n\
+        \ Response Fields \n\n Field \n Data Type \n Description \n Example \n\n serivce_id \n String\
+        \ \n ID of monitored service service ID \n \"foo-123\""
+      responses:
+        '200':
+          description: List service IDs
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "{\n    \"count\": 1,\n    \"next\": null,\n    \"previous\": null,\n    \"results\"\
+                : [\n        {\n            \"service_id\": \"01f37ef3-e7ff-4134-b0c9-0a9439ec1d15foo-123\n\
+                \    ]\n}"
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
-  schemas:
-    SecurityEvent:
-      title: SecurityEvent
-      description: A security event detected by AppOmni in a SaaS application
-      type: object
-      properties:
-        eventId:
-          type: string
-          description: Unique event identifier
-        severity:
-          type: string
-          enum:
-          - critical
-          - high
-          - medium
-          - low
-          - info
-          description: Event severity level
-        type:
-          type: string
-          description: Type of security event
-        application:
-          type: string
-          description: SaaS application where event occurred
-        description:
-          type: string
-          description: Human-readable event description
-        detectedAt:
-          type: string
-          format: date-time
-          description: When the event was detected
-        status:
-          type: string
-          enum:
-          - open
-          - investigating
-          - resolved
-          - dismissed
-          description: Event investigation status
-        userId:
-          type: string
-          description: User associated with the event
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
-      bearerFormat: JWT
+      description: 'AppOmni API access token, created and managed in the AppOmni platform under Settings
+        > API Settings. Sent as `Authorization: Bearer <token>`.'
+  schemas:
+    Error:
+      type: object
+      title: Error
+      description: Standard Django REST Framework error envelope returned by the AppOmni API.
+      properties:
+        detail:
+          type: string
+          description: Human readable error message

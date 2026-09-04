@@ -1,0 +1,175 @@
+generated: '2026-09-04'
+method: derived
+source: openapi/*.yml (derived from AppOmni's public Postman collection at https://api.appomni.com/)
+description: >-
+  Entity graph for the AppOmni platform API, derived from the resource routes and the id-reference
+  fields that appear in AppOmni's own 127 saved example responses. AppOmni publishes no object
+  reference page, so relationships are read from the paths (a nested route is a has_many) and from
+  foreign-key fields in real response bodies.
+identifiers:
+  core_objects: Integer primary keys (id), e.g. monitoredservice id 591429, user id 32078.
+  custom_fields_and_tokens: UUID v4, e.g. custom field id e6a1993f-52c4-4e82-b734-7772ed551aa1.
+  scim: String ids in SCIM resources, e.g. "891".
+  external_id: Most core objects carry a nullable external_id for correlation with the source system.
+  audit: Objects carry created, modified and created_by.
+entities:
+  - name: MonitoredService
+    description: One SaaS application instance AppOmni monitors (a Salesforce org, an M365 tenant, a Slack workspace, a custom AODP service).
+    collection: /api/v1/core/monitoredservice/
+    operations: [listMonitoredServices, monitoredServiceDetail, dataSyncs, requestSyncDataType, requestSyncAllDataTypes, getIngestToken, rotateIngestToken]
+    relationships:
+      - has_many: CustomFieldValue
+        via: /api/v1/core/monitoredservice/{ms_id}/custom_fields/
+      - has_many: PolicyAssessment
+        via: /api/v1/core/monitoredservice/{id}/last_successful_policy_assessments/
+      - has_one: IngestToken
+        via: /api/v1/core/monitoredservice/{ms_id}/get_ingest_token/
+      - belongs_to: CustomMonitoredServiceType
+        via: serviceType
+  - name: Policy
+    description: A named collection of security rules assessed against monitored services.
+    collection: /api/v1/core/policy/
+    operations: [retrievePosturePolicies, getPolicy, assignTargetTagsToPolicy, startPolicyScan, createAPosturePolicySnapshot, getPolicyStats]
+    relationships:
+      - has_many: Rule
+        via: /api/v1/{service_type}/rule/?policy={policy_id}
+      - has_many: PolicyAssessment
+        via: /api/v1/core/policy/{id}/last_successful_policy_assessments/
+  - name: Rule
+    description: A single check inside a policy, scoped to a service type.
+    collection: /api/v1/{service_type}/rule/
+    relationships:
+      - belongs_to: Policy
+        via: policy
+      - has_many: RuleEvent
+        via: /api/v1/{service_type}/ruleevent/
+  - name: RuleEvent
+    description: A violation raised when a rule fails against a monitored service.
+    collection: /api/v1/core/ruleevent/
+    relationships:
+      - belongs_to: Rule
+        via: rule
+      - has_many: RuleEventInstance
+        via: /api/v1/{service_type}/ruleevent/{id}/list_instances/
+      - transitions_to: Exception
+        via: convert_to_exception
+  - name: Finding
+    description: The Posture Findings object that consolidates policy issues and Insights into one view.
+    collection: /api/v1/findings/finding/
+    operations: [listFindings, getFindingDetails, assignFindings, listServiceIDs]
+    relationships:
+      - has_many: Occurrence
+        via: /api/v1/findings/occurrence/?finding=
+      - belongs_to: MonitoredService
+        via: service_id
+      - assigned_to: User
+        via: assign
+  - name: Occurrence
+    description: One instance of a finding on one object in one monitored service. This is the unit that gets closed, excepted or restored.
+    collection: /api/v1/findings/occurrence/
+    operations: [getFindingOccurrences, findingOccurrencesDetailView, updateFindingOccurrenceDetailedStatusByOccurrenceIDs, closeOccurrenceByException, restoreAnOccurrence]
+    relationships:
+      - belongs_to: Finding
+  - name: DiscoveredInsight
+    description: A security observation surfaced by Insights, with occurrences per affected object.
+    collection: /api/v1/insights/discoveredinsight/
+    relationships:
+      - has_many: DiscoveredInsightInstanceOccurrence
+        via: /api/v1/insights/discoveredinsightinstanceoccurrence/
+      - uses: ValueList
+        via: type-based convention
+  - name: UnifiedIdentity
+    description: A person, composed of the monitored-service user accounts associated by email address.
+    collection: /api/v1/core/unifiedidentity/annotated_list/
+    relationships:
+      - has_many: MonitoredServiceUser
+        via: /api/v1/core/unifiedidentity/{identity_id}/users
+  - name: User
+    description: An AppOmni platform user (distinct from a monitored-service user).
+    collection: /api/v1/core/user/
+    operations: [listUsers, addUser, getUserDetailsAndRoles, deactivateOrActivateUser, enableBreakglassAccessForEmergencies, disableBreakglassAccessForEmergencies]
+    relationships:
+      - belongs_to_many: Group
+        via: /api/v1/core/group/
+      - projected_as: LimitedUser
+        via: /api/v1/core/limited-user/
+      - provisioned_by: ScimUser
+        via: /scim/v2/Users
+  - name: ScimUser
+    description: SCIM 2.0 representation of an AppOmni platform user, used by an identity provider.
+    collection: /scim/v2/Users
+    schema_urn: 'urn:ietf:params:scim:schemas:core:2.0:User'
+    relationships:
+      - member_of: ScimGroup
+        via: /scim/v2/Groups
+  - name: ScimGroup
+    collection: /scim/v2/Groups
+    schema_urn: 'urn:ietf:params:scim:schemas:core:2.0:Group'
+    relationships:
+      - has_many: ScimUser
+        via: members[].$ref
+  - name: OAuthApplication
+    description: An AppOmni API Application, the client identity under which refresh and access tokens are granted.
+    collection: /api/v1/core/oauthapplication/
+    relationships:
+      - has_many: OAuthRefreshToken
+        via: /api/v1/core/oauthrefreshtoken/{token_id}/
+      - has_many: OAuthAccessToken
+        via: /api/v1/core/oauthaccesstoken/manual/
+  - name: CustomField
+    description: A tenant-wide custom field definition assignable to monitored services.
+    collection: /api/v1/core/custom_field/
+    relationships:
+      - has_many: CustomFieldValue
+        via: /api/v1/core/monitoredservice/{ms_id}/custom_fields/
+      - typed_by: CustomFieldType
+        via: /api/v1/core/custom_field/types
+  - name: CustomMonitoredServiceType
+    description: An AODP-defined service type for a proprietary or unsupported application.
+    collection: /api/v1/custom/custommonitoredservicetype/
+    relationships:
+      - has_many: Setting
+        via: /api/v1/custom/custommonitoredservicetype/{cmst_id}/settings/
+      - has_many: Permission
+        via: /api/v1/custom/custommonitoredservicetype/{cmst_id}/permissions/
+      - has_many: Scope
+        via: /api/v1/custom/custommonitoredservicetype/{cmst_id}/scopes/
+      - has_many: DataJob
+        via: /api/v1/custom/datajob/status/
+  - name: ValueList
+    description: A typed list of values consumed by Insights on convention.
+    collection: /api/v1/core/valuelist/
+    relationships:
+      - has_many: ValueListElement
+        via: /api/v1/core/valuelistelement/
+  - name: Report
+    description: A generated compliance, posture or threat report.
+    collection: /api/v1/reports/list/list_reports/
+    relationships:
+      - belongs_to: ReportGroup
+        via: /api/v1/reports/group/{group_id}
+      - categorised_by: ReportCategory
+        via: /api/v1/reports/list/report_categories
+  - name: AuditLog
+    description: The AppOmni platform audit trail.
+    collection: /api/v1/core/auditlogs/
+    relationships:
+      - typed_by: AuditActionType
+        via: /api/v1/core/auditlogs/action_types/
+  - name: DiscoveredApp
+    description: A SaaS application discovered in use, sanctioned or shadow.
+    collection: /api/v1/discovery/apps/
+    relationships:
+      - has_many: DiscoveredUser
+        via: /api/v1/discovery/users/
+      - has_many: UserAppPage
+        via: /api/v1/discovery/user-app-pages/
+notes:
+  - >-
+    Two identity namespaces coexist and are easy to confuse: /api/v1/core/user/ is an AppOmni platform
+    user (who logs into AppOmni), while /api/v1/identity/user/ and the unified-identity routes describe
+    users detected inside the monitored SaaS applications.
+  - >-
+    Two parallel finding surfaces coexist by design. AppOmni states Posture Findings "will exist
+    concurrently with Insights" — /api/v1/findings/ and /api/v1/insights/ overlap and are not
+    interchangeable.

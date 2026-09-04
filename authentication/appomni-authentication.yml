@@ -1,13 +1,90 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/appomni-openapi.yaml
+generated: '2026-09-04'
+method: searched
+source: https://api.appomni.com/ (AppOmni public Postman collection and its per-route documentation)
+docs: https://api.appomni.com/
 summary:
   types:
-  - http
+    - http
+    - apiKey
+    - oauth2
+  api_key_in:
+    - header
+  primary: Bearer access token issued by the AppOmni platform
+  tenancy: >-
+    Every credential is scoped to one AppOmni tenant. The API host is the customer's own subdomain —
+    https://{instance}.appomni.com — so there is no shared multi-tenant API host to authenticate against.
 schemes:
-- name: bearerAuth
-  type: http
-  scheme: bearer
-  bearerFormat: JWT
-  sources:
-  - openapi/appomni-openapi.yaml
+  - name: bearerAuth
+    type: http
+    scheme: bearer
+    parameter: Authorization
+    description: >-
+      AppOmni API access token. Created and managed in the AppOmni platform under Settings > API
+      Settings, then sent as `Authorization: Bearer <token>`. All 144 requests in AppOmni's public
+      Postman collection use this scheme.
+    obtain: AppOmni platform UI, Settings > API Settings
+    sources:
+      - openapi/appomni-security-events-api-openapi.yml
+      - openapi/appomni-policies-api-openapi.yml
+      - openapi/appomni-compliance-api-openapi.yml
+      - openapi/appomni-monitored-services-api-openapi.yml
+      - openapi/appomni-identity-api-openapi.yml
+      - openapi/appomni-scim-api-openapi.yml
+      - openapi/appomni-discovery-insights-api-openapi.yml
+      - openapi/appomni-developer-platform-api-openapi.yml
+      - openapi/appomni-ai-api-openapi.yml
+  - name: ingestToken
+    type: apiKey
+    in: header
+    parameter: X-AppOmni-Ingest-Token
+    description: >-
+      AppOmni-issued ingest token, a different credential from the platform bearer token. Used by
+      AgentGuard (POST /api/v1/ai/prompts/agents/classify) and by the AppOmni Developer Platform ingest
+      endpoint (POST /platform/ingest/v2/ingest/). Retrieved with getIngestToken and rotated with
+      rotateIngestToken on the monitored service it belongs to.
+    obtain: GET /api/v1/core/monitoredservice/{ms_id}/get_ingest_token/
+    rotate: PATCH /api/v1/core/monitoredservice/{ms_id}/rotate_ingest_token/
+    sources:
+      - openapi/appomni-ai-api-openapi.yml
+      - openapi/appomni-developer-platform-api-openapi.yml
+      - https://github.com/appomni/n8n-nodes-agentguard/blob/master/credentials/AgentGuardApi.credentials.ts
+oauth2:
+  supported: true
+  application_object: AppOmni API Application (OAuthApplication)
+  grants:
+    - refresh_token
+  endpoints:
+    token: POST /oauth/token/
+    introspection: GET /oauth/introspect/
+    revocation: POST /oauth/revoke/
+  standards:
+    - RFC 6749 Refresh Token Grant
+    - RFC 7662 Token Introspection
+    - RFC 7009 Token Revocation
+  parameters:
+    - grant_type (must be "refresh_token")
+    - refresh_token
+    - client_id
+    - client_secret
+  scopes_published: false
+  scopes_note: >-
+    AppOmni publishes no OAuth scope reference and no scope parameter appears on the token endpoint.
+    Authorization is enforced by the AppOmni role/permission model on the granting user, not by token
+    scopes — the API exposes a per-object permission probe returning
+    {"permissions": {"list", "create", "update", "partial_update", "delete"}}. No scopes/ artifact is
+    emitted because there is nothing published to record.
+  long_lived_tokens: >-
+    POST /api/v1/core/oauthaccesstoken/manual/ grants an access token with a caller-specified
+    expiration date, for service-to-service integrations that cannot run the refresh-token flow.
+  secret_rotation: POST /api/v1/core/oauthapplication/{app_id}/rotate_client_secret/
+  discovery:
+    well_known: false
+    note: >-
+      No /.well-known/oauth-authorization-server or /.well-known/openid-configuration is served on any
+      AppOmni host — see well-known/appomni-well-known.yml. The OAuth endpoints are documented only in
+      the Postman collection.
+mfa_sso:
+  scim: >-
+    Identity-provider integration is via SCIM 2.0 at /scim/v2/ — see openapi/appomni-scim-api-openapi.yml.
+  breakglass: >-
+    PUT /api/v1/core/user/{user_id}/enable_breakglass and .../disable_breakglass toggle emergency access.

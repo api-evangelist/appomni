@@ -1,0 +1,1613 @@
+openapi: 3.1.0
+info:
+  title: AppOmni Developer Platform API
+  description: 'The AppOmni Developer Platform (AODP): custom monitored service types, their settings,
+    permissions and scopes, and the event ingest endpoint.
+
+
+    Derived faithfully from the AppOmni public Postman collection published by AppOmni at https://api.appomni.com/
+    — every path, method, parameter, request body and example response below is taken verbatim from that
+    collection. No operation was invented.'
+  version: 1.0.0
+  contact:
+    name: AppOmni
+    url: https://appomni.com/support/
+  license:
+    name: Proprietary
+    url: https://appomni.com/terms-of-service/
+  x-generated-from: AppOmni public Postman collection (publishedId 2sBXc7Mjib, published 2026-02-04)
+  x-generated-source: https://api.appomni.com/api/collections/45135595/2sBXc7Mjib?segregateAuth=true&versionTag=latest
+  x-generated-method: derived
+  x-generated-date: '2026-09-04'
+servers:
+- url: https://{instance}.appomni.com
+  description: AppOmni tenant. Replace {instance} with your AppOmni subdomain — e.g. `acme` if you log
+    in at acme.appomni.com.
+  variables:
+    instance:
+      default: example
+      description: Your AppOmni tenant subdomain
+security:
+- bearerAuth: []
+tags:
+- name: AO Developer Platform
+  description: "The AppOmni Developer Platform (AODP) enables the creation of custom service types allowing\
+    \ you to monitor the security posture of any application, including custom or proprietary apps that\
+    \ AppOmni does not natively support.\n\n Example use cases include:\n\n- Create a custom service type\
+    \ for applications that AppOmni does not natively support\n\n- Create a custom service type for custom\
+    \ or in-house app"
+paths:
+  /api/v1/custom/custommonitoredservicetype/{cmst_id}/settings/:
+    get:
+      operationId: settingsListAllModelingData
+      summary: Settings - List all modeling data
+      tags:
+      - AO Developer Platform
+      description: "List all settings modeling data with pagination and filtering support.\n\n Response\
+        \ Fields\n\n Field \n Data Type \n Description \n Example \n\n id \n Integer \n Unique identifier\
+        \ for the setting \n 1 \n\n name \n String \n Name of the setting \n \"EnableAutoSave\" \n\n value\
+        \ \n String \n Value of the setting \n \"true\" \n\n type \n String \n Data type of the setting\
+        \ \n \"boolean\" \n\n description \n String \n Description of the setting \n \"Enables automatic\
+        \ saving\" \n\n category \n String \n Category of the setting \n \"General\" \n\n created \n String\
+        \ (ISO datetime) \n Creation timestamp \n \"2024-09-24T10:00:00Z\" \n\n modified \n String (ISO\
+        \ datetime) \n Last modification timestamp \n \"2024-09-24T10:00:00Z\""
+      parameters:
+      - name: cmst_id
+        in: path
+        required: true
+        description: Path parameter cmst_id
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        description: Query parameter limit
+        schema:
+          type: integer
+        example: '50'
+      - name: offset
+        in: query
+        required: false
+        description: Query parameter offset
+        schema:
+          type: integer
+        example: '0'
+      - name: ordering
+        in: query
+        required: false
+        description: Query parameter ordering
+        schema:
+          type: string
+        example: name
+      - name: search
+        in: query
+        required: false
+        description: Query parameter search
+        schema:
+          type: string
+        example: timeout
+      - name: category
+        in: query
+        required: false
+        description: Query parameter category
+        schema:
+          type: string
+        example: Security
+      - name: type
+        in: query
+        required: false
+        description: Query parameter type
+        schema:
+          type: string
+        example: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+            - api_name: setting_bool_1
+              value_type: bool
+              label: Bool Setting 1
+              description: Does something cool
+              choices: null
+              default_value: 'false'
+              default_risk: medium
+              default_category: system_config
+            - api_name: setting_int_1
+              value_type: int
+              label: Int Setting 1
+              description: Does something really cool
+              choices: null
+              default_value: '1'
+              default_risk: medium
+              default_category: system_config
+            - api_name: setting_picklist_1
+              value_type: picklist
+              label: Picklist Setting 1
+              description: Does something super cool
+              choices:
+                foo: bar
+                lorem: ipsum
+              default_value: foo
+              default_risk: medium
+              default_category: system_config
+      responses:
+        '200':
+          description: Settings - List all modeling data
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                SettingsListallmodelingdata:
+                  summary: Settings - List all modeling data
+                  value:
+                    count: 5
+                    next: null
+                    previous: null
+                    results:
+                    - api_name: allowed_email_domains
+                      value_type: list_str
+                      label: Allowed Email Domains
+                      description: List of email domains allowed when users register
+                      choices: null
+                      default_risk: medium
+                      default_category: system_config
+                    - api_name: lockout_duration
+                      value_type: picklist
+                      label: Lockout Duration
+                      description: Number of minutes a user is locked out after invalid login attempts
+                      choices:
+                        '5': 5 Minutes
+                        '10': 10 Minutes
+                      default_risk: medium
+                      default_category: system_config
+                    - api_name: max_invalid_login_attempts
+                      value_type: int
+                      label: Max Invalid Login Attempts
+                      description: The number of invalid login attempts before the user is locked out
+                      choices: null
+                      default_risk: high
+                      default_category: system_config
+                    - api_name: mfa_enforced
+                      value_type: bool
+                      label: MFA Enforced
+                      description: Requires the use of MFA
+                      choices: null
+                      default_risk: critical
+                      default_category: system_config
+                    - api_name: password_change_interval
+                      value_type: int
+                      label: Password Change Interval
+                      description: How many days until a user is required to change their password
+                      choices: null
+                      default_risk: medium
+                      default_category: system_config
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: settingsAddSingleModelingData
+      summary: Settings - Add single modeling data
+      tags:
+      - AO Developer Platform
+      description: "Add a single setting to the modeling data.\n\n Request Body\n\n Field \n Data Type\
+        \ \n Required \n Description \n Example \n\n name \n String \n Yes \n Name of the setting \n \"\
+        MaxUploadSize\" \n\n value \n String \n Yes \n Value of the setting \n \"100MB\" \n\n type \n\
+        \ String \n Yes \n Data type of the setting \n \"string\" \n\n description \n String \n No \n\
+        \ Description of the setting \n \"Maximum file upload size\" \n\n category \n String \n No \n\
+        \ Category of the setting \n \"Limits\" \n\n Response Fields\n\n Field \n Data Type \n Description\
+        \ \n Example \n\n id \n Integer \n Unique identifier for the setting \n 2 \n\n name \n String\
+        \ \n Name of the setting \n \"MaxUploadSize\" \n\n value \n String \n Value of the setting \n\
+        \ \"100MB\" \n\n type \n String \n Data type of the setting \n \"string\" \n\n description \n\
+        \ String \n Description of the setting \n \"Maximum file upload size\" \n\n category \n String\
+        \ \n Category of the setting \n \"Limits\" \n\n created \n String (ISO datetime) \n Creation timestamp\
+        \ \n \"2024-09-24T10:00:00Z\" \n\n modified \n String (ISO datetime) \n Last modification timestamp\
+        \ \n \"2024-09-24T10:00:00Z\""
+      parameters:
+      - name: cmst_id
+        in: path
+        required: true
+        description: Path parameter cmst_id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              api_name: password_change_interval
+              value_type: int
+              label: Password Change Interval
+              description: How many days until a user is required to change their password
+              choices: null
+              default_risk: medium
+              default_category: system_config
+      responses:
+        '204':
+          description: Settings - Add single modeling data
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: settingsUpdateModelingData
+      summary: Settings - Update modeling data
+      tags:
+      - AO Developer Platform
+      description: "Update an existing setting in the modeling data.\n\n Request Body\n\n Field \n Data\
+        \ Type \n Required \n Description \n Example \n\n value \n String \n No \n Value of the setting\
+        \ \n \"150MB\" \n\n description \n String \n No \n Description of the setting \n \"Updated maximum\
+        \ file upload size\" \n\n category \n String \n No \n Category of the setting \n \"Limits\" \n\
+        \n Note: name and type cannot be updated after creation.\n\n Response Fields Documentation\n\n\
+        \ Returns the updated setting object with the same fields as single setting creation."
+      parameters:
+      - name: cmst_id
+        in: path
+        required: true
+        description: Path parameter cmst_id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              api_name: password_change_interval
+              value_type: int
+              label: Password Change Interval
+              description: How many days until a user is required to change their password
+              choices: null
+              default_risk: high
+              default_category: system_config
+      responses:
+        '204':
+          description: Settings - Update modeling data
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: settingsDeleteMultipleModelingData
+      summary: Settings - Delete multiple modeling data
+      tags:
+      - AO Developer Platform
+      description: "Delete multiple settings from the modeling data.\n\n Request Body\n\n Field \n Data\
+        \ Type \n Required \n Description \n Example \n\n ids \n Array[Integer] \n Yes \n Array of setting\
+        \ IDs to delete \n [1, 2, 3] \n\n Response\n\n Returns HTTP 204 No Content on successful deletion."
+      parameters:
+      - name: cmst_id
+        in: path
+        required: true
+        description: Path parameter cmst_id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              setting_names:
+              - password_change_interval
+      responses:
+        '204':
+          description: Settings - Delete multiple modeling data
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/custom/custommonitoredservicetype/{cmst_id}/settings/bulk_create/:
+    post:
+      operationId: settingsAddMultipleModelingData
+      summary: Settings - Add multiple modeling data
+      tags:
+      - AO Developer Platform
+      description: "Add multiple settings to the modeling data.\n\n Request Body\n\n Field \n Data Type\
+        \ \n Required \n Description \n Example \n\n settings \n Array[Object] \n Yes \n Array of setting\
+        \ objects to create \n See nested fields below \n\n settings[].name \n String \n Yes \n Name of\
+        \ the setting \n \"SessionTimeout\" \n\n settings[].value \n String \n Yes \n Value of the setting\
+        \ \n \"30\" \n\n settings[].type \n String \n Yes \n Data type of the setting \n \"integer\" \n\
+        \n settings[].description \n String \n No \n Description of the setting \n \"Session timeout in\
+        \ minutes\" \n\n settings[].category \n String \n No \n Category of the setting \n \"Security\"\
+        \ \n\n Response Fields\n\n Returns an array of created setting objects with the same fields as\
+        \ single setting creation."
+      parameters:
+      - name: cmst_id
+        in: path
+        required: true
+        description: Path parameter cmst_id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              data:
+              - api_name: allowed_email_domains
+                value_type: list_str
+                label: Allowed Email Domains
+                description: List of email domains allowed when users register
+                choices: null
+                default_risk: medium
+                default_category: system_config
+      responses:
+        '204':
+          description: Settings - Add multiple modeling data
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      operationId: settingsReplaceAllModelingData
+      summary: Settings - Replace all modeling data
+      tags:
+      - AO Developer Platform
+      description: "Replace all settings modeling data. This operation will delete all existing entries\
+        \ and create new ones.\n\n Request Body\n\n Field \n Data Type \n Required \n Description \n Example\
+        \ \n\n settings \n Array[Object] \n Yes \n Array of setting objects to create \n See nested fields\
+        \ below \n\n settings[].id \n Integer \n Yes \n Unique identifier for the setting \n 1 \n\n settings[].name\
+        \ \n String \n Yes \n Name of the setting \n \"EnableAutoSave\" \n\n settings[].value \n String\
+        \ \n Yes \n Value of the setting \n \"true\" \n\n settings[].type \n String \n Yes \n Data type\
+        \ of the setting \n \"boolean\" \n\n settings[].description \n String \n No \n Description of\
+        \ the setting \n \"Enables automatic saving\" \n\n settings[].category \n String \n No \n Category\
+        \ of the setting \n \"General\" \n\n Response Fields\n\n Returns HTTP 200 with the created settings\
+        \ data."
+      parameters:
+      - name: cmst_id
+        in: path
+        required: true
+        description: Path parameter cmst_id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              data:
+              - api_name: mfa_enforced
+                value_type: bool
+                label: MFA Enforced
+                description: Requires the use of MFA
+                choices: null
+                default_risk: critical
+                default_category: system_config
+              - api_name: max_invalid_login_attempts
+                value_type: int
+                label: Max Invalid Login Attempts
+                description: The number of invalid login attempts before the user is locked out
+                choices: null
+                default_risk: high
+                default_category: system_config
+              - api_name: lockout_duration
+                value_type: picklist
+                label: Lockout Duration
+                description: Number of minutes a user is locked out after invalid login attempts
+                choices:
+                  '5': 5 Minutes
+                  '10': 10 Minutes
+                default_risk: medium
+                default_category: system_config
+      responses:
+        '204':
+          description: Settings - Replace all modeling data
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/custom/custommonitoredservicetype/{cmst_id}/permissions/:
+    get:
+      operationId: permissionsListAllModelingData
+      summary: Permissions - List all modeling data
+      tags:
+      - AO Developer Platform
+      description: "List all permissions modeling data with pagination and filtering support.\n\n Response\
+        \ Fields\n\n Field \n Data Type \n Description \n Example \n\n id \n Integer \n Unique identifier\
+        \ for the permission \n 1 \n\n display_name \n String \n Display name of the permission \n \"\
+        Create Document\" \n\n technical_name \n String \n Technical name of the permission \n \"create_document\"\
+        \ \n\n description \n String \n Description of the permission \n \"Allows creating new documents\"\
+        \ \n\n category \n String \n Category of the permission \n \"Document Management\" \n\n external_id\
+        \ \n String \n External system identifier \n \"ext_123\" \n\n created \n String (ISO datetime)\
+        \ \n Creation timestamp \n \"2024-09-24T10:00:00Z\" \n\n modified \n String (ISO datetime) \n\
+        \ Last modification timestamp \n \"2024-09-24T10:00:00Z\""
+      parameters:
+      - name: cmst_id
+        in: path
+        required: true
+        description: Path parameter cmst_id
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        description: Query parameter limit
+        schema:
+          type: integer
+        example: '50'
+      - name: offset
+        in: query
+        required: false
+        description: Query parameter offset
+        schema:
+          type: integer
+        example: '0'
+      - name: ordering
+        in: query
+        required: false
+        description: Query parameter ordering
+        schema:
+          type: string
+        example: id
+      - name: search
+        in: query
+        required: false
+        description: Query parameter search
+        schema:
+          type: string
+        example: document
+      - name: category
+        in: query
+        required: false
+        description: Query parameter category
+        schema:
+          type: string
+        example: Document Management
+      responses:
+        '200':
+          description: Permissions - List all modeling data
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                PermissionsListallmodelingdata:
+                  summary: Permissions - List all modeling data
+                  value:
+                    count: 7
+                    next: null
+                    previous: null
+                    results:
+                    - api_name: create-group
+                      label: Create Group
+                      description: Allows user to create a new group
+                      default_risk: medium
+                      default_category: data_access
+                      indicates_elevated: true
+                      indicates_admin: false
+                    - api_name: create-project
+                      label: Create Project
+                      description: Allows user to create a new project
+                      default_risk: medium
+                      default_category: data_access
+                      indicates_elevated: true
+                      indicates_admin: false
+                    - api_name: edit-all
+                      label: Edit All
+                      description: Allows user to edit all records
+                      default_risk: high
+                      default_category: data_access
+                      indicates_elevated: false
+                      indicates_admin: true
+                    - api_name: edit_groups
+                      label: Edit Groups
+                      description: Allows user to edit existing groups
+                      default_risk: critical
+                      default_category: data_access
+                      indicates_elevated: true
+                      indicates_admin: false
+                    - api_name: manage-users
+                      label: Manage Users
+                      description: Allows user to manage other user accounts
+                      default_risk: critical
+                      default_category: data_access
+                      indicates_elevated: true
+                      indicates_admin: true
+                    - api_name: read-all
+                      label: Read All
+                      description: Allows user to read all records
+                      default_risk: medium
+                      default_category: data_access
+                      indicates_elevated: false
+                      indicates_admin: false
+                    - api_name: write-all
+                      label: Write All
+                      description: Allows user to write all records
+                      default_risk: critical
+                      default_category: data_access
+                      indicates_elevated: true
+                      indicates_admin: true
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: permissionsAddSingleModelingData
+      summary: Permissions - Add single modeling data
+      tags:
+      - AO Developer Platform
+      description: "Add a single permission to the modeling data.\n\n Request Body\n\n Field \n Data Type\
+        \ \n Required \n Description \n Example \n\n display_name \n String \n Yes \n Display name of\
+        \ the permission \n \"Edit Document\" \n\n technical_name \n String \n Yes \n Technical name of\
+        \ the permission \n \"edit_document\" \n\n description \n String \n No \n Description of the permission\
+        \ \n \"Allows editing existing documents\" \n\n category \n String \n No \n Category of the permission\
+        \ \n \"Document Management\" \n\n external_id \n String \n No \n External system identifier \n\
+        \ \"ext_124\" \n\n Response Fields\n\n Field \n Data Type \n Description \n Example \n\n id \n\
+        \ Integer \n Unique identifier for the permission \n 2 \n\n display_name \n String \n Display\
+        \ name of the permission \n \"Edit Document\" \n\n technical_name \n String \n Technical name\
+        \ of the permission \n \"edit_document\" \n\n description \n String \n Description of the permission\
+        \ \n \"Allows editing existing documents\" \n\n category \n String \n Category of the permission\
+        \ \n \"Document Management\" \n\n external_id \n String \n External system identifier \n \"ext_124\"\
+        \ \n\n created \n String (ISO datetime) \n Creation timestamp \n \"2024-09-24T10:00:00Z\" \n\n\
+        \ modified \n String (ISO datetime) \n Last modification timestamp \n \"2024-09-24T10:00:00Z\""
+      parameters:
+      - name: cmst_id
+        in: path
+        required: true
+        description: Path parameter cmst_id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              api_name: edit-all
+              label: Edit All
+              description: Allows user to edit all records
+              default_risk: high
+              default_category: data_access
+              indicates_elevated: false
+              indicates_admin: true
+      responses:
+        '204':
+          description: Permissions - Add single modeling data
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: permissionsUpdateModelingData
+      summary: Permissions - Update modeling data
+      tags:
+      - AO Developer Platform
+      description: "Update an existing permission in the modeling data.\n\n Request Body\n\n Field \n\
+        \ Data Type \n Required \n Description \n Example \n\n display_name \n String \n No \n Display\
+        \ name of the permission \n \"Create and Edit Document\" \n\n description \n String \n No \n Description\
+        \ of the permission \n \"Allows creating and editing documents\" \n\n category \n String \n No\
+        \ \n Category of the permission \n \"Document Management\" \n\n external_id \n String \n No \n\
+        \ External system identifier \n \"ext_123_updated\" \n\n Note: technical_name cannot be updated\
+        \ after creation.\n\n Response Fields\n\n Returns the updated permission object with the same\
+        \ fields as single permission creation."
+      parameters:
+      - name: cmst_id
+        in: path
+        required: true
+        description: Path parameter cmst_id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              api_name: create-group
+              label: Create New Group
+              description: Allows user to create a new group
+              default_risk: low
+              default_category: data_access
+              indicates_elevated: false
+              indicates_admin: false
+      responses:
+        '204':
+          description: Permissions - Update modeling data
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: permissionsDeleteMultipleModelingData
+      summary: Permissions - Delete multiple modeling data
+      tags:
+      - AO Developer Platform
+      description: "Delete multiple permissions from the modeling data.\n\n Request Body\n\n Field \n\
+        \ Data Type \n Required \n Description \n Example \n\n ids \n Array[Integer] \n Yes \n Array of\
+        \ permission IDs to delete \n [1, 2, 3] \n\n Response\n\n Returns HTTP 204 No Content on successful\
+        \ deletion."
+      parameters:
+      - name: cmst_id
+        in: path
+        required: true
+        description: Path parameter cmst_id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              permission_names:
+              - create-group
+              - create-project
+      responses:
+        '204':
+          description: Permissions - Delete multiple modeling data
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/custom/custommonitoredservicetype/{cmst_id}/permissions/bulk_create/:
+    post:
+      operationId: permissionsAddMultipleModelingData
+      summary: Permissions - Add multiple modeling data
+      tags:
+      - AO Developer Platform
+      description: "Add multiple permissions to the modeling data.\n\n Request Body\n\n Field \n Data\
+        \ Type \n Required \n Description \n Example \n\n permissions \n Array[Object] \n Yes \n Array\
+        \ of permission objects to create \n See nested fields below \n\n permissions[].display_name \n\
+        \ String \n Yes \n Display name of the permission \n \"Delete Document\" \n\n permissions[].technical_name\
+        \ \n String \n Yes \n Technical name of the permission \n \"delete_document\" \n\n permissions[].description\
+        \ \n String \n No \n Description of the permission \n \"Allows deleting documents\" \n\n permissions[].category\
+        \ \n String \n No \n Category of the permission \n \"Document Management\" \n\n permissions[].external_id\
+        \ \n String \n No \n External system identifier \n \"ext_125\" \n\n Response Fields\n\n Returns\
+        \ an array of created permission objects with the same fields as single permission creation."
+      parameters:
+      - name: cmst_id
+        in: path
+        required: true
+        description: Path parameter cmst_id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              data:
+              - api_name: create-group
+                label: Create Group
+                description: Allows user to create a new group
+                default_risk: medium
+                default_category: data_access
+                indicates_elevated: true
+                indicates_admin: false
+              - api_name: create-project
+                label: Create Project
+                description: Allows user to create a new project
+                default_risk: medium
+                default_category: data_access
+                indicates_elevated: true
+                indicates_admin: false
+      responses:
+        '204':
+          description: Permissions - Add multiple modeling data
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      operationId: permissionsReplaceAllModelingData
+      summary: Permissions - Replace all modeling data
+      tags:
+      - AO Developer Platform
+      description: "Replace all permissions modeling data. This operation will delete all existing entries\
+        \ and create new ones.\n\n Request Body\n\n Field \n Data Type \n Required \n Description \n Example\
+        \ \n\n permissions \n Array[Object] \n Yes \n Array of permission objects to create \n See nested\
+        \ fields below \n\n permissions[].id \n Integer \n Yes \n Unique identifier for the permission\
+        \ \n 1 \n\n permissions[].display_name \n String \n Yes \n Display name of the permission \n \"\
+        Create Document\" \n\n permissions[].technical_name \n String \n Yes \n Technical name of the\
+        \ permission \n \"create_document\" \n\n permissions[].description \n String \n No \n Description\
+        \ of the permission \n \"Allows creating new documents\" \n\n permissions[].category \n String\
+        \ \n No \n Category of the permission \n \"Document Management\" \n\n permissions[].external_id\
+        \ \n String \n No \n External system identifier \n \"ext_123\" \n\n Response Fields\n\n Returns\
+        \ HTTP 200 with the created permissions data."
+      parameters:
+      - name: cmst_id
+        in: path
+        required: true
+        description: Path parameter cmst_id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              data:
+              - api_name: read-all
+                label: Read All
+                description: Allows user to read all records
+                default_risk: medium
+                default_category: data_access
+                indicates_elevated: false
+                indicates_admin: false
+              - api_name: write-all
+                label: Write All
+                description: Allows user to write all records
+                default_risk: critical
+                default_category: data_access
+                indicates_elevated: true
+                indicates_admin: true
+              - api_name: manage-users
+                label: Manage Users
+                description: Allows user to manage other user accounts
+                default_risk: critical
+                default_category: administrative_permissions
+                indicates_elevated: true
+                indicates_admin: true
+              - api_name: edit_groups
+                label: Edit Groups
+                description: Allows user to edit existing groups
+                default_risk: high
+                default_category: rbac_controls
+                indicates_elevated: true
+                indicates_admin: false
+      responses:
+        '204':
+          description: Permissions - Replace all modeling data
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/custom/custommonitoredservicetype/{cmst_id}/scopes/:
+    get:
+      operationId: scopesListAllModelingData
+      summary: Scopes - List all modeling data
+      tags:
+      - AO Developer Platform
+      description: "List all scopes modeling data with pagination and filtering support.\n\n Response\
+        \ Fields\n\n Field \n Data Type \n Description \n Example \n\n api_name \n String \n API-friendly\
+        \ name of the scope \n \"system_admin\" \n\n label \n String \n Human-readable name of the scope\
+        \ \n \"System Admin\" \n\n description \n String \n Description of the scope \n \"An admin of\
+        \ the application\" \n\n default_risk \n Enum of: {\"low\", \"medium\", \"high\", \"critical\"\
+        } \n The default risk set for the scope \n \"critical\" \n\n default_category \n Enum \n The default\
+        \ risk category set for the scope \n \"data_access\" \n\n indicates_elevated \n Boolean \n Whether\
+        \ the scope indicates a permission with elevated privileges \n true \n\n indicates_admin \n Boolean\
+        \ \n Whether the scope indicates a permission with admin privileges \n true"
+      parameters:
+      - name: cmst_id
+        in: path
+        required: true
+        description: Path parameter cmst_id
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        description: Query parameter limit
+        schema:
+          type: integer
+        example: '25'
+      - name: offset
+        in: query
+        required: false
+        description: Query parameter offset
+        schema:
+          type: integer
+        example: '0'
+      - name: ordering
+        in: query
+        required: false
+        description: Query parameter ordering
+        schema:
+          type: string
+        example: api_name
+      responses:
+        '200':
+          description: Scopes - List all modeling data
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                ScopesListallmodelingdata:
+                  summary: Scopes - List all modeling data
+                  value:
+                    count: 3
+                    next: null
+                    previous: null
+                    results:
+                    - api_name: system_admin
+                      label: System Admin
+                      description: An admin of the application
+                      default_risk: critical
+                      default_category: data_access
+                      indicates_elevated: true
+                      indicates_admin: true
+                    - api_name: billing_admin
+                      label: Billing Admin
+                      description: A billing admin of the application
+                      default_risk: high
+                      default_category: data_access
+                      indicates_elevated: true
+                      indicates_admin: false
+                    - api_name: read_only
+                      label: Read-Only User
+                      description: A read-only user of the application
+                      default_risk: low
+                      default_category: data_access
+                      indicates_elevated: false
+                      indicates_admin: false
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: scopesAddSingleModelingData
+      summary: Scopes - Add single modeling data
+      tags:
+      - AO Developer Platform
+      description: "Add a single scope to the modeling data.\n\n Response Fields\n\n Field \n Data Type\
+        \ \n Required \n Description \n Example \n\n api_name \n String \n Yes \n API-friendly name of\
+        \ the scope \n \"system_admin\" \n\n label \n String \n Yes \n Human-readable name of the scope\
+        \ \n \"System Admin\" \n\n description \n String \n No \n Description of the scope \n \"The application's\
+        \ admins\" \n\n default_risk \n Enum of: {\"low\", \"medium\", \"high\", \"critical\"} \n Yes\
+        \ \n The default risk set for the scope \n \"critical\" \n\n default_category \n Enum \n Yes \n\
+        \ The default risk category set for the scope \n \"data_access\" \n\n indicates_elevated \n Boolean\
+        \ \n Yes \n Whether the scope indicates a permission with elevated privileges \n true \n\n indicates_admin\
+        \ \n Boolean \n Yes \n Whether the scope indicates a permission with admin privileges \n true"
+      parameters:
+      - name: cmst_id
+        in: path
+        required: true
+        description: Path parameter cmst_id
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Scopes - Add single modeling data
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: scopesUpdateModelingData
+      summary: Scopes - Update modeling data
+      tags:
+      - AO Developer Platform
+      description: "Update an existing scope in the modeling data.\n\n Response Fields\n\n Field \n Data\
+        \ Type \n Required \n Description \n Example \n\n api_name \n String \n Yes \n API-friendly name\
+        \ of the scope \n \"system_admin\" \n\n label \n String \n No \n Human-readable name of the scope\
+        \ \n \"System Admin\" \n\n description \n String \n No \n Description of the scope \n \"The application's\
+        \ admins\" \n\n default_risk \n Enum of: {\"low\", \"medium\", \"high\", \"critical\"} \n No \n\
+        \ The default risk set for the scope \n \"critical\" \n\n default_category \n Enum \n No \n The\
+        \ default risk category set for the scope \n \"data_access\" \n\n indicates_elevated \n Boolean\
+        \ \n No \n Whether the scope indicates a permission with elevated privileges \n true \n\n indicates_admin\
+        \ \n Boolean \n No \n Whether the scope indicates a permission with admin privileges \n true"
+      parameters:
+      - name: cmst_id
+        in: path
+        required: true
+        description: Path parameter cmst_id
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Scopes - Update modeling data
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: scopesDeleteMultipleModelingData
+      summary: Scopes - Delete multiple modeling data
+      tags:
+      - AO Developer Platform
+      description: "Delete multiple permissions from the modeling data.\n\n Response Fields\n\n Field\
+        \ \n Data Type \n Required \n Description \n Example \n\n scope_names \n Array[String] \n Yes\
+        \ \n Array of scope API-friendly names to delete \n [\"system_admin\", \"billing_admin\", \"read_only\"\
+        ]"
+      parameters:
+      - name: cmst_id
+        in: path
+        required: true
+        description: Path parameter cmst_id
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Scopes - Delete multiple modeling data
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/custom/custommonitoredservicetype/{cmst_id}/scopes/bulk_create/:
+    post:
+      operationId: scopesAddMultipleModelingData
+      summary: Scopes - Add multiple modeling data
+      tags:
+      - AO Developer Platform
+      description: "Add multiple scopes to the modeling data.\n\n Response Fields\n\n Field \n Data Type\
+        \ \n Required \n Description \n Example \n\n scopes \n Array[Object] \n Yes \n Array of scopes\
+        \ objects to create \n See nested fields below \n\n scopes[].api_name \n String \n Yes \n API-friendly\
+        \ name of the scope \n \"system_admin\" \n\n scopes[].label \n String \n Yes \n Human-readable\
+        \ name of the scope \n \"System Admin\" \n\n scopes[].description \n String \n No \n Description\
+        \ of the scope \n \"The application's admins\" \n\n scopes[].default_risk \n Enum of: {\"low\"\
+        , \"medium\", \"high\", \"critical\"} \n Yes \n The default risk set for the scope \n \"critical\"\
+        \ \n\n scopes[].default_category \n Enum \n Yes \n The default risk category set for the scope\
+        \ \n \"data_access\" \n\n scopes[].indicates_elevated \n Boolean \n Yes \n Whether the scope indicates\
+        \ a permission with elevated privileges \n true \n\n scopes[].indicates_admin \n Boolean \n Yes\
+        \ \n Whether the scope indicates a permission with admin privileges \n true"
+      parameters:
+      - name: cmst_id
+        in: path
+        required: true
+        description: Path parameter cmst_id
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Scopes - Add multiple modeling data
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      operationId: scopesReplaceAllModelingData
+      summary: Scopes - Replace all modeling data
+      tags:
+      - AO Developer Platform
+      description: "Replace all scope modeling data. This operation will delete all existing entries and\
+        \ create new ones.\n\n Response Fields\n\n Field \n Data Type \n Required \n Description \n Example\
+        \ \n\n scopes \n Array[Object] \n Yes \n Array of scopes objects to create \n See nested fields\
+        \ below \n\n scopes[].api_name \n String \n Yes \n API-friendly name of the scope \n \"system_admin\"\
+        \ \n\n scopes[].label \n String \n Yes \n Human-readable name of the scope \n \"System Admin\"\
+        \ \n\n scopes[].description \n String \n Yes \n Description of the scope \n \"The application's\
+        \ admins\" \n\n scopes[].default_risk \n Enum of: {\"low\", \"medium\", \"high\", \"critical\"\
+        } \n Yes \n The default risk set for the scope \n \"critical\" \n\n scopes[].default_category\
+        \ \n Enum \n Yes \n The default risk category set for the scope \n \"data_access\" \n\n scopes[].indicates_elevated\
+        \ \n Boolean \n Yes \n Whether the scope indicates a permission with elevated privileges \n true\
+        \ \n\n scopes[].indicates_admin \n Boolean \n Yes \n Whether the scope indicates a permission\
+        \ with admin privileges \n true"
+      parameters:
+      - name: cmst_id
+        in: path
+        required: true
+        description: Path parameter cmst_id
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Scopes - Replace all modeling data
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /platform/ingest/v2/ingest/:
+    post:
+      operationId: ingestThirdPartyApps
+      summary: Ingest - Third Party Apps
+      tags:
+      - AO Developer Platform
+      description: "Submits the inventory of third-party applications and integrations installed in your\
+        \ application, including their granted scopes.\n\n Third party apps data represents the inventory\
+        \ of applications, integrations, and OAuth clients installed or connected within your SaaS application.\n\
+        \n Additional optional fields allow you to capture version information, whether the app is a first-party\
+        \ default, whether it was internally developed, the publisher identity, and installation details\
+        \ such as who installed it and when.\n\n Third party app data should be sent on a regular cadence\
+        \ to reflect the current set of installed applications and their granted permissions. Each submission\
+        \ replaces the previous app inventory for that monitored service.\n\n Request Body (Top-Level)\n\
+        \n Field \n Data Type \n Required \n Description \n Example \n\n service_id \n String (UUID) \n\
+        \ Yes \n The instance ID of the custom monitored service. Must match a registered CustomMonitoredService.instance_id.\
+        \ \n \"a1b2c3d4-e5f6-7890-abcd-ef1234567890\" \n\n ingest_token \n String (UUID) \n Yes \n The\
+        \ authentication token for the custom monitored service. Must match CustomMonitoredService.ingest_secret.\
+        \ \n \"f9e8d7c6-b5a4-3210-fedc-ba0987654321\" \n\n job_type \n String \n Yes \n The type of data\
+        \ being submitted. Determines which downstream processing task handles the data. See Supported\
+        \ Data Types below. \n \"third_party_apps_v2\" \n\n job_id \n String (UUID) \n Yes \n A unique\
+        \ identifier for this ingest job. Used to correlate paginated requests into a single logical job.\
+        \ Must be unique per submission. \n \"550e8400-e29b-41d4-a716-446655440000\" \n\n data \n Array[Object]\
+        \ \n Yes \n Array of data objects whose schema depends on the data_type. See Data Schemas below.\
+        \ \n See example below \n\n total_count \n Integer \n No \n The expected total number of data\
+        \ elements across all pages. Used to determine when all pages have been received for multi-page\
+        \ submissions. \n 100 \n\n complete \n Boolean \n No \n Set to true on the final (or only) page\
+        \ of a submission. Signals that no more pages will follow for this job_id. \n true \n\n page_offset\
+        \ \n Integer \n No \n For paginated submissions, the zero-based offset of this page within the\
+        \ overall dataset. \n 0 \n\n description \n String \n No \n Optional human-readable description\
+        \ of the request (max 1024 characters). \n \"Daily user sync\" \n\n third_party_apps_v2\n\n Field\
+        \ \n Data Type \n Required \n Description \n Example \n\n data[].service_oid \n String \n Yes\
+        \ \n Unique identifier for the app (also accepts id or api_id) \n \"app_001\" \n\n data[].name\
+        \ \n String \n Yes \n Display name of the application \n \"Slack Bot\" \n\n data[].description\
+        \ \n String \n No \n Description of the application (also accepts provided_description) \n \"\
+        Team messaging bot\" \n\n data[].is_installed \n Boolean \n No \n Whether the app is currently\
+        \ installed (also accepts installed). Default: true \n true \n\n data[].is_svc_default_app \n\
+        \ Boolean \n No \n Whether this is a first-party/default app (also accepts first_party_app or\
+        \ is_first_party) \n false \n\n data[].version \n String \n No \n Installed version string (also\
+        \ accepts installed_version_str) \n \"2.1.0\" \n\n data[].scopes \n Array[String] \n No \n OAuth\
+        \ scopes granted to the app (also accepts observed_scopes) \n [\"read:users\", \"write:messages\"\
+        ] \n\n data[].publisher_id \n String \n No \n Publisher's service identifier (also accepts publisher_service_id)\
+        \ \n \"pub_slack\""
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              service_id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+              ingest_token: dccc49c0-43e6-40c8-a826-724984887af6
+              job_type: third_party_apps_v2
+              job_id: 550e8400-e29b-41d4-a716-446655440040
+              data:
+              - id: APP-001
+                name: Acme Reporting Plugin
+                version: 2.4.1
+                scopes:
+                - read_data
+                - write_reports
+                - manage_dashboards
+                publisher_name: Acme Corp
+                publisher_id: PUB-12345
+                namespace: com.acmecorp.reporting
+              - id: APP-002
+                name: External eSignature Integration
+                version: 3.1.0
+                scopes:
+                - send_documents
+                - read_contacts
+                publisher_name: SignCo Inc
+                publisher_id: PUB-67890
+                last_scope_change: '2025-09-01T00:00:00Z'
+              - id: APP-003
+                name: Internal HR Connector
+                scopes:
+                - read_users
+                - sync_profiles
+      responses:
+        '200':
+          description: Ingest - Third Party Apps
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                IngestThirdPartyApps:
+                  summary: Ingest - Third Party Apps
+                  value:
+                    job_identifier: 550e8400-e29b-41d4-a716-446655440040
+                    complete: true
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/custom/datajob/status/:
+    post:
+      operationId: jobStatus
+      summary: Job Status
+      tags:
+      - AO Developer Platform
+      description: "For use after submission of ingestion data via POST /platform/ingest/v2/ingest \n\n\
+        \ Field \n Data Type \n Required \n Description \n Example \n\n ingest_token \n String (UUID)\
+        \ \n Yes \n The ingest_secret / aoer_authentication_token for the custom monitored service \n\
+        \ \"f9e8d7c6-b5a4-3210-fedc-ba0987654321\" \n\n job_id \n String \n Yes \n The job_id used in\
+        \ the original ingest request \n \"550e8400-e29b-41d4-a716-446655440000\" \n\n Response Fields:\n\
+        \n Field \n Data Type \n Description \n Example \n\n job_id \n String \n The job identifier \n\
+        \ \"550e8400-e29b-41d4-a716-446655440000\" \n\n status \n String \n Current status: pending, partially_received,\
+        \ received, processing, processing_complete, failed \n \"processing_complete\" \n\n as_of \n String\
+        \ (ISO 8601) \n Timestamp corresponding to the current status \n \"2026-03-04T12:30:00Z\" \n\n\
+        \ details \n String or null \n Processing details or partial failure information \n null \n\n\
+        \ failed_required_jobs \n Array[String] \n IDs of dependency jobs that failed (if applicable)\
+        \ \n [] \n\n failure_errors \n Array[String] \n User-facing error messages if status is failed\
+        \ \n [\"Malformed value for setting 'mfa_enforcement'\"]"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              job_id: e7de0fcd-f25d-409b-ac5e-80a3669d476e
+              status: completed
+              as_of: '2023-01-01T01:01:01.000111Z'
+              details: no modeling for 'my_setting_1' found; no modeling for 'my_setting_2 found
+              failed_required_jobs: []
+              failure_errors: []
+      responses:
+        '200':
+          description: Job Status
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                JobStatus:
+                  summary: Job Status
+                  value:
+                    job_id: 550e8400-e29b-41d4-a716-446655440040
+                    status: completed
+                    as_of: '2026-03-13T16:08:50.073805Z'
+                    details: null
+                    failed_required_jobs: []
+                    failure_errors: []
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/custom/custommonitoredservicetype/:
+    post:
+      operationId: createACustomMonitoredServiceType
+      summary: Create a custom monitored service type
+      tags:
+      - AO Developer Platform
+      description: "Create a new custom monitored service type.\n\n Request Body\n\n Field \n Data Type\
+        \ \n Required \n Description \n Example \n\n name \n String \n Yes \n Name of the service type\
+        \ \n \"Custom CRM\" \n\n display_name \n String \n Yes \n Display name of the service type \n\
+        \ \"Custom CRM System\" \n\n description \n String \n No \n Description of the service type \n\
+        \ \"Custom CRM integration\" \n\n category \n String \n Yes \n Category of the service type \n\
+        \ \"Business Applications\" \n\n supported_features \n Array[String] \n No \n List of supported\
+        \ features \n [\"users\", \"permissions\", \"audit\"] \n\n configuration_schema \n Object \n No\
+        \ \n JSON schema for configuration \n {\"type\": \"object\", \"properties\": {...}} \n\n Response\
+        \ Fields\n\n Field \n Data Type \n Description \n Example \n\n id \n String \n Unique identifier\
+        \ for the service type \n \"custom_crm\" \n\n name \n String \n Name of the service type \n \"\
+        Custom CRM\" \n\n display_name \n String \n Display name of the service type \n \"Custom CRM System\"\
+        \ \n\n description \n String \n Description of the service type \n \"Custom CRM integration\"\
+        \ \n\n category \n String \n Category of the service type \n \"Business Applications\" \n\n supported_features\
+        \ \n Array[String] \n List of supported features \n [\"users\", \"permissions\", \"audit\"] \n\
+        \n configuration_schema \n Object \n JSON schema for configuration \n {\"type\": \"object\", \"\
+        properties\": {...}} \n\n logo_url \n String or null \n URL of the service type logo \n null \n\
+        \n created \n String (ISO datetime) \n Creation timestamp \n \"2024-09-24T10:00:00Z\" \n\n modified\
+        \ \n String (ISO datetime) \n Last modification timestamp \n \"2024-09-24T10:00:00Z\""
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              description: Custom AcmeSaas integration
+              name: AcmeSaas
+      responses:
+        '201':
+          description: Create a custom monitored service type
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                Createacustommonitoredservicetype:
+                  summary: Create a custom monitored service type
+                  value:
+                    id: 7585
+                    created: '2025-09-17T12:28:29.835670Z'
+                    modified: '2025-09-17T12:28:29.835685Z'
+                    external_id: null
+                    name: AcmeSaas
+                    slug: yourtenant__acmesaas
+                    description: Custom AcmeSaas integration
+                    logo: null
+                    major_version: 1
+                    minor_version: 0
+                    patch_version: 0
+                    primary_rbac_term: null
+                    secondary_rbac_term: null
+                    other_rbac_term: null
+                    instance_term: null
+                    expect_security_settings_data: true
+                    expect_rbac_data: false
+                    expect_user_data: false
+                    expect_apps_data: false
+                    supports_last_login: false
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/custom/custommonitoredservicetype/{cmst_id}/upload_logo/:
+    post:
+      operationId: uploadALogoForACustomMonitoredServiceType
+      summary: Upload a logo for a custom monitored service type
+      tags:
+      - AO Developer Platform
+      description: "Upload a logo image for a custom monitored service type.\n\n Request Body\n\n The\
+        \ request should be sent as multipart/form-data with the following field:\n\n Field \n Data Type\
+        \ \n Required \n Description \n Example \n\n logo \n File \n Yes \n Logo image file (PNG, JPG,\
+        \ or SVG) \n logo.png \n\n File Requirements\n\n- Maximum file size: 5MB\n\n- Supported formats:\
+        \ PNG, JPG, JPEG, SVG\n\n- Recommended dimensions: 256x256 pixels\n\n Response Fields\n\n Field\
+        \ \n Data Type \n Description \n Example \n\n logo_url \n String \n URL of the uploaded logo \n\
+        \ \" https://appomni.com/logos/custom_crm_logo.png\" \n\n message \n String \n Success message\
+        \ \n \"Logo uploaded successfully\""
+      parameters:
+      - name: cmst_id
+        in: path
+        required: true
+        description: Path parameter cmst_id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Upload a logo for a custom monitored service type
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                Uploadalogoforacustommonitoredservicetype:
+                  summary: Upload a logo for a custom monitored service type
+                  value:
+                    id: 7585
+                    created: '2025-09-17T12:28:29.835670Z'
+                    modified: '2025-09-17T14:07:53.310711Z'
+                    external_id: null
+                    name: AcmeSaas
+                    slug: yourtenant__acmesaas
+                    description: Custom AcmeSaas integration
+                    logo: https://storage.googleapis.com/path-to-logo
+                    major_version: 1
+                    minor_version: 0
+                    patch_version: 0
+                    primary_rbac_term: null
+                    secondary_rbac_term: null
+                    other_rbac_term: null
+                    instance_term: null
+                    expect_security_settings_data: true
+                    expect_rbac_data: false
+                    expect_user_data: false
+                    expect_apps_data: false
+                    supports_last_login: false
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/custom/custommonitoredservicetype/{cmst_id}/:
+    patch:
+      operationId: updateACustomMonitoredServiceType
+      summary: Update a custom monitored service type
+      tags:
+      - AO Developer Platform
+      description: "Update an existing custom monitored service type.\n\n Request Body\n\n Field \n Data\
+        \ Type \n Required \n Description \n Example \n\n display_name \n String \n No \n Display name\
+        \ of the service type \n \"Updated CRM System\" \n\n description \n String \n No \n Description\
+        \ of the service type \n \"Updated CRM integration\" \n\n category \n String \n No \n Category\
+        \ of the service type \n \"Enterprise Applications\" \n\n supported_features \n Array[String]\
+        \ \n No \n List of supported features \n [\"users\", \"permissions\", \"audit\", \"reporting\"\
+        ] \n\n configuration_schema \n Object \n No \n JSON schema for configuration \n {\"type\": \"\
+        object\", \"properties\": {...}} \n\n Note: The service type name/id cannot be changed after creation.\n\
+        \n Response Fields\n\n Returns the updated service type object with the same fields as creation\
+        \ response."
+      parameters:
+      - name: cmst_id
+        in: path
+        required: true
+        description: Path parameter cmst_id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              description: Updated description
+              expect_security_settings_data: true
+              expect_rbac_data: true
+              expect_user_data: true
+              expect_apps_data: false
+              primary_rbac_term: Role
+              secondary_rbac_term: Group
+              other_rbac_term: Project
+              supports_last_login: true
+      responses:
+        '200':
+          description: Update a custom monitored service type
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                Updateacustommonitoredservicetype:
+                  summary: Update a custom monitored service type
+                  value:
+                    id: 7585
+                    created: '2025-09-17T12:28:29.835670Z'
+                    modified: '2025-09-17T14:40:14.524475Z'
+                    external_id: null
+                    name: AcmeSaas
+                    slug: yourtenant__acmesaas
+                    description: Updated description
+                    logo: https://storage.googleapis.com/path-to-logo
+                    major_version: 1
+                    minor_version: 0
+                    patch_version: 0
+                    primary_rbac_term: Role
+                    secondary_rbac_term: Group
+                    other_rbac_term: Project
+                    instance_term: null
+                    expect_security_settings_data: true
+                    expect_rbac_data: true
+                    expect_user_data: true
+                    expect_apps_data: false
+                    supports_last_login: true
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      operationId: getCustomMonitoredServiceTypeDetails
+      summary: Get custom monitored service type details
+      tags:
+      - AO Developer Platform
+      description: "Retrieve details of a specific custom monitored service type.\n\n Response Fields\n\
+        \n Field \n Data Type \n Description \n Example \n\n id \n String \n Unique identifier for the\
+        \ service type \n \"custom_crm\" \n\n name \n String \n Name of the service type \n \"Custom CRM\"\
+        \ \n\n display_name \n String \n Display name of the service type \n \"Custom CRM System\" \n\n\
+        \ description \n String \n Description of the service type \n \"Custom CRM integration\" \n\n\
+        \ category \n String \n Category of the service type \n \"Business Applications\" \n\n supported_features\
+        \ \n Array[String] \n List of supported features \n [\"users\", \"permissions\", \"audit\"] \n\
+        \n configuration_schema \n Object \n JSON schema for configuration \n {\"type\": \"object\", \"\
+        properties\": {...}} \n\n logo_url \n String or null \n URL of the service type logo \n \" https://appomni.com/logos/custom_crm_logo.png\"\
+        \ \n\n created \n String (ISO datetime) \n Creation timestamp \n \"2024-09-24T10:00:00Z\" \n\n\
+        \ modified \n String (ISO datetime) \n Last modification timestamp \n \"2024-09-24T10:00:00Z\"\
+        \ \n\n monitored_services_count \n Integer \n Number of monitored services using this type \n\
+        \ 5"
+      parameters:
+      - name: cmst_id
+        in: path
+        required: true
+        description: Path parameter cmst_id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Get custom monitored service type details
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                Getcustommonitoredservicetypedetails:
+                  summary: Get custom monitored service type details
+                  value:
+                    id: 7585
+                    created: '2025-09-17T12:28:29.835670Z'
+                    modified: '2025-09-17T14:40:14.524475Z'
+                    external_id: null
+                    name: AcmeSaas
+                    slug: yourtenant__acmesaas
+                    description: Updated description
+                    logo: https://storage.googleapis.com/path-to-logo
+                    major_version: 1
+                    minor_version: 0
+                    patch_version: 0
+                    primary_rbac_term: Role
+                    secondary_rbac_term: Group
+                    other_rbac_term: Project
+                    instance_term: null
+                    expect_security_settings_data: true
+                    expect_rbac_data: true
+                    expect_user_data: true
+                    expect_apps_data: false
+                    supports_last_login: true
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'AppOmni API access token, created and managed in the AppOmni platform under Settings
+        > API Settings. Sent as `Authorization: Bearer <token>`.'
+  schemas:
+    Error:
+      type: object
+      title: Error
+      description: Standard Django REST Framework error envelope returned by the AppOmni API.
+      properties:
+        detail:
+          type: string
+          description: Human readable error message

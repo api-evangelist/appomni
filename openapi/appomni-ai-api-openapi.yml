@@ -1,0 +1,314 @@
+openapi: 3.1.0
+info:
+  title: AppOmni AI API
+  description: 'Marlin AI autonomous analysis plans and the AgentGuard prompt classification endpoint.
+
+
+    Derived faithfully from the AppOmni public Postman collection published by AppOmni at https://api.appomni.com/
+    — every path, method, parameter, request body and example response below is taken verbatim from that
+    collection. No operation was invented.'
+  version: 1.0.0
+  contact:
+    name: AppOmni
+    url: https://appomni.com/support/
+  license:
+    name: Proprietary
+    url: https://appomni.com/terms-of-service/
+  x-generated-from: AppOmni public Postman collection (publishedId 2sBXc7Mjib) + AppOmni's published @appomni/n8n-nodes-agentguard
+    source
+  x-generated-source: https://api.appomni.com/api/collections/45135595/2sBXc7Mjib?segregateAuth=true&versionTag=latest
+  x-generated-method: derived
+  x-generated-date: '2026-09-04'
+servers:
+- url: https://{instance}.appomni.com
+  description: AppOmni tenant. Replace {instance} with your AppOmni subdomain — e.g. `acme` if you log
+    in at acme.appomni.com.
+  variables:
+    instance:
+      default: example
+      description: Your AppOmni tenant subdomain
+security:
+- bearerAuth: []
+tags:
+- name: Marlin AI
+  description: Marlin AI is an autonomous SaaS security AI that runs platform-wide deep analyses and correlations
+    automatically across security observations in the AppOmni platform
+- name: AgentGuard
+  description: AppOmni AgentGuard runtime prompt security — DLP and prompt-firewall classification for
+    AI agent traffic.
+paths:
+  /api/v1/ai/marlin/plans/analysis/latest/:
+    get:
+      operationId: marlinAIResults
+      summary: Marlin AI results
+      tags:
+      - Marlin AI
+      description: "Returns a paginated list of the latest Marlin AI results in your environment.\n\n\
+        \ Each entry includes metadata such as playbook_id, playbook_name, playbook_description, created_at,\
+        \ risk_classification, ms_types, final_analysis, remediation_suggestions, summary\n\n Response\
+        \ Fields\n\n Field \n Data Type \n Description \n Example \n\n playbook_id \n String \n Unique\
+        \ identifier for the playbook. This is an AppOmni internal ID \n ms_errors \n\n playbook_name\
+        \ \n String \n Name of the playbook as seen in the UI \n Summary on monitored services disconnection\
+        \ issues \n\n playbook_description \n String \n Short description about what the playbook does\
+        \ \n This playbook runs once per day and summarizes connection issues found on up to 20 monitored\
+        \ services. The monitored services are chosen based on the largest posture coverage. \n\n created_at\
+        \ \n String (ISO datetime) \n Timestamp when the playbook run was created \n 2022-11-29T05:56:26.372253Z\
+        \ \n\n ms_types \n Array [String] \n List with type of service analyzed (e.g., box, github) \n\
+        \ ['smartsheet', \n'github', \n'asana', \n'sfdc', \n'confluence', \n'zendesk'] \n\n final_analysis\
+        \ \n String \n Text output of Marlin AI analysis \n These services have lost their connection\
+        \ to AppOmni, preventing continuous monitoring \n\n remediation_suggestions \n String \n Text\
+        \ output with remediation suggestions based on the data analyzed \n This suggests a missing permission\
+        \ set required for the Salesforce integration. Contact user@appomni.com to re-establish the connection\
+        \ \n\n summary \n String \n Text summary that shows on Marlin AI cards \n SaaS Monitoring Connection\
+        \ Issues.14 monitored services were analyzed, with 10 disconnected and 3 degraded \n\n risk_classification\
+        \ \n String \n risk set by Marlin AI based on what was found on its investigation \n high"
+      responses:
+        '200':
+          description: Get Marlin AI results
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "{\n    \"results\": [\n        {\n            \"analysis_output\": {\n       \
+                \         \"plan_id\": \"e73fe289-a451-44de-8e26-d7658b96fdf5\",\n                \"final_analysis\"\
+                : \"**Data analyzed:** 2651 occurrences and 20 findings related to inactive users were\
+                \ analyzed across your AppOmni environment. No specific links to the analyzed data are\
+                \ available in this output.\\n\\nThis analysis focused on identifying and reducing noise\
+                \ from overlapping insights related to inactive users within your production environment.\
+                \ The goal was to streamline your security posture by pinpointing redundant findings that\
+                \ can be safely closed, thereby improving operational efficiency for your SOC team. This\
+                \ process does not identify new cybersecurity threats but rather optimizes the management\
+                \ of existing observations.\\n\\n**Key findings:**\\n*   **1311 occurrences** can be closed\
+                \ due to coverage overlap.\\n*   **12 findings** can be closed due to coverage overlap.\\\
+                n\\nThis optimization applies to insights found across the following monitored services:\
+                \ **GSuite, iManage, O365, Okta, and SFMC**.\",\n                \"remediation_suggestions\"\
+                : \"To enhance your team's focus and reduce alert fatigue, prioritize the following actions:\\\
+                n\\n*   **Review and Close Findings:** Access the Posture Findings interface in AppOmni\
+                \ and review the 12 identified findings and 1311 occurrences related to inactive users\
+                \ that have been marked for closure due to coverage overlap. Confirm their redundancy\
+                \ and proceed with dismissing or closing"
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/ai/prompts/agents/classify:
+    post:
+      operationId: classifyAgentPrompt
+      summary: Classify an agent prompt (AgentGuard)
+      tags:
+      - AgentGuard
+      description: 'Send a prompt to AppOmni AgentGuard for DLP and/or prompt-firewall analysis. Returns
+        an allow/block verdict with per-classifier scores and block reasons. Authenticated with an AppOmni-issued
+        ingest token in the `X-AppOmni-Ingest-Token` header (not the platform bearer token).
+
+
+        Schema derived verbatim from AppOmni''s own published n8n community node source (github.com/appomni/n8n-nodes-agentguard,
+        credentials/AgentGuardApi.credentials.ts and nodes/AgentGuard/Agentguard.node.ts).'
+      security:
+      - ingestToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentGuardClassifyRequest'
+            example:
+              messages:
+              - role: user
+                content: AppOmni AgentGuard credential test
+                content_type: text/plain
+              include_details: false
+      responses:
+        '200':
+          description: Classification verdict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentGuardClassifyResponse'
+        '401':
+          description: Unauthorized — missing or invalid ingest token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'AppOmni API access token, created and managed in the AppOmni platform under Settings
+        > API Settings. Sent as `Authorization: Bearer <token>`.'
+    ingestToken:
+      type: apiKey
+      in: header
+      name: X-AppOmni-Ingest-Token
+      description: AppOmni-issued ingest token used by AgentGuard and the AODP ingest endpoint. Sent as
+        the `X-AppOmni-Ingest-Token` request header.
+  schemas:
+    Error:
+      type: object
+      title: Error
+      description: Standard Django REST Framework error envelope returned by the AppOmni API.
+      properties:
+        detail:
+          type: string
+          description: Human readable error message
+    AgentGuardPrompt:
+      type: object
+      title: AgentGuardPrompt
+      required:
+      - role
+      - content
+      - content_type
+      properties:
+        role:
+          type: string
+          description: Message role, e.g. `user` or `system`
+        content:
+          type: string
+          description: The prompt text to classify
+        content_type:
+          type: string
+          description: Media type of `content`
+          example: text/plain
+    AgentGuardClassifierResult:
+      type: object
+      title: AgentGuardClassifierResult
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        status:
+          type: string
+          enum:
+          - success
+          - timeout
+          - error
+          - skipped
+        duration_ms:
+          type: integer
+        applied_threshold:
+          type: number
+        scores:
+          type: object
+          properties:
+            benign:
+              type: number
+            malicious:
+              type: number
+        block_reasons:
+          type: array
+          items:
+            type: string
+        details:
+          type: object
+          additionalProperties: true
+        error:
+          type: string
+        skip_reason:
+          type: string
+    AgentGuardClassifyRequest:
+      type: object
+      title: AgentGuardClassifyRequest
+      required:
+      - messages
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/AgentGuardPrompt'
+        include_details:
+          type: boolean
+          description: Return per-classifier detail in the response
+        metadata:
+          type: object
+          title: AgentGuardClassifyMetadata
+          description: Optional caller context used for attribution and user quarantine
+          properties:
+            user:
+              type: object
+              properties:
+                id:
+                  type: string
+                username:
+                  type: string
+                email:
+                  type: string
+                principal_type:
+                  type: string
+            session:
+              type: object
+              properties:
+                id:
+                  type: string
+            agent:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+            request:
+              type: object
+              properties:
+                src_app:
+                  type: string
+                interface:
+                  type: string
+                user_agent:
+                  type: string
+                src_ip:
+                  type: string
+    AgentGuardClassifyResponse:
+      type: object
+      title: AgentGuardClassifyResponse
+      required:
+      - response_action
+      - response_message
+      - scores
+      - block_reasons
+      - classifiers
+      - effective_threshold
+      properties:
+        response_action:
+          type: string
+          enum:
+          - allow
+          - block
+          description: Verdict — `block` means the prompt must not be forwarded to the model
+        response_message:
+          type: string
+        scores:
+          type: object
+          properties:
+            benign:
+              type: number
+            malicious:
+              type: number
+        block_reasons:
+          type: array
+          items:
+            type: string
+        classifiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/AgentGuardClassifierResult'
+        effective_threshold:
+          type: number
+        event_id:
+          type: string

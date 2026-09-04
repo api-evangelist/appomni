@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/appomni/main/json-structure/appomni-occurrence-structure.json",
+  "title": "Occurrence",
+  "description": "One instance of an AppOmni Posture Finding against one object in one monitored service. Derived from AppOmni's public Postman collection at https://api.appomni.com/.",
+  "type": "record",
+  "fields": [
+    { "name": "id", "type": "string", "description": "UUIDv7 occurrence identifier" },
+    { "name": "finding_id", "type": "string", "description": "Parent finding identifier" },
+    { "name": "identity_hash", "type": "string", "description": "Stable hash of the occurrence identity" },
+    { "name": "monitored_service_id", "type": "int32", "description": "Monitored service this occurrence was found in" },
+    { "name": "status", "type": "string", "description": "open or closed" },
+    { "name": "detailed_status_name", "type": "string", "description": "Machine name of the detailed status" },
+    { "name": "detailed_status_label", "type": "string", "description": "Display label of the detailed status" },
+    { "name": "reasons", "type": { "type": "array", "items": "string" }, "description": "Why this occurrence was raised" },
+    { "name": "context", "type": { "type": "map", "values": "string" }, "description": "Subject detail; keys vary by finding type" },
+    { "name": "first_opened", "type": "string", "description": "ISO 8601 UTC timestamp" },
+    { "name": "last_opened", "type": "string", "description": "ISO 8601 UTC timestamp" },
+    { "name": "last_closed", "type": "string", "description": "ISO 8601 UTC timestamp, null while open" }
+  ]
+}

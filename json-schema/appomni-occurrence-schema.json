@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/appomni/main/json-schema/appomni-occurrence-schema.json",
+  "title": "Occurrence",
+  "description": "One instance of an AppOmni Posture Finding against one object in one monitored service. This is the unit that is closed by exception and restored. Derived from the real response body of GET /api/v1/findings/occurrence/ in AppOmni's public Postman collection (https://api.appomni.com/).",
+  "x-generated": "2026-09-04",
+  "x-method": "derived",
+  "x-source": "https://api.appomni.com/",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "format": "uuid", "description": "UUIDv7 occurrence identifier" },
+    "finding_id": { "type": "string", "format": "uuid", "description": "The Finding this occurrence belongs to" },
+    "identity_hash": { "type": "string" },
+    "monitored_service_id": { "type": "integer" },
+    "status": { "type": "string", "description": "open or closed" },
+    "detailed_status_name": { "type": "string", "description": "Machine name of the detailed status, e.g. new" },
+    "detailed_status_label": { "type": "string", "description": "Display label of the detailed status, e.g. New" },
+    "reasons": {
+      "type": "array",
+      "description": "Human-readable statements of why this occurrence was raised",
+      "items": { "type": "string" }
+    },
+    "context": {
+      "type": "object",
+      "description": "Free-form detail about the subject object. Keys vary by finding type — user_id, user_name, user_email, group_id, group_name, perm_name, perm_label and others appear in AppOmni's own examples.",
+      "additionalProperties": true
+    },
+    "first_opened": { "type": "string", "format": "date-time" },
+    "last_opened": { "type": "string", "format": "date-time" },
+    "last_closed": { "type": ["string", "null"], "format": "date-time" }
+  },
+  "required": ["id", "finding_id", "monitored_service_id", "status"]
+}

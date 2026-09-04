@@ -1,0 +1,38 @@
+generated: '2026-09-04'
+method: searched
+description: >-
+  Provenance for the Postman collection saved in this directory. JSON cannot carry frontmatter, so it is
+  recorded here.
+files:
+  - file: appomni-api.postman_collection.json
+    method: searched
+    provider_authored: true
+    source: https://api.appomni.com/api/collections/45135595/2sBXc7Mjib?segregateAuth=true&versionTag=latest
+    documenter: https://api.appomni.com/
+    published_id: 2sBXc7Mjib
+    collection_id: 244c5280-5479-4b7d-abb9-41c0549cffc1
+    owner: '45135595'
+    public: true
+    published: '2026-02-04'
+    fetched: '2026-09-04'
+    http_status: 200
+    bytes: 966584
+    schema: https://schema.getpostman.com/json/collection/v2.0.0/collection.json
+    requests: 144
+    folders: 18
+    saved_example_responses: 127
+    note: >-
+      Saved verbatim, unmodified. This is AppOmni's own published API reference and the source every
+      OpenAPI document in openapi/ was derived from.
+removed:
+  - files:
+      - appomni-compliance-api.opencollection.json
+      - appomni-compliance-api.postman_collection.json
+      - appomni-policies-api.opencollection.json
+      - appomni-policies-api.postman_collection.json
+      - appomni-security-events-api.opencollection.json
+      - appomni-security-events-api.postman_collection.json
+    removed_on: '2026-09-04'
+    reason: >-
+      Derived from the four-operation scaffold OpenAPI that has been archived to openapi/_archive/.
+      They encoded paths AppOmni does not serve on a host that is not an API host.

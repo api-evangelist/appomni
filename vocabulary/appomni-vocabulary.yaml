@@ -2,131 +2,124 @@ vocabulary: "1.0.0"
 
 info:
   provider: AppOmni
+  providerId: appomni
   description: >-
-    Vocabulary for the AppOmni SaaS security management platform, covering
-    security event monitoring, threat detection, policy management, and
-    compliance reporting for enterprise SaaS applications.
+    Vocabulary for the AppOmni SaaS and AI security platform, covering posture findings, security
+    policies and rules, compliance reporting, monitored SaaS services, identity, SaaS discovery,
+    the AppOmni Developer Platform and AppOmni's AI security surfaces.
   created: "2026-04-19"
-  modified: "2026-04-19"
+  modified: "2026-09-04"
+  generated: "2026-09-04"
+  method: derived
+  source: >-
+    openapi/*.yml, derived from AppOmni's public Postman collection at https://api.appomni.com/.
+    Replaces a vocabulary written against a fabricated /events model on a base URL AppOmni does not serve.
 
 operational:
   apis:
-    - name: AppOmni API
+    - name: AppOmni Platform API
       namespace: appomni
-      version: "1.0.0"
-      baseUrl: "https://api.appomni.com/v1"
+      version: "v1"
+      baseUrl: "https://{instance}.appomni.com/api/v1"
+      status: active
+      note: Tenant-scoped. {instance} is the customer's own AppOmni subdomain.
+    - name: AppOmni SCIM API
+      namespace: appomni
+      version: "v2"
+      baseUrl: "https://{instance}.appomni.com/scim/v2"
+      status: active
+    - name: AppOmni Developer Platform Ingest
+      namespace: appomni
+      version: "v2"
+      baseUrl: "https://{instance}.appomni.com/platform/ingest/v2"
       status: active
 
   resources:
-    - name: events
-      description: Security events detected in monitored SaaS applications
-      api: AppOmni API
-      actions:
-        - list
-        - get
-    - name: policies
-      description: Security policies for SaaS application monitoring
-      api: AppOmni API
-      actions:
-        - list
-        - create
-        - get
-        - update
-    - name: compliance-reports
-      description: Compliance reports for regulatory frameworks
-      api: AppOmni API
-      actions:
-        - list
-        - get
+    - name: finding
+      description: A security problem detected against a monitored SaaS service (Posture Findings).
+      path: /api/v1/findings/finding/
+      actions: [list, get, assign]
+    - name: occurrence
+      description: One instance of a finding on one object in one monitored service.
+      path: /api/v1/findings/occurrence/
+      actions: [list, get, update-status, close-by-exception, restore]
+    - name: policy
+      description: A named set of security rules assessed against monitored services.
+      path: /api/v1/core/policy/
+      actions: [list, get, update, scan, snapshot]
+    - name: rule
+      description: A single check inside a policy, scoped to a service type.
+      path: /api/v1/{service_type}/rule/
+      actions: [list, update, delete, bulk-delete]
+    - name: ruleevent
+      description: A violation raised when a rule fails.
+      path: /api/v1/core/ruleevent/
+      actions: [list, close, convert-to-exception]
+    - name: monitoredservice
+      description: One SaaS application instance AppOmni monitors.
+      path: /api/v1/core/monitoredservice/
+      actions: [list, get, sync, rotate-ingest-token]
+    - name: unifiedidentity
+      description: A person, composed of their monitored-service accounts associated by email.
+      path: /api/v1/core/unifiedidentity/
+      actions: [list, get]
+    - name: user
+      description: An AppOmni platform user.
+      path: /api/v1/core/user/
+      actions: [list, create, get, activate, deactivate, breakglass]
+    - name: discoveredinsight
+      description: A security observation surfaced by Insights.
+      path: /api/v1/insights/discoveredinsight/
+      actions: [list, dismiss, bulk-dismiss, bulk-restore]
+    - name: discovery
+      description: SaaS applications and users discovered in use, sanctioned or shadow.
+      path: /api/v1/discovery/
+      actions: [list]
+    - name: report
+      description: A generated compliance, posture or threat report.
+      path: /api/v1/reports/
+      actions: [list, generate, group]
+    - name: auditlog
+      description: The AppOmni platform audit trail.
+      path: /api/v1/core/auditlogs/
+      actions: [list]
+    - name: custommonitoredservicetype
+      description: An AODP-defined service type for a proprietary or unsupported application.
+      path: /api/v1/custom/custommonitoredservicetype/
+      actions: [create, get, update, settings, permissions, scopes]
+    - name: scim-user
+      description: SCIM 2.0 representation of an AppOmni platform user.
+      path: /scim/v2/Users
+      actions: [list, get, replace]
+    - name: scim-group
+      path: /scim/v2/Groups
+      actions: [list]
 
-  actions:
-    - name: list
-      httpMethod: GET
-      pattern: read
-    - name: get
-      httpMethod: GET
-      pattern: read
-    - name: create
-      httpMethod: POST
-      pattern: write
-    - name: update
-      httpMethod: PUT
-      pattern: write
-
-  schemas:
-    core:
-      - name: SecurityEvent
-        description: A detected security event with severity and investigation status
-      - name: Policy
-        description: A security policy governing SaaS application behavior
-      - name: ComplianceReport
-        description: A generated compliance report for a regulatory framework
-
-  parameters:
-    identifiers:
-      - name: eventId
-        description: Unique security event identifier
-      - name: policyId
-        description: Unique security policy identifier
-      - name: reportId
-        description: Unique compliance report identifier
-    filters:
-      - name: severity
-        description: Event severity level filter
-      - name: application
-        description: SaaS application name filter
-      - name: status
-        description: Event or policy status filter
-
-  enums:
-    eventSeverities:
-      - critical
-      - high
-      - medium
-      - low
-      - info
-    eventStatuses:
-      - open
-      - investigating
-      - resolved
-      - dismissed
-    complianceFrameworks:
-      - SOC2
-      - ISO27001
-      - HIPAA
-      - GDPR
-      - PCI-DSS
-
-  authentication:
-    schemes:
-      - type: bearer
-        description: Bearer token authentication for API access
-
-capability:
-  workflows:
-    - name: SaaS Security Monitoring
-      description: Continuous monitoring and investigation of SaaS security threats
-      resources:
-        - events
-        - policies
-  personas:
-    - name: Security Analyst
-      description: Investigates security events and threats in SaaS applications
-    - name: Compliance Officer
-      description: Generates and reviews compliance reports for regulatory frameworks
-  domains:
-    - name: Threat Detection
-      description: Detecting and investigating security threats in SaaS applications
-      resources:
-        - events
-    - name: Policy Management
-      description: Managing security policies for SaaS application governance
-      resources:
-        - policies
-    - name: Compliance
-      description: Generating and managing compliance reports for regulatory needs
-      resources:
-        - compliance-reports
-
-  namespaces: []
-  binds: []
+domain:
+  terms:
+    - term: SSPM
+      definition: SaaS Security Posture Management — continuous assessment of SaaS application configuration and access against a security policy.
+    - term: Finding
+      definition: A detected security problem, consolidating a policy issue or an Insight into the Posture Findings view.
+    - term: Occurrence
+      definition: One instance of a finding against one object in one monitored service. Occurrences are what get closed and restored, not findings.
+    - term: Monitored Service
+      definition: One SaaS application instance connected to AppOmni for monitoring.
+    - term: Policy
+      definition: A named collection of rules AppOmni assesses against monitored services.
+    - term: Rule Event
+      definition: A violation raised when a rule fails against a monitored service.
+    - term: Exception
+      definition: An accepted risk. Converting a rule event to an exception suppresses it going forward.
+    - term: Unified Identity
+      definition: A person, assembled from their accounts across monitored SaaS services by email address.
+    - term: Breakglass
+      definition: Time-limited emergency elevation of an AppOmni user's access, enabled and disabled by explicit API calls.
+    - term: AODP
+      definition: AppOmni Developer Platform — build a custom monitored service type for an application AppOmni does not support out of the box.
+    - term: AskOmni
+      definition: AppOmni's AI security assistant, also published as an MCP server for external AI agents.
+    - term: AgentGuard
+      definition: AppOmni's runtime prompt firewall and DLP classifier for agentic AI traffic.
+    - term: Marlin AI
+      definition: AppOmni's autonomous security AI, running platform-wide analyses across security observations.

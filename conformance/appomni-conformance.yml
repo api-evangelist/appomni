@@ -1,0 +1,103 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  https://api.appomni.com/ (AppOmni public Postman collection) +
+  https://appomni.com/official-appomni-company-information-for-ai/ + https://trust.appomni.com/
+description: >-
+  Cross-cutting and domain standards the AppOmni contract itself declares, plus the compliance
+  programmes AppOmni publishes. Every entry cites the exact place the evidence was read.
+conformance:
+  - id: scim2
+    name: SCIM 2.0 (RFC 7643 / RFC 7644)
+    conforms: true
+    domain_standard: true
+    evidence: >-
+      The contract declares the SCIM schema URNs itself. AppOmni serves /scim/v2/Users and
+      /scim/v2/Groups; request bodies carry "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"]
+      and responses carry "urn:ietf:params:scim:api:messages:2.0:ListResponse" with
+      totalResults / itemsPerPage / startIndex, plus $ref member links and
+      urn:ietf:params:scim:schemas:core:2.0:Group. Filtering uses the SCIM filter grammar
+      (?filter=userName sw "..."). See openapi/appomni-scim-api-openapi.yml.
+    source: https://api.appomni.com/
+    spec_location: openapi/appomni-scim-api-openapi.yml#/paths/~1scim~1v2~1Users
+  - id: oauth2
+    name: OAuth 2.0 (RFC 6749) — Refresh Token Grant
+    conforms: true
+    evidence: >-
+      POST /oauth/token/ is documented by AppOmni as "a standard OAuth 2.0 Refresh Token Grant flow",
+      taking grant_type=refresh_token, refresh_token, client_id and client_secret against an AppOmni
+      API Application.
+    source: https://api.appomni.com/
+    spec_location: openapi/appomni-identity-api-openapi.yml
+  - id: rfc7662
+    name: OAuth 2.0 Token Introspection (RFC 7662)
+    conforms: true
+    evidence: >-
+      GET /oauth/introspect/ is described in AppOmni's own documentation as "a RFC 7662-compliant
+      Access Token Introspection endpoint", returning client_id, expiry and username, and citing
+      https://datatracker.ietf.org/doc/html/rfc7662#section-2.2.
+    source: https://api.appomni.com/
+    spec_location: openapi/appomni-identity-api-openapi.yml
+  - id: rfc7009
+    name: OAuth 2.0 Token Revocation (RFC 7009)
+    conforms: true
+    evidence: >-
+      POST /oauth/revoke/ is described as "a RFC 7009-compliant revocation route for OAuth Refresh
+      Tokens", citing https://datatracker.ietf.org/doc/html/rfc7009#section-2.1.
+    source: https://api.appomni.com/
+    spec_location: openapi/appomni-identity-api-openapi.yml
+  - id: rfc6750
+    name: OAuth 2.0 Bearer Token Usage (RFC 6750)
+    conforms: true
+    evidence: >-
+      All 144 requests in the public Postman collection authenticate with the
+      Authorization request header carrying a Bearer AppOmni API token.
+    source: https://api.appomni.com/
+  - id: pagination
+    name: Offset/limit pagination
+    conforms: true
+    evidence: >-
+      Django REST Framework LimitOffsetPagination — ?limit= and ?offset= appear on 13 collection
+      endpoints, alongside ?ordering= and ?search=. Envelopes carry count / next / previous / results.
+    source: https://api.appomni.com/
+  - id: rfc9457
+    name: RFC 9457 Problem Details for HTTP APIs
+    conforms: false
+    evidence: >-
+      No application/problem+json response is declared anywhere in the published surface. Errors use
+      the Django REST Framework envelope {"detail": "..."} instead. See errors/appomni-problem-types.yml.
+  - id: idempotency
+    name: Idempotency-Key (draft-ietf-httpapi-idempotency-key-header)
+    conforms: false
+    evidence: >-
+      No Idempotency-Key header, replay window or idempotent-retry guidance appears anywhere in the
+      public Postman collection (0 occurrences of "idempot"). See conventions/appomni-conventions.yml.
+  - id: openapi
+    name: OpenAPI 3.1.0
+    conforms: partial
+    evidence: >-
+      AppOmni does not publish an OpenAPI document. It publishes a Postman Collection v2.0.0 at
+      https://api.appomni.com/. The nine OpenAPI 3.1.0 documents in openapi/ were derived from that
+      collection by API Evangelist, operation by operation.
+compliance:
+  published: true
+  source: https://appomni.com/official-appomni-company-information-for-ai/
+  certifications:
+    - name: FedRAMP Moderate Authority to Operate
+    - name: TX-RAMP
+    - name: SOC 2 Type II
+    - name: VPAT
+    - name: NIST CSF
+    - name: EU-US Data Privacy Framework
+    - name: UK Extension to the EU-US Data Privacy Framework
+    - name: Swiss-US Data Privacy Framework
+  trust_center: https://trust.appomni.com/
+  evidence:
+    - url: https://appomni.com/official-appomni-company-information-for-ai/
+      status: 200
+      quote: >-
+        Security: FedRAMP Moderate Authority to Operate, TX-RAMP, SOC 2 Type II, VPAT, NIST CSF,
+        EU-US DPF, UK Extension to EU-US DPF, Swiss-US DPF
+    - url: https://trust.appomni.com/
+      status: 403
+      note: Cloudflare interactive challenge to our crawler; the trust center exists and is linked from AppOmni's own pages.

@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/appomni/main/json-schema/appomni-finding-schema.json",
+  "title": "Finding",
+  "description": "An AppOmni Posture Finding — a security problem detected against a monitored SaaS service. Derived from the real response body of GET /api/v1/findings/finding/ as published in AppOmni's public Postman collection (https://api.appomni.com/).",
+  "x-generated": "2026-09-04",
+  "x-method": "derived",
+  "x-source": "https://api.appomni.com/",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "format": "uuid", "description": "UUIDv7 finding identifier" },
+    "legacy_finding_id": { "type": ["integer", "null"], "description": "Integer id from the pre-Findings surface" },
+    "identity_hash": { "type": "string", "description": "Stable hash identifying this finding across scans" },
+    "description": { "type": "string", "description": "What the finding detects" },
+    "appomni_risk_level": { "type": ["string", "null"], "description": "AppOmni risk band, e.g. Informational, Low, Medium, High, Critical" },
+    "appomni_risk_score": { "type": ["number", "null"] },
+    "status": { "type": ["string", "null"], "description": "open or closed" },
+    "assignee": { "type": ["object", "null"], "description": "AppOmni user the finding is assigned to" },
+    "monitored_service_id": { "type": "integer" },
+    "monitored_service_name": { "type": "string" },
+    "monitored_service_connected": { "type": "boolean" },
+    "monitored_service_owner": {
+      "type": ["object", "null"],
+      "properties": {
+        "id": { "type": "integer" },
+        "username": { "type": "string" },
+        "first_name": { "type": "string" },
+        "last_name": { "type": "string" }
+      }
+    },
+    "monitored_service_tags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "name": { "type": "string" },
+          "short_name": { "type": ["string", "null"] },
+          "type": { "type": "string" }
+        }
+      }
+    },
+    "policy_id": { "type": ["integer", "null"] },
+    "compliance_controls": { "type": "array", "items": { "type": "object" } },
+    "compliance_frameworks": { "type": "array", "items": { "type": "string" } },
+    "external_id": { "type": ["string", "null"] },
+    "external_ticket_data": {
+      "type": "array",
+      "description": "Tickets opened in an external ITSM for this finding",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "url": { "type": "string", "format": "uri" },
+          "ticket_id": { "type": "string" }
+        }
+      }
+    },
+    "num_occurrences_open": { "type": "integer" },
+    "num_occurrences_closed": { "type": "integer" },
+    "has_new_occurrences": { "type": "boolean" },
+    "has_max_open_occurrences": { "type": "boolean" },
+    "first_opened": { "type": "string", "format": "date-time" },
+    "last_opened": { "type": "string", "format": "date-time" },
+    "last_closed": { "type": ["string", "null"], "format": "date-time" },
+    "last_scanned": { "type": "string", "format": "date-time" },
+    "notes": { "type": ["string", "null"] }
+  },
+  "required": ["id", "description", "monitored_service_id", "first_opened"]
+}

@@ -7,27 +7,27 @@ artifacts:
     method: generated
     evidence: declared in the artifact
   authentication/appomni-authentication.yml:
+    method: searched
+    evidence: declared in the artifact
+  collections/_provenance.yml:
+    method: searched
+    evidence: declared in the artifact
+  collections/appomni-api.postman_collection.json:
+    method: unknown
+    evidence: no authorship recorded
+  conformance/appomni-conformance.yml:
+    method: searched
+    evidence: declared in the artifact
+  conventions/appomni-conventions.yml:
     method: derived
     evidence: declared in the artifact
-  collections/appomni-compliance-api.opencollection.json:
+  data-model/appomni-data-model.yml:
     method: derived
-    evidence: openapi/appomni-compliance-api
-  collections/appomni-compliance-api.postman_collection.json:
+    evidence: declared in the artifact
+  errors/appomni-problem-types.yml:
     method: derived
-    evidence: openapi/appomni-compliance-api
-  collections/appomni-policies-api.opencollection.json:
-    method: derived
-    evidence: openapi/appomni-policies-api
-  collections/appomni-policies-api.postman_collection.json:
-    method: derived
-    evidence: openapi/appomni-policies-api
-  collections/appomni-security-events-api.opencollection.json:
-    method: derived
-    evidence: openapi/appomni-security-events-api
-  collections/appomni-security-events-api.postman_collection.json:
-    method: derived
-    evidence: openapi/appomni-security-events-api
-  examples/security-event-example.json:
+    evidence: declared in the artifact
+  examples/appomni-occurrence-example.json:
     method: unknown
     evidence: no authorship recorded
   finops/appomni-finops.yml:
@@ -36,73 +36,19 @@ artifacts:
   json-ld/appomni-context.jsonld:
     method: unknown
     evidence: no authorship recorded
-  json-schema/security-event-schema.json:
+  json-schema/appomni-finding-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-structure/security-event-structure.json:
+  json-schema/appomni-occurrence-schema.json:
     method: unknown
     evidence: no authorship recorded
-  kin/checks-2026-08-28T221322.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-23T094130.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-23T182523.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-26T223651.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-27T083119.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-27T190208.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-28T115055.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-28T170848.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-28T172558.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-28T192327.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-28T200725.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-31T133250.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-31T151044.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-31T162206.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-31T202106.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-01T163141.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-01T163302.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-01T171935.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-03T113057.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-03T161012.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-04T083143.yml:
+  json-schema/appomni-paginated-list-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-structure/appomni-occurrence-structure.json:
+    method: unknown
+    evidence: no authorship recorded
+  kin/checks-2026-09-04T062714.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-08-05T153418.yml:
@@ -189,20 +135,119 @@ artifacts:
   kin/score-2026-08-28T221322.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-08-29T213958.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-08-29T230545.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-08-30T203505.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-08-30T220315.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-08-31T223420.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-01T063623.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-01T210448.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-01T222808.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-02T211804.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-02T224043.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-03T161828.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-03T174231.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-04T062714.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  lifecycle/appomni-lifecycle.yml:
+    method: searched
+    evidence: declared in the artifact
+  llms/appomni-llms.txt:
+    method: unknown
+    evidence: no authorship recorded
+  mcp/appomni-mcp.yml:
+    method: searched
+    evidence: declared in the artifact
+  mcp/appomni-tool-crosswalk.yml:
+    method: derived
+    evidence: declared in the artifact
+  openapi/appomni-ai-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
   openapi/appomni-compliance-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/appomni-developer-platform-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/appomni-discovery-insights-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/appomni-identity-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/appomni-monitored-services-api-openapi.yml:
     method: unknown
     evidence: no authorship recorded
   openapi/appomni-policies-api-openapi.yml:
     method: unknown
     evidence: no authorship recorded
+  openapi/appomni-scim-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
   openapi/appomni-security-events-api-openapi.yml:
     method: unknown
     evidence: no authorship recorded
-  plans/appomni-plans-pricing.yml:
+  overlays/appomni-ai-api-overlay.yaml:
     method: generated
     evidence: declared in the artifact
-  rate-limits/appomni-rate-limits.yml:
+  overlays/appomni-compliance-api-overlay.yaml:
     method: generated
+    evidence: declared in the artifact
+  overlays/appomni-developer-platform-api-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/appomni-discovery-insights-api-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/appomni-identity-api-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/appomni-monitored-services-api-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/appomni-policies-api-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/appomni-scim-api-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/appomni-security-events-api-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  packages/appomni-packages.yml:
+    method: searched
+    evidence: declared in the artifact
+  plans/appomni-plans-pricing.yml:
+    method: searched
+    evidence: declared in the artifact
+  rate-limits/appomni-rate-limits.yml:
+    method: searched
     evidence: declared in the artifact
   rules/appomni-jsonschema-spectral-rules.yml:
     method: generated
@@ -216,6 +261,27 @@ artifacts:
   security/appomni-trust-center.yml:
     method: searched
     evidence: declared in the artifact
+  security/appomni-vulnerability-disclosure.yml:
+    method: searched
+    evidence: declared in the artifact
+  skills/_index.yml:
+    method: generated
+    evidence: declared in the artifact
+  skills/appomni-agentguard-prompt-firewall.md:
+    method: generated
+    evidence: declared in the artifact
+  skills/appomni-manage-policies-and-rules.md:
+    method: generated
+    evidence: declared in the artifact
+  skills/appomni-provision-users-scim.md:
+    method: generated
+    evidence: declared in the artifact
+  skills/appomni-triage-posture-findings.md:
+    method: generated
+    evidence: declared in the artifact
   vocabulary/appomni-vocabulary.yaml:
+    method: derived
+    evidence: declared in the artifact
+  well-known/appomni-well-known.yml:
     method: unknown
     evidence: no authorship recorded

@@ -1,18 +1,30 @@
 {
   "provider": "appomni",
+  "generated": "2026-09-04",
   "sources": [
-    "appomni-compliance-api-openapi.yml",
-    "appomni-policies-api-openapi.yml",
-    "appomni-security-events-api-openapi.yml"
+    "collections/appomni-api.postman_collection.json"
   ],
   "outputs": [
+    "appomni-ai-api-openapi.yml",
     "appomni-compliance-api-openapi.yml",
+    "appomni-developer-platform-api-openapi.yml",
+    "appomni-discovery-insights-api-openapi.yml",
+    "appomni-identity-api-openapi.yml",
+    "appomni-monitored-services-api-openapi.yml",
     "appomni-policies-api-openapi.yml",
+    "appomni-scim-api-openapi.yml",
     "appomni-security-events-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "_archive/appomni-openapi-scaffold-2026-05.yaml"
+  ],
   "errors": [],
   "warnings": [],
-  "notes": [],
+  "notes": [
+    "2026-09-04 enrichment pass: the previous report described a four-operation scaffold OpenAPI that was authored from marketing prose, not harvested. That file is archived and no longer registered.",
+    "All nine documents are OpenAPI 3.1.0, derived operation by operation from AppOmni's public Postman collection at https://api.appomni.com/ (publishedId 2sBXc7Mjib). 132 operations, all operationIds unique.",
+    "Already split one-spec-per-product-area, so a refine split pass has nothing to do.",
+    "apis.yml register: all nine registered."
+  ],
   "skipped": []
 }

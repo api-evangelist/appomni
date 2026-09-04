@@ -1,0 +1,149 @@
+generated: '2026-09-04'
+method: derived
+source: >-
+  openapi/*.yml derived from AppOmni's public Postman collection (https://api.appomni.com/) plus the
+  127 saved example responses in that collection
+description: >-
+  Cross-cutting runtime semantics of the AppOmni platform API. The API is a Django REST Framework
+  surface, and its conventions are DRF's: trailing-slash collection routes, limit/offset pagination,
+  ?ordering= and ?search=, a {"detail": "..."} error envelope, and PATCH for partial update.
+authentication:
+  style: bearer
+  header: 'Authorization: Bearer <token>'
+  token_source: AppOmni platform, Settings > API Settings
+  alternate:
+    - header: X-AppOmni-Ingest-Token
+      used_by: AgentGuard prompt classification and the AODP platform ingest endpoint
+  oauth:
+    supported: true
+    grant: refresh_token
+    token_endpoint: /oauth/token/
+    introspection_endpoint: /oauth/introspect/
+    revocation_endpoint: /oauth/revoke/
+    scopes_published: false
+    note: >-
+      OAuth is how you MINT a bearer access token under an AppOmni API Application; every resource call
+      then uses that token as a plain bearer. No scope parameter and no scope reference page is
+      published, so no scopes/ artifact is emitted.
+  see: authentication/appomni-authentication.yml
+idempotency:
+  supported: false
+  coverage: none
+  mechanism: null
+  header: null
+  retention: null
+  evidence: >-
+    Zero occurrences of "idempot" across the whole 966KB public Postman collection — no
+    Idempotency-Key header, no replay window, no documented retry-safety guarantee on any of the 69
+    mutating operations (32 POST, 24 PATCH, 6 PUT, 7 DELETE). Retrying a failed POST against AppOmni is
+    not documented as safe.
+  mitigations:
+    - >-
+      Several bulk mutations are set-shaped rather than append-shaped (bulk_create, bulk_delete,
+      bulk_dismiss, bulk_restore), so a replay converges rather than duplicating — but AppOmni does not
+      state this, so an agent cannot rely on it.
+reversibility:
+  grade: documented
+  grade_reason: >-
+    Real, first-class reversal operations exist and are named in the contract, but AppOmni states no
+    window inside which a reversal is valid. Per the pipeline rubric that is `documented` (0.4), not
+    `verified` (1.0). No window has been invented here.
+  write_surface_operations: 69
+  reversals:
+    - action: closeOccurrenceByException
+      path: PATCH /api/v1/findings/occurrence/close_by_exception/
+      reversal: restoreAnOccurrence
+      reversal_path: PATCH /api/v1/findings/occurrence/restore/
+      window: null
+      spec: openapi/appomni-security-events-api-openapi.yml
+    - action: closeOccurrenceByExceptionByFilter
+      path: PATCH /api/v1/findings/occurrence/close_by_exception_by_filter/
+      reversal: restoreOccurrencesByFilter
+      reversal_path: PATCH /api/v1/findings/occurrence/restore_by_filter/
+      window: null
+      spec: openapi/appomni-security-events-api-openapi.yml
+    - action: bulkDismissOccurrencesDB
+      path: PATCH /api/v1/insights/discoveredinsightinstanceoccurrence/bulk_dismiss/
+      reversal: bulkRestoreOccurrencesDB
+      reversal_path: PATCH /api/v1/insights/discoveredinsightinstanceoccurrence/bulk_restore/
+      window: null
+      spec: openapi/appomni-discovery-insights-api-openapi.yml
+    - action: enableBreakglassAccessForEmergencies
+      path: PUT /api/v1/core/user/{user_id}/enable_breakglass
+      reversal: disableBreakglassAccessForEmergencies
+      reversal_path: PUT /api/v1/core/user/{user_id}/disable_breakglass
+      window: null
+      spec: openapi/appomni-identity-api-openapi.yml
+    - action: deactivateOrActivateUser
+      path: PATCH /api/v1/core/user/{id}/
+      reversal: deactivateOrActivateUser
+      reversal_path: PATCH /api/v1/core/user/{id}/
+      window: null
+      note: The same operation toggles state, so deactivation is directly reversible.
+      spec: openapi/appomni-identity-api-openapi.yml
+  irreversible:
+    - operation: deleteAnIndividualRuleWithinAPolicy
+      path: DELETE /api/v1/{service_type}/rule/{id}/
+      note: No restore route is published for a deleted rule.
+    - operation: bulkDeleteRulesWithinAPolicy
+      path: DELETE /api/v1/{service_type}/rule/bulk_delete/
+      note: No restore route is published. This is the highest-blast-radius write in the surface.
+    - operation: rotateAnAPIApplicationSClientSecret
+      path: POST /api/v1/core/oauthapplication/{app_id}/rotate_client_secret/
+      note: >-
+        AppOmni states the new secret "will be required for all future Access Token grant requests"
+        immediately. Existing refresh tokens stay valid and already-granted access tokens live to their
+        expiry, but the old secret cannot be recovered.
+    - operation: rotateIngestToken
+      path: PATCH /api/v1/core/monitoredservice/{ms_id}/rotate_ingest_token/
+      note: The prior ingest token cannot be restored.
+    - operation: revokeRefreshToken
+      path: POST /oauth/revoke/
+      note: >-
+        AppOmni states the token "and all Access Tokens granted under it, will be immediately revoked".
+        Not reversible; a new grant is required.
+    - operation: deleteMSCustomFieldValue
+      path: DELETE /api/v1/core/monitoredservice/{ms_id}/custom_fields/{custom_field_value_id}/
+  note: >-
+    Custom field DELETE is disabled by AppOmni at the tenant-wide level ("Delete operations for custom
+    fields is disabled in this API"), which removes a destructive path entirely rather than making it
+    reversible.
+dry_run_mode:
+  supported: false
+  note: No preview, validate-only or dry-run parameter is published on any mutating operation.
+pagination:
+  style: limit-offset
+  params:
+    limit: Page size, e.g. ?limit=50
+    offset: Zero-based record offset, e.g. ?offset=0
+  response_fields:
+    - count
+    - next
+    - previous
+    - results
+  ordering: '?ordering=<field>, prefix with - for descending'
+  search: '?search=<term>'
+  filtering: >-
+    Django-style field lookups are exposed directly as query parameters — e.g. display_name__icontains,
+    value__icontains, id__in taking a JSON array.
+  evidence: 13 collection endpoints in the public Postman collection carry limit/offset; 11 carry ordering.
+field_conventions:
+  identifiers: Integer primary keys on core objects; UUIDs on custom fields and ingest tokens.
+  timestamps: ISO 8601 UTC with microseconds, e.g. 2025-03-10T20:10:45.013060Z
+  audit_fields: Objects carry created, modified, created_by and external_id.
+  trailing_slash: >-
+    Collection and action routes end in a trailing slash (DRF APPEND_SLASH). A handful of detail routes
+    in the published collection omit it. Follow the published form exactly.
+  partial_update: PATCH is partial update; PUT replaces. Bulk create routes accept both POST and PUT.
+expansion:
+  supported: false
+  note: No expand / include / fields sparse-fieldset parameter is published.
+request_id_tracing:
+  supported: false
+  note: No X-Request-Id or trace header appears in any saved example response.
+versioning:
+  see: lifecycle/appomni-lifecycle.yml
+error_envelope:
+  see: errors/appomni-problem-types.yml
+rate_limit_signaling:
+  see: rate-limits/appomni-rate-limits.yml

@@ -1,0 +1,23 @@
+{
+  "id": "0193472c-6db5-72ce-b4ca-068181e76277",
+  "finding_id": "0193472c-68ac-7365-ae7a-9a0e70b4442e",
+  "identity_hash": "70ed419bc83ba09d003323fa3484956ec7cb9362516b513fb58116c9ad0035cc",
+  "monitored_service_id": 19681,
+  "status": "open",
+  "detailed_status_name": "new",
+  "detailed_status_label": "New",
+  "reasons": [
+    "User test358@example.com is assigned the Everyone Group."
+  ],
+  "context": {
+    "user_id": "00u4eiqzlpM0YNfpb5d7",
+    "group_id": "00g2uvbqiq89VNgJe5d7",
+    "user_name": "Test User 358 Mocked",
+    "group_name": "Everyone",
+    "user_email": "test358@example.com",
+    "user_username": "test358@example.com"
+  },
+  "first_opened": "2024-08-29T01:12:21.528946Z",
+  "last_opened": "2024-08-29T01:12:21.528946Z",
+  "last_closed": null
+}
