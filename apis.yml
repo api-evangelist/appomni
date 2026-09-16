@@ -1,11 +1,12 @@
 aid: appomni
 name: AppOmni
-description: AppOmni is a SaaS and AI security platform (SSPM) that gives security teams continuous visibility into
-  the posture, identities, third-party connections and data exposure of the SaaS applications that run an enterprise
-  — Salesforce, Microsoft 365, Google Workspace, Slack, ServiceNow, Okta, Workday, GitHub, Box, Zoom and custom
-  applications built on its Developer Platform. It publishes a tenant-scoped REST API covering posture findings,
-  policies, compliance reporting, monitored services, identity, discovery, insights, SCIM 2.0 provisioning and AI
-  security, plus AskOmni (an MCP server) and AgentGuard runtime prompt protection for agentic AI.
+description: AppOmni is a SaaS and AI security platform (SSPM) that gives security teams continuous visibility
+  into the posture, identities, third-party connections and data exposure of the SaaS applications that
+  run an enterprise — Salesforce, Microsoft 365, Google Workspace, Slack, ServiceNow, Okta, Workday, GitHub,
+  Box, Zoom and custom applications built on its Developer Platform. It publishes a tenant-scoped REST
+  API covering posture findings, policies, compliance reporting, monitored services, identity, discovery,
+  insights, SCIM 2.0 provisioning and AI security, plus AskOmni (an MCP server) and AgentGuard runtime
+  prompt protection for agentic AI.
 type: Index
 deliveryModel:
   model: saas
@@ -46,55 +47,15 @@ tags:
 - Posture Management
 url: https://raw.githubusercontent.com/api-evangelist/appomni/refs/heads/main/apis.yml
 created: '2026-03-27'
-modified: '2026-09-04'
+modified: '2026-09-16'
 specificationVersion: '0.23'
 position: Producing
 apis:
-- aid: appomni:appomni-security-events-api
-  name: AppOmni Posture Findings API
-  description: Posture Findings consolidates policy issues and Insights into a single view. This API lists, filters
-    and resolves findings, retrieves finding detail and metadata, and manages rule events across every SaaS service
-    AppOmni monitors.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/appomni.png
-  humanURL: https://api.appomni.com/
-  baseURL: https://{instance}.appomni.com
-  tags:
-  - Security Events
-  - Posture Management
-  - Threat Detection
-  properties:
-  - type: OpenAPI
-    url: openapi/appomni-security-events-api-openapi.yml
-  - type: JSONSchema
-    url: json-schema/appomni-finding-schema.json
-  - type: JSONSchema
-    url: json-schema/appomni-occurrence-schema.json
-  - type: JSONStructure
-    url: json-structure/appomni-occurrence-structure.json
-  - type: Examples
-    url: examples/appomni-occurrence-example.json
-  - type: JSONLD
-    url: json-ld/appomni-context.jsonld
-  - type: Overlay
-    url: overlays/appomni-security-events-api-overlay.yaml
-  - type: SpectralRules
-    url: rules/appomni-spectral-rules.yml
-  - type: Vocabulary
-    url: vocabulary/appomni-vocabulary.yaml
-  - type: Postman
-    url: https://api.appomni.com/
-  - type: PostmanCollection
-    url: collections/appomni-api.postman_collection.json
-  - type: Website
-    url: https://appomni.com/
-  - type: Documentation
-    url: https://api.appomni.com/
-  - type: APIReference
-    url: https://api.appomni.com/
 - aid: appomni:appomni-policies-api
   name: AppOmni Policies API
-  description: Create, read, update and delete AppOmni security policies and the rules inside them, run and inspect
-    policy assessments, and handle rule events — closing them, converting them to exceptions, or bulk deleting rules.
+  description: Create, read, update and delete AppOmni security policies and the rules inside them, run
+    and inspect policy assessments, and handle rule events — closing them, converting them to exceptions,
+    or bulk deleting rules.
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/appomni.png
   humanURL: https://api.appomni.com/
   baseURL: https://{instance}.appomni.com
@@ -121,41 +82,11 @@ apis:
     url: https://api.appomni.com/
   - type: APIReference
     url: https://api.appomni.com/
-- aid: appomni:appomni-compliance-api
-  name: AppOmni Compliance and Reports API
-  description: Evaluate compliance controls against detected issues and generate, list, download and delete AppOmni
-    reports covering posture, compliance and threat activity.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/appomni.png
-  humanURL: https://api.appomni.com/
-  baseURL: https://{instance}.appomni.com
-  tags:
-  - Compliance
-  - Reporting
-  - Audit
-  properties:
-  - type: OpenAPI
-    url: openapi/appomni-compliance-api-openapi.yml
-  - type: Overlay
-    url: overlays/appomni-compliance-api-overlay.yaml
-  - type: SpectralRules
-    url: rules/appomni-spectral-rules.yml
-  - type: Vocabulary
-    url: vocabulary/appomni-vocabulary.yaml
-  - type: Postman
-    url: https://api.appomni.com/
-  - type: PostmanCollection
-    url: collections/appomni-api.postman_collection.json
-  - type: Website
-    url: https://appomni.com/
-  - type: Documentation
-    url: https://api.appomni.com/
-  - type: APIReference
-    url: https://api.appomni.com/
 - aid: appomni:appomni-monitored-services-api
   name: AppOmni Monitored Services API
-  description: Register and administer the SaaS services AppOmni monitors, inspect their data-sync state, rotate
-    ingest tokens, and manage the tenant-wide custom fields, custom field values, tags and value lists attached
-    to them.
+  description: Register and administer the SaaS services AppOmni monitors, inspect their data-sync state,
+    rotate ingest tokens, and manage the tenant-wide custom fields, custom field values, tags and value
+    lists attached to them.
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/appomni.png
   humanURL: https://api.appomni.com/
   baseURL: https://{instance}.appomni.com
@@ -184,9 +115,9 @@ apis:
     url: https://api.appomni.com/
 - aid: appomni:appomni-identity-api
   name: AppOmni Identity and Access API
-  description: Unified identities that stitch a person's monitored-service accounts together by email, plus AppOmni
-    platform users, limited users, groups, roles, permissions and the API authorization tokens used to call this
-    API.
+  description: Unified identities that stitch a person's monitored-service accounts together by email,
+    plus AppOmni platform users, limited users, groups, roles, permissions and the API authorization tokens
+    used to call this API.
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/appomni.png
   humanURL: https://api.appomni.com/
   baseURL: https://{instance}.appomni.com
@@ -213,22 +144,27 @@ apis:
     url: https://api.appomni.com/
   - type: APIReference
     url: https://api.appomni.com/
-- aid: appomni:appomni-scim-api
-  name: AppOmni SCIM 2.0 API
-  description: 'SCIM 2.0 provisioning endpoints used to connect an identity provider to AppOmni: list and retrieve
-    users and groups, filter on userName, and create, update, activate or deactivate AppOmni platform users.'
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/appomni.png
+- aid: appomni:appomni-agentguard-api
+  name: AppOmni Agent Guard API
+  description: AppOmni AgentGuard runtime prompt security — DLP and prompt-firewall classification for
+    AI agent traffic.
   humanURL: https://api.appomni.com/
   baseURL: https://{instance}.appomni.com
   tags:
-  - SCIM
-  - Identity
-  - Provisioning
+  - AgentGuard
   properties:
   - type: OpenAPI
-    url: openapi/appomni-scim-api-openapi.yml
-  - type: Overlay
-    url: overlays/appomni-scim-api-overlay.yaml
+    url: openapi/appomni-agentguard-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/appomni-finding-schema.json
+  - type: JSONSchema
+    url: json-schema/appomni-occurrence-schema.json
+  - type: JSONStructure
+    url: json-structure/appomni-occurrence-structure.json
+  - type: Examples
+    url: examples/appomni-occurrence-example.json
+  - type: JSONLD
+    url: json-ld/appomni-context.jsonld
   - type: SpectralRules
     url: rules/appomni-spectral-rules.yml
   - type: Vocabulary
@@ -243,22 +179,275 @@ apis:
     url: https://api.appomni.com/
   - type: APIReference
     url: https://api.appomni.com/
-- aid: appomni:appomni-discovery-insights-api
-  name: AppOmni Discovery, Insights and Audit API
-  description: SaaS discovery of sanctioned and shadow applications, the Insights security-observation surface,
-    and the AppOmni platform audit log with its action-type reference.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/appomni.png
+- aid: appomni:appomni-ao-developer-platform-api
+  name: AppOmni AO Developer Platform API
+  description: "The AppOmni Developer Platform (AODP) enables the creation of custom service types allowing\
+    \ you to monitor the security posture of any application, including custom or proprietary apps that\
+    \ AppOmni does not natively support.\n\n Example use cases include:\n\n- Create a custom service type\
+    \ for applications that AppOmni does not natively support\n\n- Create a custom service type for custom\
+    \ or in-house app"
+  humanURL: https://api.appomni.com/
+  baseURL: https://{instance}.appomni.com
+  tags:
+  - AO Developer Platform
+  properties:
+  - type: OpenAPI
+    url: openapi/appomni-ao-developer-platform-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/appomni-finding-schema.json
+  - type: JSONSchema
+    url: json-schema/appomni-occurrence-schema.json
+  - type: JSONStructure
+    url: json-structure/appomni-occurrence-structure.json
+  - type: Examples
+    url: examples/appomni-occurrence-example.json
+  - type: JSONLD
+    url: json-ld/appomni-context.jsonld
+  - type: SpectralRules
+    url: rules/appomni-spectral-rules.yml
+  - type: Vocabulary
+    url: vocabulary/appomni-vocabulary.yaml
+  - type: Postman
+    url: https://api.appomni.com/
+  - type: PostmanCollection
+    url: collections/appomni-api.postman_collection.json
+  - type: Website
+    url: https://appomni.com/
+  - type: Documentation
+    url: https://api.appomni.com/
+  - type: APIReference
+    url: https://api.appomni.com/
+- aid: appomni:appomni-audit-logs-api
+  name: AppOmni Audit Logs API
+  description: The Audit Logs API from AppOmni — 2 operation(s) for audit logs.
+  humanURL: https://api.appomni.com/
+  baseURL: https://{instance}.appomni.com
+  tags:
+  - Audit Logs
+  properties:
+  - type: OpenAPI
+    url: openapi/appomni-audit-logs-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/appomni-finding-schema.json
+  - type: JSONSchema
+    url: json-schema/appomni-occurrence-schema.json
+  - type: JSONStructure
+    url: json-structure/appomni-occurrence-structure.json
+  - type: Examples
+    url: examples/appomni-occurrence-example.json
+  - type: JSONLD
+    url: json-ld/appomni-context.jsonld
+  - type: SpectralRules
+    url: rules/appomni-spectral-rules.yml
+  - type: Vocabulary
+    url: vocabulary/appomni-vocabulary.yaml
+  - type: Postman
+    url: https://api.appomni.com/
+  - type: PostmanCollection
+    url: collections/appomni-api.postman_collection.json
+  - type: Website
+    url: https://appomni.com/
+  - type: Documentation
+    url: https://api.appomni.com/
+  - type: APIReference
+    url: https://api.appomni.com/
+- aid: appomni:appomni-authorization-tokens-api
+  name: AppOmni Authorization Tokens API
+  description: The Authorization Tokens API from AppOmni — 7 operation(s) for authorization tokens.
+  humanURL: https://api.appomni.com/
+  baseURL: https://{instance}.appomni.com
+  tags:
+  - Authorization Tokens
+  properties:
+  - type: OpenAPI
+    url: openapi/appomni-authorization-tokens-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/appomni-finding-schema.json
+  - type: JSONSchema
+    url: json-schema/appomni-occurrence-schema.json
+  - type: JSONStructure
+    url: json-structure/appomni-occurrence-structure.json
+  - type: Examples
+    url: examples/appomni-occurrence-example.json
+  - type: JSONLD
+    url: json-ld/appomni-context.jsonld
+  - type: SpectralRules
+    url: rules/appomni-spectral-rules.yml
+  - type: Vocabulary
+    url: vocabulary/appomni-vocabulary.yaml
+  - type: Postman
+    url: https://api.appomni.com/
+  - type: PostmanCollection
+    url: collections/appomni-api.postman_collection.json
+  - type: Website
+    url: https://appomni.com/
+  - type: Documentation
+    url: https://api.appomni.com/
+  - type: APIReference
+    url: https://api.appomni.com/
+- aid: appomni:appomni-beta-policy-assessment-stats-api
+  name: AppOmni [Beta] Policy Assessment Stats API
+  description: "THIS FEATURE IS IN BETA - Please contact Customer Success to enable this early access\
+    \ API\n\n Provides a granular breakdown of policy assessments across monitored services, allowing\
+    \ you to identify\nareas of compliance and risk.\n\n The response returns a nested dictionary structure\
+    \ mapping monitored services to their associated\nrisk levels, and providing passing/failing counts\
+    \ for each risk level."
+  humanURL: https://api.appomni.com/
+  baseURL: https://{instance}.appomni.com
+  tags:
+  - '[Beta] Policy Assessment Stats'
+  properties:
+  - type: OpenAPI
+    url: openapi/appomni-beta-policy-assessment-stats-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/appomni-finding-schema.json
+  - type: JSONSchema
+    url: json-schema/appomni-occurrence-schema.json
+  - type: JSONStructure
+    url: json-structure/appomni-occurrence-structure.json
+  - type: Examples
+    url: examples/appomni-occurrence-example.json
+  - type: JSONLD
+    url: json-ld/appomni-context.jsonld
+  - type: SpectralRules
+    url: rules/appomni-spectral-rules.yml
+  - type: Vocabulary
+    url: vocabulary/appomni-vocabulary.yaml
+  - type: Postman
+    url: https://api.appomni.com/
+  - type: PostmanCollection
+    url: collections/appomni-api.postman_collection.json
+  - type: Website
+    url: https://appomni.com/
+  - type: Documentation
+    url: https://api.appomni.com/
+  - type: APIReference
+    url: https://api.appomni.com/
+- aid: appomni:appomni-custom-field-values-for-a-monitored-service-api
+  name: AppOmni Custom Field Values for a Monitored Service API
+  description: The Custom Field Values API accesses the value of the custom field associated with a given
+    monitored service.
+  humanURL: https://api.appomni.com/
+  baseURL: https://{instance}.appomni.com
+  tags:
+  - Custom Field Values for a Monitored Service
+  properties:
+  - type: OpenAPI
+    url: openapi/appomni-custom-field-values-for-a-monitored-service-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/appomni-finding-schema.json
+  - type: JSONSchema
+    url: json-schema/appomni-occurrence-schema.json
+  - type: JSONStructure
+    url: json-structure/appomni-occurrence-structure.json
+  - type: Examples
+    url: examples/appomni-occurrence-example.json
+  - type: JSONLD
+    url: json-ld/appomni-context.jsonld
+  - type: SpectralRules
+    url: rules/appomni-spectral-rules.yml
+  - type: Vocabulary
+    url: vocabulary/appomni-vocabulary.yaml
+  - type: Postman
+    url: https://api.appomni.com/
+  - type: PostmanCollection
+    url: collections/appomni-api.postman_collection.json
+  - type: Website
+    url: https://appomni.com/
+  - type: Documentation
+    url: https://api.appomni.com/
+  - type: APIReference
+    url: https://api.appomni.com/
+- aid: appomni:appomni-custom-fields-api
+  name: AppOmni Custom Fields API
+  description: "The Custom Fields API controls the tenant-wide fields that can be custom-created and assigned\
+    \ to different monitored services.\n\n Note : Delete operations for custom fields is disabled in this\
+    \ API for all users.\n\n Reference information for the custom fields endpoints:"
+  humanURL: https://api.appomni.com/
+  baseURL: https://{instance}.appomni.com
+  tags:
+  - Custom Fields
+  properties:
+  - type: OpenAPI
+    url: openapi/appomni-custom-fields-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/appomni-finding-schema.json
+  - type: JSONSchema
+    url: json-schema/appomni-occurrence-schema.json
+  - type: JSONStructure
+    url: json-structure/appomni-occurrence-structure.json
+  - type: Examples
+    url: examples/appomni-occurrence-example.json
+  - type: JSONLD
+    url: json-ld/appomni-context.jsonld
+  - type: SpectralRules
+    url: rules/appomni-spectral-rules.yml
+  - type: Vocabulary
+    url: vocabulary/appomni-vocabulary.yaml
+  - type: Postman
+    url: https://api.appomni.com/
+  - type: PostmanCollection
+    url: collections/appomni-api.postman_collection.json
+  - type: Website
+    url: https://appomni.com/
+  - type: Documentation
+    url: https://api.appomni.com/
+  - type: APIReference
+    url: https://api.appomni.com/
+- aid: appomni:appomni-discovery-api
+  name: AppOmni Discovery API
+  description: The Discovery API from AppOmni — 3 operation(s) for discovery.
   humanURL: https://api.appomni.com/
   baseURL: https://{instance}.appomni.com
   tags:
   - Discovery
+  properties:
+  - type: OpenAPI
+    url: openapi/appomni-discovery-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/appomni-finding-schema.json
+  - type: JSONSchema
+    url: json-schema/appomni-occurrence-schema.json
+  - type: JSONStructure
+    url: json-structure/appomni-occurrence-structure.json
+  - type: Examples
+    url: examples/appomni-occurrence-example.json
+  - type: JSONLD
+    url: json-ld/appomni-context.jsonld
+  - type: SpectralRules
+    url: rules/appomni-spectral-rules.yml
+  - type: Vocabulary
+    url: vocabulary/appomni-vocabulary.yaml
+  - type: Postman
+    url: https://api.appomni.com/
+  - type: PostmanCollection
+    url: collections/appomni-api.postman_collection.json
+  - type: Website
+    url: https://appomni.com/
+  - type: Documentation
+    url: https://api.appomni.com/
+  - type: APIReference
+    url: https://api.appomni.com/
+- aid: appomni:appomni-insights-api
+  name: AppOmni Insights API
+  description: The Insights API from AppOmni — 6 operation(s) for insights.
+  humanURL: https://api.appomni.com/
+  baseURL: https://{instance}.appomni.com
+  tags:
   - Insights
-  - Audit
   properties:
   - type: OpenAPI
-    url: openapi/appomni-discovery-insights-api-openapi.yml
-  - type: Overlay
-    url: overlays/appomni-discovery-insights-api-overlay.yaml
+    url: openapi/appomni-insights-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/appomni-finding-schema.json
+  - type: JSONSchema
+    url: json-schema/appomni-occurrence-schema.json
+  - type: JSONStructure
+    url: json-structure/appomni-occurrence-structure.json
+  - type: Examples
+    url: examples/appomni-occurrence-example.json
+  - type: JSONLD
+    url: json-ld/appomni-context.jsonld
   - type: SpectralRules
     url: rules/appomni-spectral-rules.yml
   - type: Vocabulary
@@ -273,53 +462,207 @@ apis:
     url: https://api.appomni.com/
   - type: APIReference
     url: https://api.appomni.com/
-- aid: appomni:appomni-developer-platform-api
-  name: AppOmni Developer Platform API
-  description: The AppOmni Developer Platform (AODP) lets you define custom monitored service types for proprietary
-    or unsupported applications — declaring their settings, permissions and scopes — and push events into AppOmni
-    through the platform ingest endpoint.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/appomni.png
+- aid: appomni:appomni-marlin-ai-api
+  name: AppOmni Marlin AI API
+  description: Marlin AI is an autonomous SaaS security AI that runs platform-wide deep analyses and correlations
+    automatically across security observations in the AppOmni platform
   humanURL: https://api.appomni.com/
   baseURL: https://{instance}.appomni.com
   tags:
-  - Developer Platform
-  - Ingest
-  - Extensibility
-  properties:
-  - type: OpenAPI
-    url: openapi/appomni-developer-platform-api-openapi.yml
-  - type: Overlay
-    url: overlays/appomni-developer-platform-api-overlay.yaml
-  - type: SpectralRules
-    url: rules/appomni-spectral-rules.yml
-  - type: Vocabulary
-    url: vocabulary/appomni-vocabulary.yaml
-  - type: Postman
-    url: https://api.appomni.com/
-  - type: PostmanCollection
-    url: collections/appomni-api.postman_collection.json
-  - type: Website
-    url: https://appomni.com/
-  - type: Documentation
-    url: https://api.appomni.com/
-  - type: APIReference
-    url: https://api.appomni.com/
-- aid: appomni:appomni-ai-api
-  name: AppOmni AI API
-  description: Marlin AI autonomous analysis plans, and the AppOmni AgentGuard prompt-classification endpoint that
-    returns an allow or block verdict with DLP and prompt-firewall scores for AI agent traffic.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/appomni.png
-  humanURL: https://api.appomni.com/
-  baseURL: https://{instance}.appomni.com
-  tags:
-  - AI Security
-  - AgentGuard
   - Marlin AI
   properties:
   - type: OpenAPI
-    url: openapi/appomni-ai-api-openapi.yml
-  - type: Overlay
-    url: overlays/appomni-ai-api-overlay.yaml
+    url: openapi/appomni-marlin-ai-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/appomni-finding-schema.json
+  - type: JSONSchema
+    url: json-schema/appomni-occurrence-schema.json
+  - type: JSONStructure
+    url: json-structure/appomni-occurrence-structure.json
+  - type: Examples
+    url: examples/appomni-occurrence-example.json
+  - type: JSONLD
+    url: json-ld/appomni-context.jsonld
+  - type: SpectralRules
+    url: rules/appomni-spectral-rules.yml
+  - type: Vocabulary
+    url: vocabulary/appomni-vocabulary.yaml
+  - type: Postman
+    url: https://api.appomni.com/
+  - type: PostmanCollection
+    url: collections/appomni-api.postman_collection.json
+  - type: Website
+    url: https://appomni.com/
+  - type: Documentation
+    url: https://api.appomni.com/
+  - type: APIReference
+    url: https://api.appomni.com/
+- aid: appomni:appomni-posture-findings-api
+  name: AppOmni Posture Findings API
+  description: "Posture Findings consolidates policy issues and Insights into a single view, allowing\
+    \ you to efficiently manage and resolve alerts.\n\n The Posture Findings API will exist concurrently\
+    \ with Insights and policy issues API's for a period\nof time; at a later date Insights and policy\
+    \ issues API's will be deprecated."
+  humanURL: https://api.appomni.com/
+  baseURL: https://{instance}.appomni.com
+  tags:
+  - Posture Findings
+  properties:
+  - type: OpenAPI
+    url: openapi/appomni-posture-findings-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/appomni-finding-schema.json
+  - type: JSONSchema
+    url: json-schema/appomni-occurrence-schema.json
+  - type: JSONStructure
+    url: json-structure/appomni-occurrence-structure.json
+  - type: Examples
+    url: examples/appomni-occurrence-example.json
+  - type: JSONLD
+    url: json-ld/appomni-context.jsonld
+  - type: SpectralRules
+    url: rules/appomni-spectral-rules.yml
+  - type: Vocabulary
+    url: vocabulary/appomni-vocabulary.yaml
+  - type: Postman
+    url: https://api.appomni.com/
+  - type: PostmanCollection
+    url: collections/appomni-api.postman_collection.json
+  - type: Website
+    url: https://appomni.com/
+  - type: Documentation
+    url: https://api.appomni.com/
+  - type: APIReference
+    url: https://api.appomni.com/
+- aid: appomni:appomni-reports-api
+  name: AppOmni Reports API
+  description: The Reports API from AppOmni — 6 operation(s) for reports.
+  humanURL: https://api.appomni.com/
+  baseURL: https://{instance}.appomni.com
+  tags:
+  - Reports
+  properties:
+  - type: OpenAPI
+    url: openapi/appomni-reports-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/appomni-finding-schema.json
+  - type: JSONSchema
+    url: json-schema/appomni-occurrence-schema.json
+  - type: JSONStructure
+    url: json-structure/appomni-occurrence-structure.json
+  - type: Examples
+    url: examples/appomni-occurrence-example.json
+  - type: JSONLD
+    url: json-ld/appomni-context.jsonld
+  - type: SpectralRules
+    url: rules/appomni-spectral-rules.yml
+  - type: Vocabulary
+    url: vocabulary/appomni-vocabulary.yaml
+  - type: Postman
+    url: https://api.appomni.com/
+  - type: PostmanCollection
+    url: collections/appomni-api.postman_collection.json
+  - type: Website
+    url: https://appomni.com/
+  - type: Documentation
+    url: https://api.appomni.com/
+  - type: APIReference
+    url: https://api.appomni.com/
+- aid: appomni:appomni-scim-user-management-api
+  name: AppOmni SCIM User Management API
+  description: "Use SCIM to connect your identity provider to AppOmni, and utilize this API to:\n\n- Get\
+    \ all users in a company\n\n- Activate or deactivate users\n\n- Update a user’s name, password, user\
+    \ name, email address\n\n- To update a user’s role, AppOmni SCIM Mappings must be enabled\n\n Note\
+    \ : Patch operations are not supported.\n\n See AppOmni’s documentation for creating SCIM mappings.\
+    \ The first step is enabling SC"
+  humanURL: https://api.appomni.com/
+  baseURL: https://{instance}.appomni.com
+  tags:
+  - SCIM User Management
+  properties:
+  - type: OpenAPI
+    url: openapi/appomni-scim-user-management-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/appomni-finding-schema.json
+  - type: JSONSchema
+    url: json-schema/appomni-occurrence-schema.json
+  - type: JSONStructure
+    url: json-structure/appomni-occurrence-structure.json
+  - type: Examples
+    url: examples/appomni-occurrence-example.json
+  - type: JSONLD
+    url: json-ld/appomni-context.jsonld
+  - type: SpectralRules
+    url: rules/appomni-spectral-rules.yml
+  - type: Vocabulary
+    url: vocabulary/appomni-vocabulary.yaml
+  - type: Postman
+    url: https://api.appomni.com/
+  - type: PostmanCollection
+    url: collections/appomni-api.postman_collection.json
+  - type: Website
+    url: https://appomni.com/
+  - type: Documentation
+    url: https://api.appomni.com/
+  - type: APIReference
+    url: https://api.appomni.com/
+- aid: appomni:appomni-users-and-roles-api
+  name: AppOmni Users and Roles API
+  description: The Users and Roles API from AppOmni — 7 operation(s) for users and roles.
+  humanURL: https://api.appomni.com/
+  baseURL: https://{instance}.appomni.com
+  tags:
+  - Users and Roles
+  properties:
+  - type: OpenAPI
+    url: openapi/appomni-users-and-roles-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/appomni-finding-schema.json
+  - type: JSONSchema
+    url: json-schema/appomni-occurrence-schema.json
+  - type: JSONStructure
+    url: json-structure/appomni-occurrence-structure.json
+  - type: Examples
+    url: examples/appomni-occurrence-example.json
+  - type: JSONLD
+    url: json-ld/appomni-context.jsonld
+  - type: SpectralRules
+    url: rules/appomni-spectral-rules.yml
+  - type: Vocabulary
+    url: vocabulary/appomni-vocabulary.yaml
+  - type: Postman
+    url: https://api.appomni.com/
+  - type: PostmanCollection
+    url: collections/appomni-api.postman_collection.json
+  - type: Website
+    url: https://appomni.com/
+  - type: Documentation
+    url: https://api.appomni.com/
+  - type: APIReference
+    url: https://api.appomni.com/
+- aid: appomni:appomni-valuelist-api
+  name: AppOmni Value List API
+  description: "ValueList and ValueListElement are used to manage lists of items used by Insights. ValueLists\
+    \ have a type designation and will be used by Insights on convention based on their type.\n\n Overview\n\
+    \n- ValueList : A container for a list of values with a specific type and usage\n\n- ValueListElement\
+    \ : Individual items within a ValueList"
+  humanURL: https://api.appomni.com/
+  baseURL: https://{instance}.appomni.com
+  tags:
+  - ValueList
+  properties:
+  - type: OpenAPI
+    url: openapi/appomni-valuelist-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/appomni-finding-schema.json
+  - type: JSONSchema
+    url: json-schema/appomni-occurrence-schema.json
+  - type: JSONStructure
+    url: json-structure/appomni-occurrence-structure.json
+  - type: Examples
+    url: examples/appomni-occurrence-example.json
+  - type: JSONLD
+    url: json-ld/appomni-context.jsonld
   - type: SpectralRules
     url: rules/appomni-spectral-rules.yml
   - type: Vocabulary
@@ -335,8 +678,20 @@ apis:
   - type: APIReference
     url: https://api.appomni.com/
 common:
+- type: Overlay
+  url: overlays/appomni-security-events-api-overlay.yaml
+- type: Overlay
+  url: overlays/appomni-compliance-api-overlay.yaml
+- type: Overlay
+  url: overlays/appomni-scim-api-overlay.yaml
+- type: Overlay
+  url: overlays/appomni-discovery-insights-api-overlay.yaml
+- type: Overlay
+  url: overlays/appomni-developer-platform-api-overlay.yaml
+- type: Overlay
+  url: overlays/appomni-ai-api-overlay.yaml
 - type: OpenAPI
-  url: openapi/appomni-security-events-api-openapi.yml
+  url: openapi/_original/appomni-security-events-api-openapi.yml
 - type: Postman
   url: https://api.appomni.com/
 - type: PostmanCollection
