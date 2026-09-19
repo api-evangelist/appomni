@@ -329,7 +329,8 @@ apis:
     monitored service.
   humanURL: https://api.appomni.com/
   baseURL: https://{instance}.appomni.com
-  tags:
+  tags: []
+  tags_raw:
   - Custom Field Values for a Monitored Service
   properties:
   - type: OpenAPI
