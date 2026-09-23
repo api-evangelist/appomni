@@ -1,0 +1,868 @@
+openapi: 3.2.0
+info:
+  title: AppOmni Discovery, Insights and Audit Audit Logs API
+  description: 'SaaS discovery, security Insights and the AppOmni platform audit log.
+
+
+    Derived faithfully from the AppOmni public Postman collection published by AppOmni at https://api.appomni.com/ — every path, method, parameter, request body and example response below is taken verbatim from that collection. No operation was invented.'
+  version: 1.0.0
+  contact:
+    name: AppOmni
+    url: https://appomni.com/support/
+  license:
+    name: Proprietary
+    url: https://appomni.com/terms-of-service/
+  x-generated-from: AppOmni public Postman collection (publishedId 2sBXc7Mjib, published 2026-02-04)
+  x-generated-source: https://api.appomni.com/api/collections/45135595/2sBXc7Mjib?segregateAuth=true&versionTag=latest
+  x-generated-method: derived
+  x-generated-date: '2026-09-04'
+servers:
+- url: https://{instance}.appomni.com
+  description: AppOmni tenant. Replace {instance} with your AppOmni subdomain — e.g. `acme` if you log in at acme.appomni.com.
+  variables:
+    instance:
+      default: example
+      description: Your AppOmni tenant subdomain
+security:
+- bearerAuth: []
+tags:
+- name: Audit Logs
+paths:
+  /api/v1/core/auditlogs/:
+    get:
+      operationId: getAuditLogs
+      summary: Get audit logs
+      tags:
+      - Audit Logs
+      description: 'Use this API route to retrieve AppOmni audit logs programmatically.
+
+
+        For most use cases, its is recommended that you download AppOmni audit logs via the Reports feature. Audit logs are stored for 180 days; for longer term storage it is recommended you use Destinations to have logs sent to your SIEM.
+
+
+        AppOmni audit logs will be immediately sent to configured Threat Detection event sinks (e.g. a SIEM).
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        identifier
+
+        String (UUID)
+
+        Unique identifier for the audit log entry
+
+        24e94fd4-7d17-4302-9e98-1b9e468187a1
+
+
+        user_id
+
+        Integer or null
+
+        ID of the user who performed the action
+
+        21
+
+
+        action_at
+
+        String (ISO datetime)
+
+        Timestamp when the action occurred
+
+        2025-05-02T13:30:06.948560Z
+
+
+        action_type
+
+        String
+
+        Type of action performed
+
+        policy_scan_ended
+
+
+        service_id
+
+        Integer or null
+
+        ID of the monitored service
+
+        null
+
+
+        service_type
+
+        String or null
+
+        Type of the monitored service
+
+        null
+
+
+        service_name
+
+        String or null
+
+        Name of the monitored service
+
+        null
+
+
+        policy_id
+
+        Integer or null
+
+        ID of the related policy
+
+        311371
+
+
+        perspective_id
+
+        Integer or null
+
+        ID of the perspective
+
+        null
+
+
+        perspective_name
+
+        String or null
+
+        Name of the perspective
+
+        null
+
+
+        action_data
+
+        Object
+
+        Detailed data about the action
+
+        See action_data fields below
+
+
+        action_data Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        rule_id
+
+        Integer or null
+
+        ID of the related rule
+
+        null
+
+
+        rule_name
+
+        String or null
+
+        Name of the related rule
+
+        null
+
+
+        ruleexception_id
+
+        Integer or null
+
+        ID of the rule exception
+
+        null
+
+
+        ruleevent_id
+
+        Integer or null
+
+        ID of the rule event
+
+        null
+
+
+        message
+
+        String or null
+
+        Action message
+
+        null
+
+
+        expiration
+
+        String or null
+
+        Expiration timestamp
+
+        null
+
+
+        instance_id
+
+        Integer or null
+
+        Instance ID
+
+        null
+
+
+        assignee_id
+
+        Integer or null
+
+        ID of the assignee
+
+        null
+
+
+        assignee_username
+
+        String or null
+
+        Username of the assignee
+
+        null
+
+
+        policy_id
+
+        Integer or null
+
+        Policy ID (in action_data)
+
+        311371
+
+
+        policy_name
+
+        String or null
+
+        Policy name
+
+        LP1
+
+
+        exception_data
+
+        Object or null
+
+        Exception data
+
+        null
+
+
+        policy_assessment_id
+
+        Integer or null
+
+        Policy assessment ID
+
+        null
+
+
+        policy_assessment_completion_date
+
+        String or null
+
+        Policy assessment completion date
+
+        null
+
+
+        workflow_instance_id
+
+        Integer or null
+
+        Workflow instance ID
+
+        null
+
+
+        workflow_instance_name
+
+        String or null
+
+        Workflow instance name
+
+        null
+
+
+        platform_ingest_job_id
+
+        Integer or null
+
+        Platform ingest job ID
+
+        null
+
+
+        file_id
+
+        Integer or null
+
+        File ID
+
+        null
+
+
+        third_party_application_id
+
+        Integer or null
+
+        Third party application ID
+
+        null
+
+
+        third_party_application_name
+
+        String or null
+
+        Third party application name
+
+        null
+
+
+        oauth_application_id
+
+        Integer or null
+
+        OAuth application ID
+
+        null
+
+
+        refresh_token_id
+
+        Integer or null
+
+        Refresh token ID
+
+        null
+
+
+        access_token_id
+
+        Integer or null
+
+        Access token ID
+
+        null
+
+
+        external_entity_id
+
+        Integer or null
+
+        External entity ID
+
+        null
+
+
+        group_id
+
+        Integer or null
+
+        Group ID
+
+        null
+
+
+        group_name
+
+        String or null
+
+        Group name
+
+        null
+
+
+        tag_id
+
+        Integer or null
+
+        Tag ID
+
+        null
+
+
+        tag_name
+
+        String or null
+
+        Tag name
+
+        null
+
+
+        type_str
+
+        String or null
+
+        Type string
+
+        null
+
+
+        reason_str
+
+        String or null
+
+        Reason string
+
+        null
+
+
+        detail_str
+
+        String or null
+
+        Detail string
+
+        Completion Status: Success
+
+
+        error_str
+
+        String or null
+
+        Error string
+
+        null
+
+
+        user_ip
+
+        String or null
+
+        User IP address
+
+        71.178.255.92
+
+
+        user_agent
+
+        String or null
+
+        User agent string
+
+        Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+
+
+        unified_identity_id
+
+        Integer or null
+
+        Unified identity ID
+
+        null
+
+
+        unified_identity_email
+
+        String or null
+
+        Unified identity email
+
+        null
+
+
+        target_user_id
+
+        Integer or null
+
+        Target user ID
+
+        null
+
+
+        target_user_username
+
+        String or null
+
+        Target user username
+
+        null
+
+
+        user_username
+
+        String or null
+
+        Username who p'
+      responses:
+        '200':
+          description: Get Audit Logs
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                GetAuditLogs:
+                  summary: Get Audit Logs
+                  value:
+                    count: 2
+                    next: 'null'
+                    previous: null
+                    results:
+                    - identifier: 24e94fd4-7d17-4302-9e98-1b9e468187a1
+                      user_id: null
+                      action_at: '2025-05-02T13:30:06.948560Z'
+                      action_type: policy_scan_ended
+                      service_id: null
+                      service_type: null
+                      service_name: null
+                      policy_id: 311371
+                      perspective_id: null
+                      perspective_name: null
+                      action_data:
+                        rule_id: null
+                        rule_name: null
+                        ruleexception_id: null
+                        ruleevent_id: null
+                        message: null
+                        expiration: null
+                        instance_id: null
+                        assignee_id: null
+                        assignee_username: null
+                        policy_id: 311371
+                        policy_name: LP1
+                        exception_data: null
+                        policy_assessment_id: null
+                        policy_assessment_completion_date: null
+                        workflow_instance_id: null
+                        workflow_instance_name: null
+                        platform_ingest_job_id: null
+                        file_id: null
+                        third_party_application_id: null
+                        third_party_application_name: null
+                        oauth_application_id: null
+                        refresh_token_id: null
+                        access_token_id: null
+                        external_entity_id: null
+                        group_id: null
+                        group_name: null
+                        tag_id: null
+                        tag_name: null
+                        type_str: null
+                        reason_str: null
+                        detail_str: 'Completion Status: Success'
+                        error_str: null
+                        user_ip: null
+                        user_agent: null
+                        unified_identity_id: null
+                        unified_identity_email: null
+                        target_user_id: null
+                        target_user_username: null
+                        user_username: null
+                        setting_name: null
+                        old_value: null
+                        new_value: null
+                        scim_mapping_id: null
+                        scim_attribute: null
+                        scim_attribute_value: null
+                        scim_group_targets: null
+                        sink_id: null
+                        sink_name: null
+                        detection_rule_id: null
+                        detection_rule_name: null
+                        detection_ruleset_id: null
+                        detection_ruleset_name: null
+                        detection_alert_id: null
+                        detection_alert_count: null
+                        destination_id: null
+                        destination_name: null
+                        destination_hash: null
+                        destination_type: null
+                        external_connection_id: null
+                        external_connection_name: null
+                        external_connection_provider_type: null
+                        external_connection_auth_type: null
+                        eventsource_id: null
+                        eventsource_name: null
+                        eventsource_type: null
+                        eventsource_dataset: null
+                        investigation_id: null
+                        investigation_subject: null
+                        element_list_id: null
+                        element_id: null
+                        element_type: null
+                        global_value_list_collection_id: null
+                        email_addresses: null
+                        email_identifier: null
+                        email_reason: null
+                        insight_name: null
+                        thread_name: null
+                        occurrence_name: null
+                        insight_id: null
+                        thread_id: null
+                        occurrence_id: null
+                    - identifier: b0712e14-4e02-4f67-99f9-6e597a2c1663
+                      user_id: 21
+                      action_at: '2025-05-02T13:26:56.974998Z'
+                      action_type: user_login_saml
+                      service_id: null
+                      service_type: null
+                      service_name: null
+                      policy_id: null
+                      perspective_id: null
+                      perspective_name: null
+                      action_data:
+                        rule_id: null
+                        rule_name: null
+                        ruleexception_id: null
+                        ruleevent_id: null
+                        message: null
+                        expiration: null
+                        instance_id: null
+                        assignee_id: null
+                        assignee_username: null
+                        policy_id: null
+                        policy_name: null
+                        exception_data: null
+                        policy_assessment_id: null
+                        policy_assessment_completion_date: null
+                        workflow_instance_id: null
+                        workflow_instance_name: null
+                        platform_ingest_job_id: null
+                        file_id: null
+                        third_party_application_id: null
+                        third_party_application_name: null
+                        oauth_application_id: null
+                        refresh_token_id: null
+                        access_token_id: null
+                        external_entity_id: null
+                        group_id: null
+                        group_name: null
+                        tag_id: null
+                        tag_name: null
+                        type_str: null
+                        reason_str: null
+                        detail_str: null
+                        error_str: null
+                        user_ip: 71.178.255.92
+                        user_agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+                        unified_identity_id: null
+                        unified_identity_email: null
+                        target_user_id: null
+                        target_user_username: null
+                        user_username: John Doe
+                        setting_name: null
+                        old_value: null
+                        new_value: null
+                        scim_mapping_id: null
+                        scim_attribute: null
+                        scim_attribute_value: null
+                        scim_group_targets: null
+                        sink_id: null
+                        sink_name: null
+                        detection_rule_id: null
+                        detection_rule_name: null
+                        detection_ruleset_id: null
+                        detection_ruleset_name: null
+                        detection_alert_id: null
+                        detection_alert_count: null
+                        destination_id: null
+                        destination_name: null
+                        destination_hash: null
+                        destination_type: null
+                        external_connection_id: null
+                        external_connection_name: null
+                        external_connection_provider_type: null
+                        external_connection_auth_type: null
+                        eventsource_id: null
+                        eventsource_name: null
+                        eventsource_type: null
+                        eventsource_dataset: null
+                        investigation_id: null
+                        investigation_subject: null
+                        element_list_id: null
+                        element_id: null
+                        element_type: null
+                        global_value_list_collection_id: null
+                        email_addresses: null
+                        email_identifier: null
+                        email_reason: null
+                        insight_name: null
+                        thread_name: null
+                        occurrence_name: null
+                        insight_id: null
+                        thread_id: null
+                        occurrence_id: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/auditlogs/action_types/:
+    get:
+      operationId: listAuditActionTypes
+      summary: List audit action types
+      tags:
+      - Audit Logs
+      description: 'Use this API route to programatically retrieve all possible Audit record action types, to use in filtering the Get Audit Logs endpoint if desired.
+
+
+        This endpoint will return all possible Audit action types, which may include some action types not seen in your tenant.
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        action_type
+
+        String
+
+        The action type identifier used in audit logs
+
+        policy_scan_ended
+
+
+        description
+
+        String
+
+        Human-readable description of the action type
+
+        Policy Scan Completed'
+      responses:
+        '200':
+          description: List Audit Action Types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              examples:
+                ListAuditActionTypes:
+                  summary: List Audit Action Types
+                  value:
+                  - action_type: ao_sys_setting_auth_change
+                    description: AppOmni Auth Setting Change
+                  - action_type: ao_sys_setting_change
+                    description: AppOmni System Setting Change
+                  - action_type: ao_scim_setting_change
+                    description: AppOmni SCIM Mapping Change
+                  - action_type: ao_oidc_setting_change
+                    description: AppOmni OIDC Setting Change
+                  - action_type: ao_idp_attribute_mapping_created
+                    description: AppOmni IdP Attribute Mapping Created
+                  - action_type: ao_idp_attribute_mapping_updated
+                    description: AppOmni IdP Attribute Mapping Updated
+                  - action_type: ao_idp_attribute_mapping_deleted
+                    description: AppOmni IdP Attribute Mapping Deleted
+                  - action_type: asmt_started_role
+                    description: Role (Data Access) Assessment Started
+                  - action_type: asmt_started_ms
+                    description: Service Assessment Started
+                  - action_type: asmt_ended_role
+                    description: Role (Data Access) Assessment Completed
+                  - action_type: asmt_ended_ms
+                    description: Service Assessment Completed
+                  - action_type: policy_scan_requested
+                    description: Policy Scan Requested
+                  - action_type: policy_scan_started
+                    description: Policy Scan Started
+                  - action_type: policy_scan_ended
+                    description: Policy Scan Completed
+                  - action_type: policy_disabled
+                    description: Policy Disabled
+                  - action_type: policy_enabled
+                    description: Policy Enabled
+                  - action_type: policy_created
+                    description: Policy Created
+                  - action_type: policy_deleted
+                    description: Policy Deleted
+                  - action_type: rule_created
+                    description: Rule Created
+                  - action_type: rule_deleted
+                    description: Rule Deleted
+                  - action_type: rule_modified
+                    description: Rule Modified
+                  - action_type: exception_created
+                    description: Policy Rule Exception Created
+                  - action_type: exception_deleted
+                    description: Policy Rule Exception Deleted
+                  - action_type: ms_created
+                    description: Monitored Service Added
+                  - action_type: ms_deleted
+                    description: Monitored Service Removed
+                  - action_type: ms_auth_failed
+                    description: Monitored Service Authentication Failed
+                  - action_type: ms_renamed
+                    description: Monitored Service Renamed
+                  - action_type: event_allowed
+                    description: Policy Issue Allowed
+                  - action_type: event_ignored
+                    description: Policy Issue Closed
+                  - action_type: event_assigned
+                    description: Policy Issue Assigned
+                  - action_type: user_login_saml
+                    description: User SAML Login
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      title: Error
+      description: Standard Django REST Framework error envelope returned by the AppOmni API.
+      properties:
+        detail:
+          type: string
+          description: Human readable error message
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'AppOmni API access token, created and managed in the AppOmni platform under Settings > API Settings. Sent as `Authorization: Bearer <token>`.'

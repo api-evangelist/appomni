@@ -1,0 +1,264 @@
+openapi: 3.2.0
+info:
+  title: AppOmni Policies [Beta] Policy Assessment Stats [Beta]……
+  description: 'Security policy and rule configuration, policy assessment and rule-event handling across monitored SaaS services.
+
+
+    Derived faithfully from the AppOmni public Postman collection published by AppOmni at https://api.appomni.com/ — every path, method, parameter, request body and example response below is taken verbatim from that collection. No operation was invented.'
+  version: 1.0.0
+  contact:
+    name: AppOmni
+    url: https://appomni.com/support/
+  license:
+    name: Proprietary
+    url: https://appomni.com/terms-of-service/
+  x-generated-from: AppOmni public Postman collection (publishedId 2sBXc7Mjib, published 2026-02-04)
+  x-generated-source: https://api.appomni.com/api/collections/45135595/2sBXc7Mjib?segregateAuth=true&versionTag=latest
+  x-generated-method: derived
+  x-generated-date: '2026-09-04'
+servers:
+- url: https://{instance}.appomni.com
+  description: AppOmni tenant. Replace {instance} with your AppOmni subdomain — e.g. `acme` if you log in at acme.appomni.com.
+  variables:
+    instance:
+      default: example
+      description: Your AppOmni tenant subdomain
+security:
+- bearerAuth: []
+tags:
+- name: '[Beta] Policy Assessment Stats'
+  description: 'THIS FEATURE IS IN BETA - Please contact Customer Success to enable this early access API
+
+
+    Provides a granular breakdown of policy assessments across monitored services, allowing you to identify areas of compliance and risk.
+
+
+    The response returns a nested dictionary structure mapping monitored services to their associated risk levels, and providing passing/failing counts for each risk level.'
+paths:
+  /api/v1/core/monitoredservice/score/policycomponents/{policy_id}/:
+    get:
+      operationId: getPolicyStats
+      summary: Get policy stats
+      tags:
+      - '[Beta] Policy Assessment Stats'
+      description: 'BETA - The policy_stats endpoint retrieves policy assessment statistics for a specified policy ID.
+
+
+        This endpoint only works for posture policies. It will return a 404 for functional and data security policies.
+
+
+        The stats are not realtime; they are based on the last recalculation, which happens once per day.
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        id
+
+        String
+
+        The ID of the monitored service
+
+        "93"
+
+
+        name
+
+        String
+
+        The name of the monitored service
+
+        "O365 - Prod"
+
+
+        stats
+
+        Object
+
+        A dictionary containing stats for risk levels
+
+        See nested fields below
+
+
+        stats.critical
+
+        Object
+
+        Stats for critical risk level
+
+        See nested fields below
+
+
+        stats.critical.count_passing
+
+        Integer
+
+        Number of passing instances for critical risk level
+
+        35
+
+
+        stats.critical.count_failing
+
+        Integer
+
+        Number of failing instances for critical risk level
+
+        35
+
+
+        stats.high
+
+        Object
+
+        Stats for high risk level
+
+        See nested fields below
+
+
+        stats.high.count_passing
+
+        Integer
+
+        Number of passing instances for high risk level
+
+        30
+
+
+        stats.high.count_failing
+
+        Integer
+
+        Number of failing instances for high risk level
+
+        30
+
+
+        stats.medium
+
+        Object
+
+        Stats for medium risk level
+
+        See nested fields below
+
+
+        stats.medium.count_passing
+
+        Integer
+
+        Number of passing instances for medium risk level
+
+        25
+
+
+        stats.medium.count_failing
+
+        Integer
+
+        Number of failing instances for medium risk level
+
+        25
+
+
+        Error Responses
+
+
+        Status Code
+
+        Description
+
+
+        400
+
+        The policy exists but is not a Posture policy, and therefore does not have score components
+
+
+        404
+
+        "Policy not found" - The specified policy ID does not exist
+
+
+        404
+
+        "Policy has not been used in a score for a monitored service. Only scannable posture policies are currently supported for scoring." - The policy exists but does not have a score'
+      parameters:
+      - name: policy_id
+        in: path
+        required: true
+        description: Path parameter policy_id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Get policy stats
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              examples:
+                Getpolicystats:
+                  summary: Get policy stats
+                  value:
+                  - id: '93'
+                    name: O365 - Prod
+                    stats:
+                      critical:
+                        count_passing: 35
+                        count_failing: 35
+                      high:
+                        count_passing: 30
+                        count_failing: 30
+                      medium:
+                        count_passing: 25
+                        count_failing: 25
+                  - id: '94'
+                    name: SFDCOrg 1f51478c-d96f-1324-a228-d78187f07dc4
+                    stats:
+                      critical:
+                        count_passing: 30
+                        count_failing: 30
+                      high:
+                        count_passing: 25
+                        count_failing: 25
+                      medium:
+                        count_passing: 20
+                        count_failing: 20
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      title: Error
+      description: Standard Django REST Framework error envelope returned by the AppOmni API.
+      properties:
+        detail:
+          type: string
+          description: Human readable error message
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'AppOmni API access token, created and managed in the AppOmni platform under Settings > API Settings. Sent as `Authorization: Bearer <token>`.'

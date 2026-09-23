@@ -1,30 +1,74 @@
 {
   "provider": "appomni",
-  "generated": "2026-09-04",
   "sources": [
-    "collections/appomni-api.postman_collection.json"
-  ],
-  "outputs": [
-    "appomni-ai-api-openapi.yml",
-    "appomni-compliance-api-openapi.yml",
-    "appomni-developer-platform-api-openapi.yml",
-    "appomni-discovery-insights-api-openapi.yml",
+    "_original/appomni-ai-api-openapi.yml",
+    "_original/appomni-compliance-api-openapi.yml",
+    "_original/appomni-developer-platform-api-openapi.yml",
+    "_original/appomni-discovery-insights-api-openapi.yml",
+    "_original/appomni-scim-api-openapi.yml",
+    "_original/appomni-security-events-api-openapi.yml",
+    "appomni-authorization-tokens-api-openapi.yml",
+    "appomni-beta-policy-assessment-stats-api-openapi.yml",
+    "appomni-custom-field-values-for-a-monitored-service-api-openapi.yml",
+    "appomni-custom-fields-api-openapi.yml",
     "appomni-identity-api-openapi.yml",
     "appomni-monitored-services-api-openapi.yml",
     "appomni-policies-api-openapi.yml",
-    "appomni-scim-api-openapi.yml",
-    "appomni-security-events-api-openapi.yml"
+    "appomni-users-and-roles-api-openapi.yml",
+    "appomni-valuelist-api-openapi.yml"
   ],
-  "archived": [
-    "_archive/appomni-openapi-scaffold-2026-05.yaml"
+  "outputs": [
+    "appomni-agentguard-api-openapi.yml",
+    "appomni-marlin-ai-api-openapi.yml",
+    "appomni-reports-api-openapi.yml",
+    "appomni-ao-developer-platform-api-openapi.yml",
+    "appomni-audit-logs-api-openapi.yml",
+    "appomni-discovery-api-openapi.yml",
+    "appomni-insights-api-openapi.yml",
+    "appomni-scim-user-management-api-openapi.yml",
+    "appomni-posture-findings-api-openapi.yml",
+    "appomni-authorization-tokens-api-openapi.yml",
+    "appomni-beta-policy-assessment-stats-api-openapi.yml",
+    "appomni-custom-field-values-for-a-monitored-service-api-openapi.yml",
+    "appomni-custom-fields-api-openapi.yml",
+    "appomni-identity-api-openapi.yml",
+    "appomni-monitored-services-api-openapi.yml",
+    "appomni-policies-api-openapi.yml",
+    "appomni-users-and-roles-api-openapi.yml",
+    "appomni-valuelist-api-openapi.yml"
   ],
+  "archived": [],
   "errors": [],
-  "warnings": [],
-  "notes": [
-    "2026-09-04 enrichment pass: the previous report described a four-operation scaffold OpenAPI that was authored from marketing prose, not harvested. That file is archived and no longer registered.",
-    "All nine documents are OpenAPI 3.1.0, derived operation by operation from AppOmni's public Postman collection at https://api.appomni.com/ (publishedId 2sBXc7Mjib). 132 operations, all operationIds unique.",
-    "Already split one-spec-per-product-area, so a refine split pass has nothing to do.",
-    "apis.yml register: all nine registered."
+  "warnings": [
+    "appomni-authorization-tokens-api-openapi.yml: previously refined output kept for 7 operation(s) no archived document covers (e.g. /api/v1/core/oauthaccesstoken/manual/ post, /api/v1/core/oauthapplication/ get, /api/v1/core/oauthapplication/{app_id}/rotate_client_secret/ post); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "appomni-beta-policy-assessment-stats-api-openapi.yml: previously refined output kept for 1 operation(s) no archived document covers (e.g. /api/v1/core/monitoredservice/score/policycomponents/{policy_id}/ get); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "appomni-custom-field-values-for-a-monitored-service-api-openapi.yml: previously refined output kept for 5 operation(s) no archived document covers (e.g. /api/v1/core/monitoredservice/{ms_id}/custom_fields/ get, /api/v1/core/monitoredservice/{ms_id}/custom_fields/ post, /api/v1/core/monitoredservice/{ms_id}/custom_fields/{custom_field_value_id}/ delete); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "appomni-custom-fields-api-openapi.yml: previously refined output kept for 5 operation(s) no archived document covers (e.g. /api/v1/core/custom_field/ get, /api/v1/core/custom_field/ post, /api/v1/core/custom_field/types get); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "appomni-identity-api-openapi.yml: previously refined output kept for 8 operation(s) no archived document covers (e.g. /api/v1/core/unifiedidentity/annotated_list/ get, /api/v1/core/unifiedidentity/{identity_id}/ get, /api/v1/core/unifiedidentity/{identity_id}/users get); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "appomni-monitored-services-api-openapi.yml: previously refined output kept for 7 operation(s) no archived document covers (e.g. /api/v1/core/monitoredservice/ get, /api/v1/core/monitoredservice/{ms_id}/get_ingest_token/ get, /api/v1/core/monitoredservice/{ms_id}/rotate_ingest_token/ patch); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "appomni-policies-api-openapi.yml: previously refined output kept for 22 operation(s) no archived document covers (e.g. /api/v1/compliance/evaluated_controls/ get, /api/v1/core/monitoredservice/{id}/last_successful_policy_assessments/ get, /api/v1/core/policy/ get); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "appomni-users-and-roles-api-openapi.yml: previously refined output kept for 9 operation(s) no archived document covers (e.g. /api/v1/core/group/ get, /api/v1/core/limited-user/ get, /api/v1/core/limited-user/{id}/ get); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "appomni-valuelist-api-openapi.yml: previously refined output kept for 4 operation(s) no archived document covers (e.g. /api/v1/core/valuelist/ get, /api/v1/core/valuelist/ post, /api/v1/core/valuelistelement/ get); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth."
   ],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (6 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "appomni-ai-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "appomni-compliance-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "appomni-developer-platform-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "appomni-discovery-insights-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "appomni-scim-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "appomni-security-events-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "appomni-agentguard-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "appomni-ao-developer-platform-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "appomni-audit-logs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "appomni-discovery-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "appomni-insights-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "appomni-marlin-ai-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "appomni-posture-findings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "appomni-reports-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "appomni-scim-user-management-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

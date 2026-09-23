@@ -1,0 +1,810 @@
+openapi: 3.2.0
+info:
+  title: AppOmni Monitored Services Custom Fields API
+  description: 'Registration and administration of monitored SaaS services, their custom fields, custom field values, tags and value lists.
+
+
+    Derived faithfully from the AppOmni public Postman collection published by AppOmni at https://api.appomni.com/ — every path, method, parameter, request body and example response below is taken verbatim from that collection. No operation was invented.'
+  version: 1.0.0
+  contact:
+    name: AppOmni
+    url: https://appomni.com/support/
+  license:
+    name: Proprietary
+    url: https://appomni.com/terms-of-service/
+  x-generated-from: AppOmni public Postman collection (publishedId 2sBXc7Mjib, published 2026-02-04)
+  x-generated-source: https://api.appomni.com/api/collections/45135595/2sBXc7Mjib?segregateAuth=true&versionTag=latest
+  x-generated-method: derived
+  x-generated-date: '2026-09-04'
+servers:
+- url: https://{instance}.appomni.com
+  description: AppOmni tenant. Replace {instance} with your AppOmni subdomain — e.g. `acme` if you log in at acme.appomni.com.
+  variables:
+    instance:
+      default: example
+      description: Your AppOmni tenant subdomain
+security:
+- bearerAuth: []
+tags:
+- name: Custom Fields
+  description: 'The Custom Fields API controls the tenant-wide fields that can be custom-created and assigned to different monitored services.
+
+
+    Note : Delete operations for custom fields is disabled in this API for all users.
+
+
+    Reference information for the custom fields endpoints:'
+paths:
+  /api/v1/core/custom_field/:
+    get:
+      operationId: listCustomFields
+      summary: List custom fields
+      tags:
+      - Custom Fields
+      description: 'Returns a list of custom fields.
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        display_name
+
+        String
+
+        Display name for the custom field
+
+        "First Field"
+
+
+        field_name
+
+        String
+
+        Unique field name for the custom field
+
+        "field_1"
+
+
+        field_type
+
+        String
+
+        Data type the field can have (decimal, integer, string)
+
+        "string"
+
+
+        description
+
+        String
+
+        Optional descriptive text
+
+        "My first field"
+
+
+        id
+
+        String (UUID)
+
+        Unique identifier for the custom field
+
+        "864b35f9-b042-4a9d-b6a4-f293e8ea7fda"
+
+
+        created
+
+        String (ISO datetime)
+
+        Timestamp when the custom field was created
+
+        "2024-07-03T15:08:32.502585Z"
+
+
+        modified
+
+        String (ISO datetime)
+
+        Timestamp when the custom field was last modified
+
+        "2024-07-03T15:08:32.502607Z"
+
+
+        external_id
+
+        String or null
+
+        External identifier controlled by end user
+
+        null'
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        description: Query parameter limit
+        schema:
+          type: integer
+        example: '50'
+      - name: offset
+        in: query
+        required: false
+        description: Query parameter offset
+        schema:
+          type: integer
+        example: '0'
+      - name: ordering
+        in: query
+        required: false
+        description: Query parameter ordering
+        schema:
+          type: string
+        example: id
+      - name: search
+        in: query
+        required: false
+        description: Query parameter search
+        schema:
+          type: string
+        example: field
+      - name: id__in
+        in: query
+        required: false
+        description: Query parameter id__in
+        schema:
+          type: string
+        example: '["e6a1993f-52c4-4e82-b734-7772ed551aa1","1d0dccb1-b3c3-462e-a95f-a4a2dba72d15"]'
+      - name: display_name__icontains
+        in: query
+        required: false
+        description: Query parameter display_name__icontains
+        schema:
+          type: string
+        example: example
+      - name: field_name__icontains
+        in: query
+        required: false
+        description: Query parameter field_name__icontains
+        schema:
+          type: string
+        example: example
+      - name: field_type
+        in: query
+        required: false
+        description: Query parameter field_type
+        schema:
+          type: string
+        example: string
+      - name: unassigned_parent_id
+        in: query
+        required: false
+        description: Query parameter unassigned_parent_id
+        schema:
+          type: string
+        example: '[1]'
+      responses:
+        '200':
+          description: List Custom Fields
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                ListCustomFields:
+                  summary: List Custom Fields
+                  value:
+                    next: null
+                    prev: null
+                    count: 2
+                    results:
+                    - display_name: First Field
+                      field_name: field_1
+                      field_type: string
+                      description: My first field
+                      id: 864b35f9-b042-4a9d-b6a4-f293e8ea7fda
+                      created: '2024-07-03T15:08:32.502585Z'
+                      modified: '2024-07-03T15:08:32.502607Z'
+                      external_id: null
+                    - display_name: Second Field
+                      field_name: field_2
+                      field_type: string
+                      description: My second field
+                      id: 98bb896d-5bfc-4ff2-968e-1054df7d9ee3
+                      created: '2024-07-03T18:31:52.247665Z'
+                      modified: '2024-07-03T18:31:52.247707Z'
+                      external_id: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: createCustomField
+      summary: Create custom field
+      tags:
+      - Custom Fields
+      description: 'Creates a custom field.
+
+
+        Request Body
+
+
+        Field
+
+        Data Type
+
+        Required
+
+        Description
+
+        Example
+
+
+        display_name
+
+        String
+
+        Yes
+
+        Unique display name for the custom field
+
+        "Example Field"
+
+
+        field_name
+
+        String (max 40 chars)
+
+        Yes
+
+        Unique field name for the custom field. This is how the custom field is referenced in Ticketing Templates
+
+        "example_field"
+
+
+        field_type
+
+        String
+
+        Yes
+
+        Data type the field can have. Allowed values: decimal, integer, string
+
+        "string"
+
+
+        description
+
+        String (max 240 chars)
+
+        No
+
+        Optional descriptive text
+
+        "This is an example"
+
+
+        external_id
+
+        String (max 256 chars)
+
+        No
+
+        External identifier controlled by end user
+
+        null
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        display_name
+
+        String
+
+        Display name for the custom field
+
+        "Example Field"
+
+
+        field_name
+
+        String
+
+        Unique field name for the custom field
+
+        "example_field"
+
+
+        field_type
+
+        String
+
+        Data type the field can have (decimal, integer, string)
+
+        "string"
+
+
+        description
+
+        String
+
+        Optional descriptive text
+
+        "This is an example"
+
+
+        id
+
+        String (UUID)
+
+        Unique identifier for the custom field
+
+        "3060cb2e-2bad-4d15-848b-e5b828db1ab5"
+
+
+        created
+
+        String (ISO datetime)
+
+        Timestamp when the custom field was created
+
+        "2024-10-04T17:15:57.532217Z"
+
+
+        modified
+
+        String (ISO datetime)
+
+        Timestamp when the custom field was last modified
+
+        "2024-10-04T17:15:57.532244Z"
+
+
+        external_id
+
+        String or null
+
+        External identifier controlled by end user
+
+        null'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              display_name: Example Field
+              field_name: example_field
+              field_type: string
+              description: This is an example
+      responses:
+        '201':
+          description: Create Custom Field
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                CreateCustomField:
+                  summary: Create Custom Field
+                  value:
+                    display_name: Example Field
+                    field_name: example_field
+                    field_type: string
+                    description: This is an example
+                    id: 3060cb2e-2bad-4d15-848b-e5b828db1ab5
+                    created: '2024-10-04T17:15:57.532217Z'
+                    modified: '2024-10-04T17:15:57.532244Z'
+                    external_id: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/custom_field/{custom_field_id}/:
+    get:
+      operationId: retrieveACustomField
+      summary: Retrieve a custom field
+      tags:
+      - Custom Fields
+      description: 'Returns a specific custom field.
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        display_name
+
+        String
+
+        Display name for the custom field
+
+        "First Field"
+
+
+        field_name
+
+        String
+
+        Unique field name for the custom field
+
+        "field_1"
+
+
+        field_type
+
+        String
+
+        Data type the field can have (decimal, integer, string)
+
+        "string"
+
+
+        description
+
+        String
+
+        Optional descriptive text
+
+        "My first field"
+
+
+        id
+
+        String (UUID)
+
+        Unique identifier for the custom field
+
+        "864b35f9-b042-4a9d-b6a4-f293e8ea7fda"
+
+
+        created
+
+        String (ISO datetime)
+
+        Timestamp when the custom field was created
+
+        "2024-07-03T15:08:32.502585Z"
+
+
+        modified
+
+        String (ISO datetime)
+
+        Timestamp when the custom field was last modified
+
+        "2024-07-03T15:08:32.502607Z"
+
+
+        external_id
+
+        String or null
+
+        External identifier controlled by end user
+
+        null'
+      parameters:
+      - name: custom_field_id
+        in: path
+        required: true
+        description: Path parameter custom_field_id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Retrieve Custom Field
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                RetrieveCustomField:
+                  summary: Retrieve Custom Field
+                  value:
+                    display_name: First Field
+                    field_name: field_1
+                    field_type: string
+                    description: My first field
+                    id: 864b35f9-b042-4a9d-b6a4-f293e8ea7fda
+                    created: '2024-07-03T15:08:32.502585Z'
+                    modified: '2024-07-03T15:08:32.502607Z'
+                    external_id: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: updateCustomField
+      summary: Update custom field
+      tags:
+      - Custom Fields
+      description: 'Updates a custom field.
+
+
+        Request Body
+
+
+        Field
+
+        Data Type
+
+        Required
+
+        Description
+
+        Example
+
+
+        description
+
+        String (max 240 chars)
+
+        No
+
+        Optional descriptive text
+
+        "New description"
+
+
+        external_id
+
+        String (max 256 chars)
+
+        No
+
+        External identifier controlled by end user
+
+        null
+
+
+        Note: Only the description and external_id fields can be updated. The display_name, field_name, and field_type are immutable after creation.
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        display_name
+
+        String
+
+        Display name for the custom field
+
+        "Example Field"
+
+
+        field_name
+
+        String
+
+        Unique field name for the custom field
+
+        "example_field"
+
+
+        field_type
+
+        String
+
+        Data type the field can have (decimal, integer, string)
+
+        "string"
+
+
+        description
+
+        String
+
+        Optional descriptive text
+
+        "New description"
+
+
+        id
+
+        String (UUID)
+
+        Unique identifier for the custom field
+
+        "864b35f9-b042-4a9d-b6a4-f293e8ea7fda"
+
+
+        created
+
+        String (ISO datetime)
+
+        Timestamp when the custom field was created
+
+        "2024-07-03T15:08:32.502585Z"
+
+
+        modified
+
+        String (ISO datetime)
+
+        Timestamp when the custom field was last modified
+
+        "2024-07-03T15:08:32.502607Z"
+
+
+        external_id
+
+        String or null
+
+        External identifier controlled by end user
+
+        null'
+      parameters:
+      - name: custom_field_id
+        in: path
+        required: true
+        description: Path parameter custom_field_id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              description: New description
+      responses:
+        '200':
+          description: Update Custom Field
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                UpdateCustomField:
+                  summary: Update Custom Field
+                  value:
+                    display_name: Example Field
+                    field_name: example_field
+                    field_type: string
+                    description: New description
+                    id: 864b35f9-b042-4a9d-b6a4-f293e8ea7fda
+                    created: '2024-07-03T15:08:32.502585Z'
+                    modified: '2024-07-03T15:08:32.502607Z'
+                    external_id: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/custom_field/types:
+    get:
+      operationId: listCustomFieldTypes
+      summary: List custom field types
+      tags:
+      - Custom Fields
+      description: 'Returns a list of custom field types.
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        data
+
+        Array[String]
+
+        List of available custom field types
+
+        ["decimal", "integer", "string"]'
+      responses:
+        '200':
+          description: List Custom Field Types
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                ListCustomFieldTypes:
+                  summary: List Custom Field Types
+                  value:
+                    data:
+                    - decimal
+                    - integer
+                    - string
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      title: Error
+      description: Standard Django REST Framework error envelope returned by the AppOmni API.
+      properties:
+        detail:
+          type: string
+          description: Human readable error message
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'AppOmni API access token, created and managed in the AppOmni platform under Settings > API Settings. Sent as `Authorization: Bearer <token>`.'

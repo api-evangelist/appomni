@@ -1,0 +1,2109 @@
+openapi: 3.2.0
+info:
+  title: AppOmni Identity and Access Users and Roles API
+  description: 'Unified identities, AppOmni platform users, groups, roles and API authorization tokens.
+
+
+    Derived faithfully from the AppOmni public Postman collection published by AppOmni at https://api.appomni.com/ — every path, method, parameter, request body and example response below is taken verbatim from that collection. No operation was invented.'
+  version: 1.0.0
+  contact:
+    name: AppOmni
+    url: https://appomni.com/support/
+  license:
+    name: Proprietary
+    url: https://appomni.com/terms-of-service/
+  x-generated-from: AppOmni public Postman collection (publishedId 2sBXc7Mjib, published 2026-02-04)
+  x-generated-source: https://api.appomni.com/api/collections/45135595/2sBXc7Mjib?segregateAuth=true&versionTag=latest
+  x-generated-method: derived
+  x-generated-date: '2026-09-04'
+servers:
+- url: https://{instance}.appomni.com
+  description: AppOmni tenant. Replace {instance} with your AppOmni subdomain — e.g. `acme` if you log in at acme.appomni.com.
+  variables:
+    instance:
+      default: example
+      description: Your AppOmni tenant subdomain
+security:
+- bearerAuth: []
+tags:
+- name: Users and Roles
+paths:
+  /api/v1/core/user/:
+    get:
+      operationId: listUsers
+      summary: List Users
+      tags:
+      - Users and Roles
+      description: 'This request returns a list of users and user details configured for the AppOmni Instance being queried.
+
+
+        As of October 2025, this endpoint is only functional for users with the roles of User Manager, Admin, or Read-only.
+
+
+        For users with roles other than User Manager, Admin, or Read-only, see the /limited-user endpoint, which will allow access to a subset of the user data.
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        id
+
+        Integer
+
+        unique identifier for the user
+
+        123
+
+
+        username
+
+        String
+
+        username
+
+        " user1@example.com "
+
+
+        email
+
+        String
+
+        email address
+
+        " user1@example.com "
+
+
+        first_name
+
+        String
+
+        first name
+
+        "User"
+
+
+        last_name
+
+        String
+
+        last name
+
+        "One"
+
+
+        phone
+
+        String
+
+        phone number
+
+        null
+
+
+        title
+
+        String
+
+        job title
+
+        null
+
+
+        is_active
+
+        Boolean
+
+        Enable/Disable user
+
+        true
+
+
+        locked
+
+        Boolean
+
+        Account login disabled, either due to manual action or repeated failed login attempts
+
+        false
+
+
+        locked_at
+
+        Datetime
+
+        Date/time account was locked. null if not applicable
+
+        null
+
+
+        override_enable_direct_login
+
+        Boolean
+
+        When enabled, break glass access will allow user to login with username and password bypassing default SSO login method
+
+        false
+
+
+        groups
+
+        Array[Integer]
+
+        IDs for roles of which the user is a part
+
+        [789]
+
+
+        created
+
+        Datetime
+
+        creation timestamp
+
+        "2024-03-30T17:19:31.240005Z"
+
+
+        modified
+
+        Datetime
+
+        modification timestamp
+
+        "2024-04-20T17:45:53.328790Z"
+
+
+        external_id
+
+        String
+
+        Reserved for future use
+
+        null
+
+
+        timezone
+
+        String
+
+        Three letter time zone designation. Default = "UTC"
+
+        "UTC"
+
+
+        mfa_enabled
+
+        String
+
+        Type of multi-factor authentication used. Can be disabled, sms, totp
+
+        "totp"
+
+
+        phone_verified
+
+        Boolean
+
+        User has verified phone number for SMS (text message) MFA
+
+        false
+
+
+        is_mfa_verified
+
+        Boolean
+
+        User has set up MFA - if MFA mode is SMS, requires also phone_verified
+
+        true
+
+
+        sso_enabled
+
+        Boolean
+
+        User uses SSO to login
+
+        false
+
+
+        jit_provisioned
+
+        Boolean
+
+        Account was created via just-in-time provisioning after initial SSO login
+
+        true
+
+
+        scim_provisioned
+
+        Boolean
+
+        Account was created via SCIM (System for Cross-domain Identity Management) provisioning after initial SSO login
+
+        false
+
+
+        org_id
+
+        Integer
+
+        unique identifier for the user''s organization
+
+        1
+
+
+        last_ao_login
+
+        Datetime
+
+        Last login timestamp
+
+        "2024-04-20T17:45:53.328493Z"
+
+
+        last_login_type
+
+        String
+
+        Mechanism used for last login. Options are direct, direct_mfa (direct with MFA), saml, google, openid, or jwt
+
+        "direct"
+
+
+        environment_restricted
+
+        Boolean
+
+        Indicates whether environment restrictions are enabled for this user
+
+        false
+
+
+        environments
+
+        Array[Integer]
+
+        List of environments which the user has permission to access
+
+        []
+
+
+        can_environment_restrict
+
+        Boolean
+
+        user can add/modify environment restrictions
+
+        false
+
+
+        last_password_change
+
+        Datetime
+
+        last password change timestamp
+
+        null'
+      responses:
+        '200':
+          description: List Users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              examples:
+                ListUsers:
+                  summary: List Users
+                  value:
+                  - id: 123
+                    username: user1@example.com
+                    email: user1@example.com
+                    first_name: User
+                    last_name: One
+                    phone: null
+                    title: null
+                    is_active: true
+                    locked: false
+                    locked_at: null
+                    groups:
+                    - 789
+                    created: '2024-03-30T17:19:31.240005Z'
+                    modified: '2024-04-20T17:45:53.328790Z'
+                    external_id: null
+                    timezone: UTC
+                    mfa_enabled: totp
+                    phone_verified: false
+                    is_mfa_verified: true
+                    sso_enabled: false
+                    jit_provisioned: true
+                    scim_provisioned: false
+                    org_id: 1
+                    last_ao_login: '2024-04-20T17:45:53.328493Z'
+                    last_login_type: direct
+                    environment_restricted: false
+                    environments: []
+                    can_environment_restrict: false
+                    override_enable_direct_login: false
+                    last_password_change: null
+                  - id: 124
+                    username: user2@example.com
+                    email: user2@example.com
+                    first_name: User
+                    last_name: Two
+                    phone: null
+                    title: null
+                    is_active: true
+                    locked: false
+                    locked_at: null
+                    groups:
+                    - 789
+                    - 790
+                    created: '2024-04-20T15:14:47.108414Z'
+                    modified: '2024-04-20T15:14:47.403189Z'
+                    external_id: null
+                    timezone: UTC
+                    mfa_enabled: disabled
+                    phone_verified: false
+                    is_mfa_verified: false
+                    sso_enabled: true
+                    jit_provisioned: true
+                    scim_provisioned: false
+                    org_id: 1
+                    last_ao_login: '2024-04-20T15:14:47.393591Z'
+                    last_login_type: google
+                    environment_restricted: false
+                    environments: []
+                    can_environment_restrict: true
+                    override_enable_direct_login: false
+                    last_password_change: null
+                  - id: 125
+                    username: user3@example.com
+                    email: user3@example.com
+                    first_name: User
+                    last_name: Three
+                    phone: null
+                    title: null
+                    is_active: true
+                    locked: false
+                    locked_at: null
+                    groups:
+                    - 790
+                    created: '2023-03-20T18:58:55.653498Z'
+                    modified: '2023-03-20T19:26:48.874948Z'
+                    external_id: null
+                    timezone: UTC
+                    mfa_enabled: disabled
+                    phone_verified: false
+                    is_mfa_verified: false
+                    sso_enabled: true
+                    jit_provisioned: true
+                    scim_provisioned: false
+                    org_id: 1
+                    last_ao_login: '2023-03-20T19:26:48.874610Z'
+                    last_login_type: google
+                    environment_restricted: false
+                    environments: []
+                    can_environment_restrict: false
+                    override_enable_direct_login: false
+                    last_password_change: null
+                ListUsersfromSpecificRole:
+                  summary: List Users from Specific Role
+                  value:
+                  - id: 123
+                    username: user1@example.com
+                    email: user1@example.com
+                    first_name: User
+                    last_name: One
+                    phone: null
+                    title: null
+                    is_active: true
+                    locked: false
+                    locked_at: null
+                    groups:
+                    - 567
+                    created: '2023-03-30T17:19:31.240005Z'
+                    modified: '2023-04-20T17:45:53.328790Z'
+                    external_id: null
+                    timezone: UTC
+                    mfa_enabled: disabled
+                    phone_verified: false
+                    is_mfa_verified: true
+                    sso_enabled: true
+                    jit_provisioned: true
+                    scim_provisioned: false
+                    org_id: 1
+                    last_ao_login: '2023-04-20T17:45:53.328493Z'
+                    last_login_type: google
+                    environment_restricted: false
+                    environments: []
+                    can_environment_restrict: false
+                    override_enable_direct_login: false
+                    last_password_change: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: addUser
+      summary: Add User
+      tags:
+      - Users and Roles
+      description: 'Creates a new user.
+
+
+        Returns the details of the user created, including the generated id .
+
+
+        Request Body
+
+
+        Data Type
+
+        Required
+
+        Description
+
+        Example
+
+
+        username
+
+        String
+
+        Yes
+
+        Username for the new user
+
+        " user5@example.com "
+
+
+        email
+
+        String
+
+        Yes
+
+        Email address for the new user
+
+        " user5@example.com "
+
+
+        first_name
+
+        String
+
+        No
+
+        First name of the user
+
+        "Sarah"
+
+
+        last_name
+
+        String
+
+        No
+
+        Last name of the user
+
+        "Wilson"
+
+
+        phone
+
+        String
+
+        No
+
+        Phone number for the user
+
+        "+1-555-0123"
+
+
+        title
+
+        String
+
+        No
+
+        Job title of the user
+
+        "Manager"
+
+
+        is_active
+
+        Boolean
+
+        No
+
+        Enable/Disable user
+
+        true
+
+
+        groups
+
+        Array[Integer]
+
+        No
+
+        List of IDs for roles (groups) to which the user should be added. Roles are the RBAC assigned permissions. See GET RBAC API endpoint (GET /core/group).
+
+        [1392, 1394]
+
+
+        environment_restricted
+
+        Boolean
+
+        No
+
+        Indicates whether environment restrictions are enabled for this user
+
+        false
+
+
+        environments
+
+        Array[Integer]
+
+        No
+
+        List of environment IDs to which the user should have access. To get a list of environment IDs, GET LIST TAGS (GET /api/v1/core/tag/?type=environment)
+
+        [128781, 128777]
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        id
+
+        Integer
+
+        unique identifier for the user
+
+        15050
+
+
+        username
+
+        String
+
+        username
+
+        " user4@example.com "
+
+
+        email
+
+        String
+
+        email address
+
+        " user4@example.com "
+
+
+        first_name
+
+        String
+
+        first name
+
+        "Alex"
+
+
+        last_name
+
+        String
+
+        last name
+
+        "Johnson"
+
+
+        phone
+
+        String
+
+        phone number
+
+        "null"
+
+
+        title
+
+        String
+
+        job title
+
+        "null"
+
+
+        is_active
+
+        Boolean
+
+        Enable/Disable user
+
+        true
+
+
+        locked
+
+        Boolean
+
+        Account login disabled, either due to manual action or repeated failed login attempts
+
+        false
+
+
+        locked_at
+
+        Datetime
+
+        Date/time account was locked. null if not applicable
+
+        null
+
+
+        override_enable_direct_login
+
+        Boolean
+
+        When enabled, break glass access will allow user to login with username and password bypassing default SSO login method
+
+        false
+
+
+        groups
+
+        Array[Integer]
+
+        IDs for roles of which the user is a part
+
+        [1392, 1394]
+
+
+        created
+
+        Datetime
+
+        creation timestamp
+
+        "2023-08-07T15:57:21.503302Z"
+
+
+        modified
+
+        Datetime
+
+        modification timestamp
+
+        "2023-08-07T15:57:21.503322Z"
+
+
+        external_id
+
+        String
+
+        Reserved for future use
+
+        null
+
+
+        timezone
+
+        String
+
+        Three letter time zone designation. Default = "UTC"
+
+        "UTC"
+
+
+        mfa_enabled
+
+        String
+
+        Type of multi-factor authentication used. Can be disabled, sms, totp
+
+        "disabled"
+
+
+        phone_verified
+
+        Boolean
+
+        User has verified phone number for SMS (text message) MFA
+
+        false
+
+
+        is_mfa_verified
+
+        Boolean
+
+        User has set up MFA - if MFA mode is SMS, requires also phone_verified
+
+        false
+
+
+        sso_enabled
+
+        Boolean
+
+        User uses SSO to login
+
+        false
+
+
+        jit_provisioned
+
+        Boolean
+
+        Account was created via just-in-time provisioning after initial SSO login
+
+        false
+
+
+        scim_provisioned
+
+        Boolean
+
+        Account was created via SCIM (System for Cross-domain Identity Management) provisioning after initial SSO login
+
+        false
+
+
+        org_id
+
+        Integer
+
+        unique identifier for the user''s organization
+
+        177
+
+
+        last_ao_login
+
+        Datetime
+
+        Last login timestamp
+
+        null
+
+
+        last_login_type
+
+        String
+
+        Mechanism used for last login. Options are direct, direct_mfa (direct with MFA), saml, google, openid, or jwt
+
+        null
+
+
+        environment_restricted
+
+        Boolean
+
+        Indicates whether environment restrictions are enabled for this user
+
+        false
+
+
+        environments
+
+        Array[Integer]
+
+        List of environments which the user has permission to access
+
+        []
+
+
+        can_environment_restrict
+
+        Boolean
+
+        user can add/modify environment restrictions
+
+        false
+
+
+        last_password_change
+
+        Datetime
+
+        last password change timestamp
+
+        null'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example: "{\n    \"username\": \"{{username}}\",\n    \"email\": \"{{email}}\",\n    \"first_name\": \"{{first_name}}\",\n    \"last_name\": \"{{last_name}}\",\n    \"phone\": \"{{phone}}\",\n    \"title\": \"{{title}}\",\n    \"is_active\": {{is_active}},\n    \"override_enable_direct_login\": {{override_enable_direct_login}},\n    \"groups\": [{{group_ids}}],\n    \"environment_restricted\": {{environment_restricted}},\n    \"environments\": [{{environment_ids}}]\n}"
+      responses:
+        '200':
+          description: Add User
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                AddUser:
+                  summary: Add User
+                  value:
+                    id: 15050
+                    username: user4@example.com
+                    email: user4@example.com
+                    first_name: Alex
+                    last_name: Johnson
+                    phone: 'null'
+                    title: 'null'
+                    is_active: true
+                    locked: false
+                    locked_at: null
+                    groups:
+                    - 1392
+                    - 1394
+                    created: '2023-08-07T15:57:21.503302Z'
+                    modified: '2023-08-07T15:57:21.503322Z'
+                    external_id: null
+                    timezone: UTC
+                    mfa_enabled: disabled
+                    phone_verified: false
+                    is_mfa_verified: false
+                    sso_enabled: false
+                    jit_provisioned: false
+                    scim_provisioned: false
+                    org_id: 177
+                    last_ao_login: null
+                    last_login_type: null
+                    environment_restricted: false
+                    environments: []
+                    can_environment_restrict: false
+                    last_password_change: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/limited-user/:
+    get:
+      operationId: listUsersForRolesWithLimitedPermissions
+      summary: List users for roles with limited permissions
+      tags:
+      - Users and Roles
+      description: 'This endpoint is for users that have roles other than User Manager, Admin, or Read-only. It allows access to a subset of user information that is available to User Manager, Admin, or Read-only.
+
+
+        Returns a list of users and limited user details configured for the AppOmni Instance being queried.
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        id
+
+        Integer
+
+        unique identifier for the user
+
+        123
+
+
+        username
+
+        String
+
+        username
+
+        " user1@example.com "
+
+
+        email
+
+        String
+
+        email address
+
+        " user1@example.com "
+
+
+        first_name
+
+        String
+
+        first name
+
+        "User"
+
+
+        last_name
+
+        String
+
+        last name
+
+        "One"
+
+
+        is_active
+
+        Boolean
+
+        Enable/Disable user
+
+        true'
+      responses:
+        '200':
+          description: List users for roles with limited permissions
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "[\n    {\n        \"id\": 13524,\n        \"email\": \"james.page@example.com\",\n        \"first_name\": \"James\",\n        \"last_name\": \"Page\",\n        \"username\": \"PageyCS\",\n        \"is_active\": true\n    },\n    {\n        \"id\": 40167,\n        \"email\": \"marie.kondo@example.com\",\n        \"first_name\": \"Marie\",\n        \"last_name\": \"Kondo\",\n        \"username\": \"MKondo\",\n        \"is_active\": true\n    },\n]\n"
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/limited-user/{id}/:
+    get:
+      operationId: listUsersByIDForRolesWithLimitedPermissions
+      summary: List users by ID for roles with limited permissions
+      tags:
+      - Users and Roles
+      description: 'This endpoint is for users that have roles other than User Manager, Admin, or Read-only. It allows access to a subset of user information that is available to User Manager, Admin, or Read-only.
+
+
+        Returns a list of users by id and limited user details configured for the AppOmni Instance being queried.
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        id
+
+        Integer
+
+        unique identifier for the user
+
+        123
+
+
+        username
+
+        String
+
+        username
+
+        " user1@example.com "
+
+
+        email
+
+        String
+
+        email address
+
+        " user1@example.com "
+
+
+        first_name
+
+        String
+
+        first name
+
+        "User"
+
+
+        last_name
+
+        String
+
+        last name
+
+        "One"
+
+
+        is_active
+
+        Boolean
+
+        Enable/Disable user
+
+        true'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Path parameter id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List users by ID for roles with limited permissions
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "[\n    {\n        \"id\": 13524,\n        \"email\": \"james.page@example.com\",\n        \"first_name\": \"James\",\n        \"last_name\": \"Page\",\n        \"username\": \"PageyCS\",\n        \"is_active\": true\n    },\n    {\n        \"id\": 40167,\n        \"email\": \"marie.kondo@example.com\",\n        \"first_name\": \"Marie\",\n        \"last_name\": \"Kondo\",\n        \"username\": \"MKondo\",\n        \"is_active\": true\n    },\n]\n"
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/group/:
+    get:
+      operationId: listRBACRoles
+      summary: List RBAC Roles
+      tags:
+      - Users and Roles
+      description: 'Returns a list of AppOmni roles (permissions) and their identifiers.
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        id
+
+        Integer
+
+        unique identifier for the role
+
+        1392
+
+
+        name
+
+        String
+
+        role name
+
+        "administrators"
+
+
+        group_type
+
+        String
+
+        type of group - can be admin, readonly, role, or system
+
+        "admin"
+
+
+        external_id
+
+        String
+
+        external identifier for the role
+
+        null'
+      responses:
+        '200':
+          description: Get RBAC
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              examples:
+                GetRBAC:
+                  summary: Get RBAC
+                  value:
+                  - id: 1392
+                    name: administrators
+                    group_type: admin
+                    external_id: null
+                  - id: 1393
+                    name: readonly
+                    group_type: readonly
+                    external_id: null
+                  - id: 1396
+                    name: insights_manager
+                    group_type: role
+                    external_id: null
+                  - id: 1397
+                    name: issues_manager
+                    group_type: role
+                    external_id: null
+                  - id: 1399
+                    name: monitored_service_role_manager
+                    group_type: role
+                    external_id: null
+                  - id: 1505
+                    name: policies_manager
+                    group_type: role
+                    external_id: null
+                  - id: 1690
+                    name: service_admin
+                    group_type: role
+                    external_id: null
+                  - id: 1395
+                    name: service_onboarder
+                    group_type: role
+                    external_id: null
+                  - id: 2104
+                    name: threat_detection_manager
+                    group_type: role
+                    external_id: null
+                  - id: 1398
+                    name: users_manager
+                    group_type: role
+                    external_id: null
+                  - id: 1394
+                    name: users
+                    group_type: system
+                    external_id: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/user/{id}/:
+    get:
+      operationId: getUserDetailsAndRoles
+      summary: Get user details and roles
+      tags:
+      - Users and Roles
+      description: 'Returns the details for the user specified by the id passed in the URL.
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        id
+
+        Integer
+
+        unique identifier for the user
+
+        9538
+
+
+        username
+
+        String
+
+        username
+
+        user2@example.com
+
+
+        email
+
+        String
+
+        email address
+
+        user2@example.com
+
+
+        first_name
+
+        String
+
+        first name
+
+        Jane
+
+
+        last_name
+
+        String
+
+        last name
+
+        Doe
+
+
+        phone
+
+        String
+
+        phone number
+
+        null
+
+
+        title
+
+        String
+
+        job title
+
+        null
+
+
+        is_active
+
+        Boolean
+
+        Enable/Disable user
+
+        true
+
+
+        locked
+
+        Boolean
+
+        Account login disabled, either due to manual action or repeated failed login attempts
+
+        false
+
+
+        locked_at
+
+        Datetime
+
+        Date/time account was locked. null if not applicable
+
+        null
+
+
+        override_enable_direct_login
+
+        Boolean
+
+        When enabled, break glass access will allow user to login with username and password bypassing default SSO login method
+
+        false
+
+
+        groups
+
+        Array[Integer]
+
+        IDs for roles of which the user is a part
+
+        [1392]
+
+
+        created
+
+        Datetime
+
+        creation timestamp
+
+        2023-03-30T17:19:31.240005Z
+
+
+        modified
+
+        Datetime
+
+        modification timestamp
+
+        2023-04-20T17:45:53.328790Z
+
+
+        external_id
+
+        String
+
+        Reserved for future use
+
+        null
+
+
+        timezone
+
+        String
+
+        Three letter time zone designation. Default = UTC
+
+        UTC
+
+
+        mfa_enabled
+
+        String
+
+        Type of multi-factor authentication used. Can be disabled, sms, totp
+
+        disabled
+
+
+        phone_verified
+
+        Boolean
+
+        User has verified phone number for SMS (text message) MFA
+
+        false
+
+
+        is_mfa_verified
+
+        Boolean
+
+        User has set up MFA - if MFA mode is SMS, requires also phone_verified
+
+        false
+
+
+        sso_enabled
+
+        Boolean
+
+        User uses SSO to login
+
+        true
+
+
+        jit_provisioned
+
+        Boolean
+
+        Account was created via just-in-time provisioning after initial SSO login
+
+        true
+
+
+        scim_provisioned
+
+        Boolean
+
+        Account was created via SCIM (System for Cross-domain Identity Management) provisioning after initial SSO login
+
+        false
+
+
+        org_id
+
+        Integer
+
+        unique identifier for the user''s organization
+
+        177
+
+
+        last_ao_login
+
+        Datetime
+
+        Last login timestamp
+
+        2023-04-20T17:45:53.328493Z
+
+
+        last_login_type
+
+        String
+
+        Mechanism used for last login. Options are direct, direct_mfa (direct with MFA), saml, google, openid, or jwt
+
+        google
+
+
+        environment_restricted
+
+        Boolean
+
+        Indicates whether environment restrictions are enabled for this user
+
+        false
+
+
+        environments
+
+        Array[Integer]
+
+        List of environments which the user has permission to access
+
+        []
+
+
+        can_environment_restrict
+
+        Boolean
+
+        user can add/modify environment restrictions
+
+        false
+
+
+        last_password_change
+
+        Datetime
+
+        last password change timestamp
+
+        null'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Path parameter id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Get user details (roles)
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                Getuserdetailsroles:
+                  summary: Get user details (roles)
+                  value:
+                    id: 9538
+                    username: user2@example.com
+                    email: user2@example.com
+                    first_name: Jane
+                    last_name: Doe
+                    phone: null
+                    title: null
+                    is_active: true
+                    locked: false
+                    locked_at: null
+                    override_enable_direct_login: false
+                    groups:
+                    - 1392
+                    created: '2023-03-30T17:19:31.240005Z'
+                    modified: '2023-04-20T17:45:53.328790Z'
+                    external_id: null
+                    timezone: UTC
+                    mfa_enabled: disabled
+                    phone_verified: false
+                    is_mfa_verified: false
+                    sso_enabled: true
+                    jit_provisioned: true
+                    scim_provisioned: false
+                    org_id: 177
+                    last_ao_login: '2023-04-20T17:45:53.328493Z'
+                    last_login_type: google
+                    environment_restricted: false
+                    environments: []
+                    can_environment_restrict: false
+                    last_password_change: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: deactivateOrActivateUser
+      summary: Deactivate or Activate User
+      tags:
+      - Users and Roles
+      description: 'In AppOmni users are not deleted. When users no longer require access, they are deactivated (their status is set to Inactive). This endpoint is used to deactivate users.
+
+
+        Change the status of a user from active to inactive (or vice versa) when the user id is passed.
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        id
+
+        Integer
+
+        unique identifier for the user
+
+        15050
+
+
+        username
+
+        String
+
+        username
+
+        " user4@example.com "
+
+
+        email
+
+        String
+
+        email address
+
+        " user4@example.com "
+
+
+        first_name
+
+        String
+
+        first name
+
+        "Alex"
+
+
+        last_name
+
+        String
+
+        last name
+
+        "Johnson"
+
+
+        phone
+
+        String
+
+        phone number
+
+        "null"
+
+
+        title
+
+        String
+
+        job title
+
+        "null"
+
+
+        is_active
+
+        Boolean
+
+        Enable/Disable user (reflects the change made)
+
+        false
+
+
+        locked
+
+        Boolean
+
+        Account login disabled, either due to manual action or repeated failed login attempts
+
+        false
+
+
+        locked_at
+
+        Datetime
+
+        Date/time account was locked. null if not applicable
+
+        null
+
+
+        override_enable_direct_login
+
+        Boolean
+
+        When enabled, break glass access will allow user to login with username and password bypassing default SSO login method
+
+        false
+
+
+        groups
+
+        Array[Integer]
+
+        IDs for roles of which the user is a part
+
+        [1392, 1394]
+
+
+        created
+
+        Datetime
+
+        creation timestamp
+
+        "2023-08-07T15:57:21.503302Z"
+
+
+        modified
+
+        Datetime
+
+        modification timestamp
+
+        "2023-08-07T18:17:50.678319Z"
+
+
+        external_id
+
+        String
+
+        Reserved for future use
+
+        null
+
+
+        timezone
+
+        String
+
+        Three letter time zone designation. Default = "UTC"
+
+        "UTC"
+
+
+        mfa_enabled
+
+        String
+
+        Type of multi-factor authentication used. Can be disabled, sms, totp
+
+        "disabled"
+
+
+        phone_verified
+
+        Boolean
+
+        User has verified phone number for SMS (text message) MFA
+
+        false
+
+
+        is_mfa_verified
+
+        Boolean
+
+        User has set up MFA - if MFA mode is SMS, requires also phone_verified
+
+        false
+
+
+        sso_enabled
+
+        Boolean
+
+        User uses SSO to login
+
+        false
+
+
+        jit_provisioned
+
+        Boolean
+
+        Account was created via just-in-time provisioning after initial SSO login
+
+        false
+
+
+        scim_provisioned
+
+        Boolean
+
+        Account was created via SCIM (System for Cross-domain Identity Management) provisioning after initial SSO login
+
+        false
+
+
+        org_id
+
+        Integer
+
+        unique identifier for the user''s organization
+
+        177
+
+
+        last_ao_login
+
+        Datetime
+
+        Last login timestamp
+
+        null
+
+
+        last_login_type
+
+        String
+
+        Mechanism used for last login. Options are direct, direct_mfa (direct with MFA), saml, google, openid, or jwt
+
+        null
+
+
+        environment_restricted
+
+        Boolean
+
+        Indicates whether environment restrictions are enabled for this user
+
+        false
+
+
+        environments
+
+        Array[Integer]
+
+        List of environments which the user has permission to access
+
+        []
+
+
+        can_environment_restrict
+
+        Boolean
+
+        user can add/modify environment restrictions
+
+        false
+
+
+        last_password_change
+
+        Datetime
+
+        last password change timestamp
+
+        null'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Path parameter id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example: "{\n    \"is_active\": {{is_active_status}}\n}"
+      responses:
+        '200':
+          description: Deactivate User
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                DeactivateUser:
+                  summary: Deactivate User
+                  value:
+                    id: 15050
+                    username: user4@example.com
+                    email: user4@example.com
+                    first_name: Alex
+                    last_name: Johnson
+                    phone: 'null'
+                    title: 'null'
+                    is_active: false
+                    locked: false
+                    locked_at: null
+                    override_enable_direct_login: false
+                    groups:
+                    - 1392
+                    - 1394
+                    created: '2023-08-07T15:57:21.503302Z'
+                    modified: '2023-08-07T18:17:50.678319Z'
+                    external_id: null
+                    timezone: UTC
+                    mfa_enabled: disabled
+                    phone_verified: false
+                    is_mfa_verified: false
+                    sso_enabled: false
+                    jit_provisioned: false
+                    scim_provisioned: false
+                    org_id: 177
+                    last_ao_login: null
+                    last_login_type: null
+                    environment_restricted: false
+                    environments: []
+                    can_environment_restrict: false
+                    last_password_change: null
+                ReactivateUser:
+                  summary: Reactivate User
+                  value:
+                    id: 15050
+                    username: user4@example.com
+                    email: user4@example.com
+                    first_name: Alex
+                    last_name: Johnson
+                    phone: 'null'
+                    title: 'null'
+                    is_active: true
+                    locked: false
+                    locked_at: null
+                    override_enable_direct_login: false
+                    groups:
+                    - 1392
+                    - 1394
+                    created: '2023-08-07T15:57:21.503302Z'
+                    modified: '2023-08-07T18:17:50.678319Z'
+                    external_id: null
+                    timezone: UTC
+                    mfa_enabled: disabled
+                    phone_verified: false
+                    is_mfa_verified: false
+                    sso_enabled: false
+                    jit_provisioned: false
+                    scim_provisioned: false
+                    org_id: 177
+                    last_ao_login: null
+                    last_login_type: null
+                    environment_restricted: false
+                    environments: []
+                    can_environment_restrict: false
+                    last_password_change: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/user/{user_id}/enable_breakglass:
+    put:
+      operationId: enableBreakglassAccessForEmergencies
+      summary: Enable breakglass access for emergencies
+      tags:
+      - Users and Roles
+      description: 'Use this endpoint to enable breakglass access for emergency scenarios, so that authorized users can bypass standard SSO restrictions during critical incidents. This can only be called by an administrator, and will return a successful status of 204.
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        Status Code
+
+        Integer
+
+        HTTP status code indicating success
+
+        204
+
+
+        Body
+
+        Empty
+
+        No response body for successful requests
+
+        (empty)'
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        description: Path parameter user_id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/user/{user_id}/disable_breakglass:
+    put:
+      operationId: disableBreakglassAccessForEmergencies
+      summary: Disable breakglass access for emergencies
+      tags:
+      - Users and Roles
+      description: 'Use this endpoint to disable breakglass access for emergency scenarios, so that authorized users can bypass standard SSO restrictions during critical incidents. This can only be called by an administrator, and will return a successful status of 204.
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        Status Code
+
+        Integer
+
+        HTTP status code indicating success
+
+        204
+
+
+        Body
+
+        Empty
+
+        No response body for successful requests
+
+        (empty)'
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        description: Path parameter user_id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      title: Error
+      description: Standard Django REST Framework error envelope returned by the AppOmni API.
+      properties:
+        detail:
+          type: string
+          description: Human readable error message
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'AppOmni API access token, created and managed in the AppOmni platform under Settings > API Settings. Sent as `Authorization: Bearer <token>`.'

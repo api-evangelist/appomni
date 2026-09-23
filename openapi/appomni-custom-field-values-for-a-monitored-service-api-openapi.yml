@@ -1,0 +1,1094 @@
+openapi: 3.2.0
+info:
+  title: AppOmni Monitored Services Custom Field Values for a……
+  description: 'Registration and administration of monitored SaaS services, their custom fields, custom field values, tags and value lists.
+
+
+    Derived faithfully from the AppOmni public Postman collection published by AppOmni at https://api.appomni.com/ — every path, method, parameter, request body and example response below is taken verbatim from that collection. No operation was invented.'
+  version: 1.0.0
+  contact:
+    name: AppOmni
+    url: https://appomni.com/support/
+  license:
+    name: Proprietary
+    url: https://appomni.com/terms-of-service/
+  x-generated-from: AppOmni public Postman collection (publishedId 2sBXc7Mjib, published 2026-02-04)
+  x-generated-source: https://api.appomni.com/api/collections/45135595/2sBXc7Mjib?segregateAuth=true&versionTag=latest
+  x-generated-method: derived
+  x-generated-date: '2026-09-04'
+servers:
+- url: https://{instance}.appomni.com
+  description: AppOmni tenant. Replace {instance} with your AppOmni subdomain — e.g. `acme` if you log in at acme.appomni.com.
+  variables:
+    instance:
+      default: example
+      description: Your AppOmni tenant subdomain
+security:
+- bearerAuth: []
+tags:
+- name: Custom Field Values for a Monitored Service
+  description: The Custom Field Values API accesses the value of the custom field associated with a given monitored service.
+paths:
+  /api/v1/core/monitoredservice/{ms_id}/custom_fields/:
+    get:
+      operationId: listMSCustomFieldValue
+      summary: List MS custom field value
+      tags:
+      - Custom Field Values for a Monitored Service
+      description: 'Returns the values associated with the custom fields for a monitored service.
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        value
+
+        String
+
+        Custom field value specific to the parent
+
+        "test_value"
+
+
+        custom_field_id
+
+        String (UUID)
+
+        ID of custom field
+
+        "bcd705b3-8de2-4e10-9de4-4c9a27d05060"
+
+
+        custom_field
+
+        Object
+
+        Information about the custom field
+
+        See nested fields below
+
+
+        custom_field.display_name
+
+        String
+
+        Display name of the custom field
+
+        "test_field_1"
+
+
+        custom_field.field_name
+
+        String
+
+        Field name of the custom field
+
+        "test_field_1"
+
+
+        custom_field.field_type
+
+        String
+
+        Data type of the custom field
+
+        "string"
+
+
+        custom_field.description
+
+        String
+
+        Description of the custom field
+
+        "This is a test"
+
+
+        custom_field.id
+
+        String (UUID)
+
+        ID of the custom field
+
+        "bcd705b3-8de2-4e10-9de4-4c9a27d05060"
+
+
+        custom_field.created
+
+        String (ISO datetime)
+
+        When the custom field was created
+
+        "2024-07-23T18:11:51.855378Z"
+
+
+        custom_field.modified
+
+        String (ISO datetime)
+
+        When the custom field was last modified
+
+        "2024-07-23T18:11:51.855425Z"
+
+
+        custom_field.external_id
+
+        String or null
+
+        External ID of the custom field
+
+        null
+
+
+        id
+
+        String (UUID)
+
+        ID of field > monitored service link
+
+        "485c31ec-e906-409e-81f0-9fdb0f42f4fa"
+
+
+        parent_id
+
+        Integer
+
+        ID of parent monitored service
+
+        1
+
+
+        created
+
+        String (ISO datetime)
+
+        When the link was created
+
+        "2024-07-23T18:12:56.348662Z"
+
+
+        modified
+
+        String (ISO datetime)
+
+        When link was last updated
+
+        "2024-07-23T18:12:56.348700Z"
+
+
+        external_id
+
+        String or null
+
+        External ID
+
+        null'
+      parameters:
+      - name: ms_id
+        in: path
+        required: true
+        description: Path parameter ms_id
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        description: Query parameter limit
+        schema:
+          type: integer
+        example: '25'
+      - name: offset
+        in: query
+        required: false
+        description: Query parameter offset
+        schema:
+          type: integer
+        example: '0'
+      - name: ordering
+        in: query
+        required: false
+        description: Query parameter ordering
+        schema:
+          type: string
+        example: id
+      - name: search
+        in: query
+        required: false
+        description: Query parameter search
+        schema:
+          type: string
+        example: test
+      - name: value__icontains
+        in: query
+        required: false
+        description: Query parameter value__icontains
+        schema:
+          type: string
+        example: value
+      - name: custom_field_id__in
+        in: query
+        required: false
+        description: Query parameter custom_field_id__in
+        schema:
+          type: string
+        example: '["586c7ec5-8a22-4f9e-b20f-1c32c17c6466","9d1ec864-3700-453f-8bd0-038284da11db"]'
+      responses:
+        '200':
+          description: List MS Custom Field Value
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                ListMSCustomFieldValue:
+                  summary: List MS Custom Field Value
+                  value:
+                    next: null
+                    prev: null
+                    count: 2
+                    results:
+                    - value: test_value
+                      custom_field_id: bcd705b3-8de2-4e10-9de4-4c9a27d05060
+                      custom_field:
+                        display_name: test_field_1
+                        field_name: test_field_1
+                        field_type: string
+                        description: This is a test
+                        id: bcd705b3-8de2-4e10-9de4-4c9a27d05060
+                        created: '2024-07-23T18:11:51.855378Z'
+                        modified: '2024-07-23T18:11:51.855425Z'
+                        external_id: null
+                      id: 485c31ec-e906-409e-81f0-9fdb0f42f4fa
+                      parent_id: 1
+                      created: '2024-07-23T18:12:56.348662Z'
+                      modified: '2024-07-23T18:12:56.348700Z'
+                      external_id: null
+                    - value: test_value
+                      custom_field_id: 8fd819e0-4ecf-4d2b-95f4-e64e3eb18785
+                      custom_field:
+                        display_name: test_field_2
+                        field_name: test_field_2
+                        field_type: string
+                        description: ''
+                        id: 8fd819e0-4ecf-4d2b-95f4-e64e3eb18785
+                        created: '2024-07-23T18:27:49.891064Z'
+                        modified: '2024-07-23T18:27:49.891086Z'
+                        external_id: null
+                      id: a880ea80-f055-4397-a5b1-375bbedc9758
+                      parent_id: 1
+                      created: '2024-07-23T18:28:00.737541Z'
+                      modified: '2024-07-23T18:28:00.737569Z'
+                      external_id: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: createMSCustomFieldValue
+      summary: Create MS custom field value
+      tags:
+      - Custom Field Values for a Monitored Service
+      description: 'Creates a new custom field value for a monitored service.
+
+
+        Request Body
+
+
+        Field
+
+        Data Type
+
+        Required
+
+        Description
+
+        Example
+
+
+        value
+
+        String (max 40 chars), Integer, or Float
+
+        Yes
+
+        Custom field value specific to the parent
+
+        "test_value"
+
+
+        custom_field_id
+
+        String (UUID)
+
+        Yes
+
+        ID of the custom field to link
+
+        "bcd705b3-8de2-4e10-9de4-4c9a27d05060"
+
+
+        external_id
+
+        String (max 256 chars)
+
+        No
+
+        External ID
+
+        null
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        value
+
+        String
+
+        Custom field value specific to the parent
+
+        "test_value"
+
+
+        custom_field_id
+
+        String (UUID)
+
+        ID of custom field
+
+        "e308a3db-4527-4c6f-9bfd-02eb580a10e2"
+
+
+        custom_field
+
+        Object
+
+        Information about the custom field
+
+        See nested fields below
+
+
+        custom_field.display_name
+
+        String
+
+        Display name of the custom field
+
+        "test_field_3"
+
+
+        custom_field.field_name
+
+        String
+
+        Field name of the custom field
+
+        "test_field_3"
+
+
+        custom_field.field_type
+
+        String
+
+        Data type of the custom field
+
+        "string"
+
+
+        custom_field.description
+
+        String
+
+        Description of the custom field
+
+        ""
+
+
+        custom_field.id
+
+        String (UUID)
+
+        ID of the custom field
+
+        "e308a3db-4527-4c6f-9bfd-02eb580a10e2"
+
+
+        custom_field.created
+
+        String (ISO datetime)
+
+        When the custom field was created
+
+        "2024-07-23T19:02:26.139111Z"
+
+
+        custom_field.modified
+
+        String (ISO datetime)
+
+        When the custom field was last modified
+
+        "2024-07-23T19:02:26.139141Z"
+
+
+        custom_field.external_id
+
+        String or null
+
+        External ID of the custom field
+
+        null
+
+
+        id
+
+        String (UUID)
+
+        ID of field > monitored service link
+
+        "d2da8cfb-6cdb-4ba6-b02c-1ec85a1c32f4"
+
+
+        parent_id
+
+        Integer
+
+        ID of parent monitored service
+
+        1
+
+
+        created
+
+        String (ISO datetime)
+
+        When the link was created
+
+        "2024-07-23T19:02:33.705217Z"
+
+
+        modified
+
+        String (ISO datetime)
+
+        When link was last updated
+
+        "2024-07-23T19:02:33.705245Z"
+
+
+        external_id
+
+        String or null
+
+        External ID
+
+        null'
+      parameters:
+      - name: ms_id
+        in: path
+        required: true
+        description: Path parameter ms_id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              value: test_value
+              custom_field_id: '{{Custom Field id}}'
+      responses:
+        '201':
+          description: Create MS Custom Field Value
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                CreateMSCustomFieldValue:
+                  summary: Create MS Custom Field Value
+                  value:
+                    value: test_value
+                    custom_field_id: e308a3db-4527-4c6f-9bfd-02eb580a10e2
+                    custom_field:
+                      display_name: test_field_3
+                      field_name: test_field_3
+                      field_type: string
+                      description: ''
+                      id: e308a3db-4527-4c6f-9bfd-02eb580a10e2
+                      created: '2024-07-23T19:02:26.139111Z'
+                      modified: '2024-07-23T19:02:26.139141Z'
+                      external_id: null
+                    id: d2da8cfb-6cdb-4ba6-b02c-1ec85a1c32f4
+                    parent_id: 1
+                    created: '2024-07-23T19:02:33.705217Z'
+                    modified: '2024-07-23T19:02:33.705245Z'
+                    external_id: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/monitoredservice/{ms_id}/custom_fields/{custom_field_value_id}/:
+    get:
+      operationId: retrieveAMSCustomFieldValue
+      summary: Retrieve a MS custom field value
+      tags:
+      - Custom Field Values for a Monitored Service
+      description: 'Returns the value associated with a specific custom field.
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        value
+
+        String
+
+        Custom field value specific to the parent
+
+        "test_value"
+
+
+        custom_field_id
+
+        String (UUID)
+
+        ID of custom field
+
+        "bcd705b3-8de2-4e10-9de4-4c9a27d05060"
+
+
+        custom_field
+
+        Object
+
+        Information about the custom field
+
+        See nested fields below
+
+
+        custom_field.display_name
+
+        String
+
+        Display name of the custom field
+
+        "test_field_1"
+
+
+        custom_field.field_name
+
+        String
+
+        Field name of the custom field
+
+        "test_field_1"
+
+
+        custom_field.field_type
+
+        String
+
+        Data type of the custom field
+
+        "string"
+
+
+        custom_field.description
+
+        String
+
+        Description of the custom field
+
+        "This is a test"
+
+
+        custom_field.id
+
+        String (UUID)
+
+        ID of the custom field
+
+        "bcd705b3-8de2-4e10-9de4-4c9a27d05060"
+
+
+        custom_field.created
+
+        String (ISO datetime)
+
+        When the custom field was created
+
+        "2024-07-23T18:11:51.855378Z"
+
+
+        custom_field.modified
+
+        String (ISO datetime)
+
+        When the custom field was last modified
+
+        "2024-07-23T18:11:51.855425Z"
+
+
+        custom_field.external_id
+
+        String or null
+
+        External ID of the custom field
+
+        null
+
+
+        id
+
+        String (UUID)
+
+        ID of field > monitored service link
+
+        "485c31ec-e906-409e-81f0-9fdb0f42f4fa"
+
+
+        parent_id
+
+        Integer
+
+        ID of parent monitored service
+
+        1
+
+
+        created
+
+        String (ISO datetime)
+
+        When the link was created
+
+        "2024-07-23T18:12:56.348662Z"
+
+
+        modified
+
+        String (ISO datetime)
+
+        When link was last updated
+
+        "2024-07-23T18:12:56.348700Z"
+
+
+        external_id
+
+        String or null
+
+        External ID
+
+        null'
+      parameters:
+      - name: ms_id
+        in: path
+        required: true
+        description: Path parameter ms_id
+        schema:
+          type: string
+      - name: custom_field_value_id
+        in: path
+        required: true
+        description: Path parameter custom_field_value_id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Retrieve MS Custom Field Value
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                RetrieveMSCustomFieldValue:
+                  summary: Retrieve MS Custom Field Value
+                  value:
+                    value: test_value
+                    custom_field_id: bcd705b3-8de2-4e10-9de4-4c9a27d05060
+                    custom_field:
+                      display_name: test_field_1
+                      field_name: test_field_1
+                      field_type: string
+                      description: This is a test
+                      id: bcd705b3-8de2-4e10-9de4-4c9a27d05060
+                      created: '2024-07-23T18:11:51.855378Z'
+                      modified: '2024-07-23T18:11:51.855425Z'
+                      external_id: null
+                    id: 485c31ec-e906-409e-81f0-9fdb0f42f4fa
+                    parent_id: 1
+                    created: '2024-07-23T18:12:56.348662Z'
+                    modified: '2024-07-23T18:12:56.348700Z'
+                    external_id: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: updateMSCustomFieldValue
+      summary: Update MS custom field value
+      tags:
+      - Custom Field Values for a Monitored Service
+      description: 'Updates a custom field value for a specified monitored service.
+
+
+        Request Body
+
+
+        Field
+
+        Data Type
+
+        Required
+
+        Description
+
+        Example
+
+
+        value
+
+        String (max 40 chars), Integer, or Float
+
+        No
+
+        Custom field value specific to the parent
+
+        "new_value"
+
+
+        external_id
+
+        String (max 256 chars)
+
+        No
+
+        External ID
+
+        null
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        value
+
+        String
+
+        Custom field value specific to the parent
+
+        "new_value"
+
+
+        custom_field_id
+
+        String (UUID)
+
+        ID of custom field
+
+        "e308a3db-4527-4c6f-9bfd-02eb580a10e2"
+
+
+        custom_field
+
+        Object
+
+        Information about the custom field
+
+        See nested fields below
+
+
+        custom_field.display_name
+
+        String
+
+        Display name of the custom field
+
+        "test_field_3"
+
+
+        custom_field.field_name
+
+        String
+
+        Field name of the custom field
+
+        "test_field_3"
+
+
+        custom_field.field_type
+
+        String
+
+        Data type of the custom field
+
+        "string"
+
+
+        custom_field.description
+
+        String
+
+        Description of the custom field
+
+        ""
+
+
+        custom_field.id
+
+        String (UUID)
+
+        ID of the custom field
+
+        "e308a3db-4527-4c6f-9bfd-02eb580a10e2"
+
+
+        custom_field.created
+
+        String (ISO datetime)
+
+        When the custom field was created
+
+        "2024-07-23T19:02:26.139111Z"
+
+
+        custom_field.modified
+
+        String (ISO datetime)
+
+        When the custom field was last modified
+
+        "2024-07-23T19:02:26.139141Z"
+
+
+        custom_field.external_id
+
+        String or null
+
+        External ID of the custom field
+
+        null
+
+
+        id
+
+        String (UUID)
+
+        ID of field > monitored service link
+
+        "d2da8cfb-6cdb-4ba6-b02c-1ec85a1c32f4"
+
+
+        parent_id
+
+        Integer
+
+        ID of parent monitored service
+
+        1
+
+
+        created
+
+        String (ISO datetime)
+
+        When the link was created
+
+        "2024-07-23T19:02:33.705217Z"
+
+
+        modified
+
+        String (ISO datetime)
+
+        When link was last updated
+
+        "2024-07-23T19:17:11.457099Z"
+
+
+        external_id
+
+        String or null
+
+        External ID
+
+        null'
+      parameters:
+      - name: ms_id
+        in: path
+        required: true
+        description: Path parameter ms_id
+        schema:
+          type: string
+      - name: custom_field_value_id
+        in: path
+        required: true
+        description: Path parameter custom_field_value_id
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              value: new_value
+      responses:
+        '200':
+          description: Update MS Custom Field Value
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                UpdateMSCustomFieldValue:
+                  summary: Update MS Custom Field Value
+                  value:
+                    value: new_value
+                    custom_field_id: e308a3db-4527-4c6f-9bfd-02eb580a10e2
+                    custom_field:
+                      display_name: test_field_3
+                      field_name: test_field_3
+                      field_type: string
+                      description: ''
+                      id: e308a3db-4527-4c6f-9bfd-02eb580a10e2
+                      created: '2024-07-23T19:02:26.139111Z'
+                      modified: '2024-07-23T19:02:26.139141Z'
+                      external_id: null
+                    id: d2da8cfb-6cdb-4ba6-b02c-1ec85a1c32f4
+                    parent_id: 1
+                    created: '2024-07-23T19:02:33.705217Z'
+                    modified: '2024-07-23T19:17:11.457099Z'
+                    external_id: null
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: deleteMSCustomFieldValue
+      summary: Delete MS custom field value
+      tags:
+      - Custom Field Values for a Monitored Service
+      description: 'Deletes a custom field value for a specified monitored service.
+
+
+        Response
+
+
+        Returns HTTP 204 No Content on successful deletion.'
+      parameters:
+      - name: ms_id
+        in: path
+        required: true
+        description: Path parameter ms_id
+        schema:
+          type: string
+      - name: custom_field_value_id
+        in: path
+        required: true
+        description: Path parameter custom_field_value_id
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Delete MS custom field value
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      title: Error
+      description: Standard Django REST Framework error envelope returned by the AppOmni API.
+      properties:
+        detail:
+          type: string
+          description: Human readable error message
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'AppOmni API access token, created and managed in the AppOmni platform under Settings > API Settings. Sent as `Authorization: Bearer <token>`.'

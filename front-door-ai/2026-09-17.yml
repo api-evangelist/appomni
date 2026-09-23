@@ -1,0 +1,33 @@
+# Front Door AI Index — appomni — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: appomni
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: appomni.com
+  final_host: appomni.com
+  ownership: own
+  owner: appomni
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 62
+  host_score: 62
+  density: 37.35
+  words: 1660
+  tiers:
+    agentic: 10
+    core: 43
+    model: 9
+  ambiguous: 10
+  top_terms:
+    AI: 42
+    agent: 10
+    agentic: 5
+    AI agent: 4
+    Anthropic: 4
+    OpenAI: 4
+    Claude: 1
+    gen ai: 1
+    prompts: 1

@@ -1,0 +1,295 @@
+openapi: 3.2.0
+info:
+  title: AppOmni , Insights and Audit Discovery API
+  description: 'SaaS discovery, security Insights and the AppOmni platform audit log.
+
+
+    Derived faithfully from the AppOmni public Postman collection published by AppOmni at https://api.appomni.com/ — every path, method, parameter, request body and example response below is taken verbatim from that collection. No operation was invented.'
+  version: 1.0.0
+  contact:
+    name: AppOmni
+    url: https://appomni.com/support/
+  license:
+    name: Proprietary
+    url: https://appomni.com/terms-of-service/
+  x-generated-from: AppOmni public Postman collection (publishedId 2sBXc7Mjib, published 2026-02-04)
+  x-generated-source: https://api.appomni.com/api/collections/45135595/2sBXc7Mjib?segregateAuth=true&versionTag=latest
+  x-generated-method: derived
+  x-generated-date: '2026-09-04'
+servers:
+- url: https://{instance}.appomni.com
+  description: AppOmni tenant. Replace {instance} with your AppOmni subdomain — e.g. `acme` if you log in at acme.appomni.com.
+  variables:
+    instance:
+      default: example
+      description: Your AppOmni tenant subdomain
+security:
+- bearerAuth: []
+tags:
+- name: Discovery
+paths:
+  /api/v1/discovery/apps/:
+    get:
+      operationId: retrieveAppDiscoveryApp
+      summary: Retrieve App Discovery App
+      tags:
+      - Discovery
+      description: 'Returns a specific Discovery App.
+
+
+        Response Fields
+
+
+        Same fields as List Discovery apps endpoint, but returns a single object instead of an array.'
+      parameters:
+      - name: app
+        in: query
+        required: false
+        description: Query parameter app
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Retrieve Discovery App
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                RetrieveDiscoveryApp:
+                  summary: Retrieve Discovery App
+                  value:
+                    saas_application:
+                      name: AppOmni
+                      saas_domain: appomni.com
+                      company_name: AppOmni
+                      categories: '[''Cloud Management'', ''Cloud Security'', ''Cyber Security'', ''SaaS'', ''Software'']'
+                      description: AppOmni SaaS security helps security and IT teams protect and monitor their entire SaaS environment, from each vendor to every end-user.
+                      founded_on: '2018'
+                      headquarters_city: San Francisco
+                      headquarters_country: United States
+                    owner: user1@example.com
+                    segments: /example1 /example2
+                    subdomains: example
+                    status: approved
+                    criticality: high
+                    cached_unique_users_count: 3
+                    cached_total_ingress_kb: 100
+                    cached_total_egress_kb: 100
+                    cached_total_duration_ms: 60000
+                    cached_first_seen: '1960-01-01T0:00:00.0000Z'
+                    cached_last_seen: '2025-05-15T0:00:00.0000Z'
+                    stats_last_updated: '2025-05-15T0:00:00.0000Z'
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/discovery/user-app-pages/:
+    get:
+      operationId: retrieveAppDiscoveryUserAppPage
+      summary: Retrieve App Discovery UserAppPage
+      tags:
+      - Discovery
+      description: 'Returns Discovery UserAppPages filtered by user and/or app.
+
+
+        Response Fields
+
+
+        Returns an array of UserAppPage objects with the same fields as List Discovery UserAppPages endpoint.'
+      parameters:
+      - name: user
+        in: query
+        required: false
+        description: Query parameter user
+        schema:
+          type: string
+      - name: app
+        in: query
+        required: false
+        description: Query parameter app
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Retrieve Discovery UserAppPage
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              examples:
+                RetrieveDiscoveryUserAppPage:
+                  summary: Retrieve Discovery UserAppPage
+                  value:
+                  - identity:
+                      email: user1@example.com
+                      user_agents_seen: '["Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"]'
+                    org_saas_application:
+                      saas_application:
+                        name: AppOmni
+                        saas_domain: appomni.com
+                        company_name: AppOmni
+                        categories: '[''Cloud Management'', ''Cloud Security'', ''Cyber Security'', ''SaaS'', ''Software'']'
+                        description: AppOmni SaaS security helps security and IT teams protect and monitor their entire SaaS environment, from each vendor to every end-user.
+                        founded_on: '2018'
+                        headquarters_city: San Francisco
+                        headquarters_country: United States
+                      owner: user1@example.com
+                      segments: /example1 /example2
+                      subdomains: example
+                      status: approved
+                      criticality: high
+                      cached_unique_users_count: 3
+                      cached_total_ingress_kb: 100
+                      cached_total_egress_kb: 100
+                      cached_total_duration_ms: 60000
+                      cached_first_seen: '1960-01-01T0:00:00.0000Z'
+                      cached_last_seen: '2025-05-15T0:00:00.0000Z'
+                      stats_last_updated: '2025-05-15T0:00:00.0000Z'
+                    segments: /example1
+                    subdomains: example
+                    duration_ms: 30000
+                    data_ingress_kb: 50
+                    data_egress_kb: 50
+                    visits_count: 12
+                    first_visited_at: '1960-01-01T0:00:00.0000Z'
+                    last_visited_at: '2025-05-15T0:00:00.0000Z'
+                  - identity:
+                      email: user1@example.com
+                      user_agents_seen: '["Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"]'
+                    org_saas_application:
+                      saas_application:
+                        name: Omniscreen
+                        saas_domain: omniscreen.io
+                        company_name: Omniscreen
+                        categories: '[''Cyber Security'']'
+                        description: Omniscreen is the industry's most effective network security posture management (NSPM) tool, enabling organizations to apply open-source, third-party, or proprietary scanning methodologies against the web-facing infrastructure of their cloud implementations.
+                        founded_on: '2024'
+                        headquarters_city: Austin
+                        headquarters_country: United States
+                      owner: user2@example.com
+                      segments: ''
+                      subdomains: ''
+                      status: approved
+                      criticality: high
+                      cached_unique_users_count: 5
+                      cached_total_ingress_kb: 200
+                      cached_total_egress_kb: 200
+                      cached_total_duration_ms: 1200000
+                      cached_first_seen: '1960-01-01T0:00:00.0000Z'
+                      cached_last_seen: '2025-05-15T0:00:00.0000Z'
+                      stats_last_updated: '2025-05-15T0:00:00.0000Z'
+                    segments: ''
+                    subdomains: ''
+                    duration_ms: 10000
+                    data_ingress_kb: 100
+                    data_egress_kb: 100
+                    visits_count: 50
+                    first_visited_at: '1960-01-01T0:00:00.0000Z'
+                    last_visited_at: '2025-05-15T0:00:00.0000Z'
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/discovery/users/:
+    get:
+      operationId: retrieveAppDiscoveryUser
+      summary: Retrieve App Discovery User
+      tags:
+      - Discovery
+      description: 'Returns a specific Discovery user.
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        email
+
+        String
+
+        The email address of the Discovery user
+
+        " user1@example.com "
+
+
+        user_agents_seen
+
+        String
+
+        JSON array of user agent strings the Discovery user has generated
+
+        "["Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)..."]"'
+      parameters:
+      - name: user
+        in: query
+        required: false
+        description: Query parameter user
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Retrieve Discovery User
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                RetrieveDiscoveryUser:
+                  summary: Retrieve Discovery User
+                  value:
+                    email: user1@example.com
+                    user_agents_seen: '["Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"]'
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      title: Error
+      description: Standard Django REST Framework error envelope returned by the AppOmni API.
+      properties:
+        detail:
+          type: string
+          description: Human readable error message
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'AppOmni API access token, created and managed in the AppOmni platform under Settings > API Settings. Sent as `Authorization: Bearer <token>`.'

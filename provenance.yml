@@ -48,10 +48,7 @@ artifacts:
   json-structure/appomni-occurrence-structure.json:
     method: unknown
     evidence: no authorship recorded
-  kin/checks-2026-09-04T062714.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-05T153418.yml:
+  kin/checks-2026-09-05T072335.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-08-06T210741.yml:
@@ -174,12 +171,24 @@ artifacts:
   kin/score-2026-09-04T062714.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-04T212454.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-04T224856.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T055819.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T072335.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
   lifecycle/appomni-lifecycle.yml:
     method: searched
     evidence: declared in the artifact
   llms/appomni-llms.txt:
-    method: unknown
-    evidence: no authorship recorded
+    method: searched
+    evidence: 'derive-llms-provenance.py: harvested'
   mcp/appomni-mcp.yml:
     method: searched
     evidence: declared in the artifact

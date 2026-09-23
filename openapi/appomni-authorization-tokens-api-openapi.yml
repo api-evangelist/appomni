@@ -1,0 +1,537 @@
+openapi: 3.2.0
+info:
+  title: AppOmni Identity and Access Authorization Tokens API
+  description: 'Unified identities, AppOmni platform users, groups, roles and API authorization tokens.
+
+
+    Derived faithfully from the AppOmni public Postman collection published by AppOmni at https://api.appomni.com/ — every path, method, parameter, request body and example response below is taken verbatim from that collection. No operation was invented.'
+  version: 1.0.0
+  contact:
+    name: AppOmni
+    url: https://appomni.com/support/
+  license:
+    name: Proprietary
+    url: https://appomni.com/terms-of-service/
+  x-generated-from: AppOmni public Postman collection (publishedId 2sBXc7Mjib, published 2026-02-04)
+  x-generated-source: https://api.appomni.com/api/collections/45135595/2sBXc7Mjib?segregateAuth=true&versionTag=latest
+  x-generated-method: derived
+  x-generated-date: '2026-09-04'
+servers:
+- url: https://{instance}.appomni.com
+  description: AppOmni tenant. Replace {instance} with your AppOmni subdomain — e.g. `acme` if you log in at acme.appomni.com.
+  variables:
+    instance:
+      default: example
+      description: Your AppOmni tenant subdomain
+security:
+- bearerAuth: []
+tags:
+- name: Authorization Tokens
+paths:
+  /oauth/token/:
+    post:
+      operationId: exchangeRefreshTokenForNewAccessToken
+      summary: Exchange refresh token for new access token
+      tags:
+      - Authorization Tokens
+      description: 'This is a standard OAuth 2.0 "Refresh Token Grant" flow that enables the exchange of a valid Refresh Token for a new Access Token. The valid Access Token can then be used to make authenticated API requests in the context of the user who granted the Refresh Token.
+
+
+        Request Body
+
+
+        Field
+
+        Data Type
+
+        Required
+
+        Description
+
+        Example
+
+
+        grant_type
+
+        String
+
+        Yes
+
+        OAuth2 grant type (must be "refresh_token")
+
+        refresh_token
+
+
+        refresh_token
+
+        String
+
+        Yes
+
+        Your Refresh Token
+
+        {{refreshtoken}}
+
+
+        client_id
+
+        String
+
+        Yes
+
+        The Client ID of your AppOmni API Application
+
+        {{api_app_client_id}}
+
+
+        client_secret
+
+        String
+
+        Yes
+
+        The Client Secret of your AppOmni API Application
+
+        {{api_app_client_secret}}
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        access_token
+
+        String
+
+        API access token
+
+        XXXXX
+
+
+        expires_in
+
+        Integer
+
+        Token expiration time in seconds
+
+        3600
+
+
+        token_type
+
+        String
+
+        Type of authentication token
+
+        Bearer
+
+
+        scope
+
+        String
+
+        Permissions granted to the token
+
+
+        refresh_token
+
+        String
+
+        Token to refresh access token
+
+        XXXXX'
+      responses:
+        '200':
+          description: Exchange Refresh Token for New Access Token
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                ExchangeRefreshTokenforNewAccessToken:
+                  summary: Exchange Refresh Token for New Access Token
+                  value:
+                    access_token: XXXXX
+                    expires_in: 3600
+                    token_type: Bearer
+                    scope: ''
+                    refresh_token: XXXXX
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/oauthaccesstoken/manual/:
+    post:
+      operationId: manuallyGrantAccessTokenWithSpecificExpirationDate
+      summary: Manually Grant Access Token with Specific Expiration Date
+      tags:
+      - Authorization Tokens
+      description: 'Use this route to grant an Access Token with a custom expiration date. This can be used to create long-lived API tokens where necessary for service-to-service integrations that cannot execute the OAuth 2.0 token grant flow using a Refresh Token.
+
+
+        When using this capability, a new Refresh Token will be created for the specified Application. An Access Token with the specified expiration date will be granted under that Refresh Token.
+
+
+        In the request, application is the ID of the AppOmni API Application to grant the token under. The API token you are using to make this request must have access to the application.
+
+
+        You can execute a GET request on /api/v1/core/oauthapplication/?limit=25&offset=0&ordering=-name to obtain ID''s for available API applications.
+
+
+        Request Body
+
+
+        Field
+
+        Data Type
+
+        Required
+
+        Description
+
+        Example
+
+
+        application
+
+        Integer
+
+        Yes
+
+        Application
+
+        11472
+
+
+        description
+
+        String
+
+        Yes
+
+        Description of the resource
+
+        Example Description. Setting to expire on 05/31...
+
+
+        access_token_expiration
+
+        String (ISO datetime)
+
+        Yes
+
+        Access token expiration
+
+        2025-05-31T07:00:00.000Z
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        application
+
+        Integer
+
+        Application
+
+        11472
+
+
+        access_token_expiration
+
+        String (ISO datetime)
+
+        Access token expiration
+
+        2025-05-31T07:00:00Z
+
+
+        access_token
+
+        String
+
+        API access token
+
+        XXXXX
+
+
+        refresh_token
+
+        String
+
+        Token to refresh access token
+
+        XXXXX
+
+
+        description
+
+        String
+
+        Description of the resource
+
+        Example Description. Setting to expire on 05/31...'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              application: 11472
+              description: Example Description. Setting to expire on 05/31/2025
+              access_token_expiration: '2025-05-31T07:00:00.000Z'
+      responses:
+        '200':
+          description: Example of manual token grant
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                Exampleofmanualtokengrant:
+                  summary: Example of manual token grant
+                  value:
+                    application: 11472
+                    access_token_expiration: '2025-05-31T07:00:00Z'
+                    access_token: XXXXX
+                    refresh_token: XXXXX
+                    description: Example Description. Setting to expire on 05/31/2025
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /oauth/introspect/:
+    get:
+      operationId: introspectAccessToken
+      summary: Introspect Access Token
+      tags:
+      - Authorization Tokens
+      description: 'This is a RFC 7662-compliant Access Token Introspection endpoint. When making a query to the introspection endpoint with your valid access token in the Authorization header, you will get a response including the Client ID of the API Application the Access Token belongs to, the unix timestamp the token expires at, and the username of the user to which the token grants access under.
+
+
+        https://datatracker.ietf.org/doc/html/rfc7662#section-2.2'
+      responses:
+        '200':
+          description: Introspect Access Token
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "{\n    \"active\": true,\n    \"exp\": 1788793177,\n    \"client_id\": \"XXX\",\n    \"username\": user123\"\n}"
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /oauth/revoke/:
+    post:
+      operationId: revokeRefreshToken
+      summary: Revoke Refresh Token
+      tags:
+      - Authorization Tokens
+      description: 'This is a RFC 7009-compliant revocation route for OAuth Refresh Tokens granted under AppOmni API Applications.
+
+
+        This route should be called via POST with the token parameter containing the value of the Refresh Token to be revoked. The token, and all Access Tokens granted under it, will be immediately revoked.
+
+
+        https://datatracker.ietf.org/doc/html/rfc7009#section-2.1'
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/oauthrefreshtoken/{token_id}/:
+    delete:
+      operationId: revokeRefreshTokenByTokenID
+      summary: Revoke Refresh Token by Token ID
+      tags:
+      - Authorization Tokens
+      parameters:
+      - name: token_id
+        in: path
+        required: true
+        description: Path parameter token_id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/oauthapplication/:
+    get:
+      operationId: getAPIApplicationByClientID
+      summary: Get API Application by Client ID
+      tags:
+      - Authorization Tokens
+      description: Using this route you are able to query for an AppOmni API Application (OAuthApplication object) by Client ID. This will allow you to convert a Client ID to the API Application ID, which may be necessary for other operations (e.g. rotating the client secret via API).
+      parameters:
+      - name: client_id
+        in: query
+        required: false
+        description: Query parameter client_id
+        schema:
+          type: string
+        example: CLIENT_ID
+      responses:
+        '200':
+          description: Get API Application by Client ID
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "[\n    {\n        \"id\": 1,\n        \"created\": \"2025-09-07T14:59:37.872737Z\",\n        \"modified\": \"2025-09-07T14:59:37.872717Z\",\n        \"external_id\": null,\n        \"created_by\": 1,\n        \"modified_by\": null,\n        \"owner\": 1,\n        \"name\": \"Sample Application\",\n        \"description\": null\n        \"client_id\": \"ABCDEF123456\",\n        \"redirect_uris\": \"\",\n        \"client_type\": \"confidential\",\n        \"authorization_grant_type\": \"authorization-code\",\n        \"skip_authorization\": false,\n        \"allowed_scopes\": [],\n    }\n]"
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v1/core/oauthapplication/{app_id}/rotate_client_secret/:
+    post:
+      operationId: rotateAnAPIApplicationSClientSecret
+      summary: Rotate an API Application's Client Secret
+      tags:
+      - Authorization Tokens
+      description: 'Making a POST request to this route with valid authorization credentials (must be a valid API token with access to manage the API Application in question) will immediately rotate the API Application''s client secret. The new client secret will be required for all future Access Token grant requests in conjunction with a valid Refresh Token.
+
+
+        All existing Refresh Tokens will remain valid, and all Access Tokens previously granted and still valid will remain so until their expiration time.
+
+
+        In most cases this action is only required if you believe your API Application''s Client Secret has been compromised. Otherwise, it is recommended you revoke and issue new Refresh Tokens.
+
+
+        Response Fields
+
+
+        Field
+
+        Data Type
+
+        Description
+
+        Example
+
+
+        client_secret
+
+        String
+
+        Client secret
+
+        NEW_CLIENT_SECRET'
+      parameters:
+      - name: app_id
+        in: path
+        required: true
+        description: Path parameter app_id
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Rotate an API Application's Client Secret
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                RotateanAPIApplicationsClientSecret:
+                  summary: Rotate an API Application's Client Secret
+                  value:
+                    client_secret: NEW_CLIENT_SECRET
+        '401':
+          description: Unauthorized — missing or invalid AppOmni API token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden — the token lacks permission for this resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      title: Error
+      description: Standard Django REST Framework error envelope returned by the AppOmni API.
+      properties:
+        detail:
+          type: string
+          description: Human readable error message
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'AppOmni API access token, created and managed in the AppOmni platform under Settings > API Settings. Sent as `Authorization: Bearer <token>`.'
