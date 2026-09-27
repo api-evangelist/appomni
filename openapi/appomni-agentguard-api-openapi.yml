@@ -74,25 +74,51 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    AgentGuardClassifierResult:
+    Error:
       type: object
-      title: AgentGuardClassifierResult
+      title: Error
+      description: Standard Django REST Framework error envelope returned by the AppOmni API.
       properties:
-        name:
+        detail:
           type: string
-        type:
+          description: Human readable error message
+    AgentGuardPrompt:
+      type: object
+      title: AgentGuardPrompt
+      required:
+      - role
+      - content
+      - content_type
+      properties:
+        role:
           type: string
-        status:
+          description: Message role, e.g. `user` or `system`
+        content:
+          type: string
+          description: The prompt text to classify
+        content_type:
+          type: string
+          description: Media type of `content`
+          example: text/plain
+    AgentGuardClassifyResponse:
+      type: object
+      title: AgentGuardClassifyResponse
+      required:
+      - response_action
+      - response_message
+      - scores
+      - block_reasons
+      - classifiers
+      - effective_threshold
+      properties:
+        response_action:
           type: string
           enum:
-          - success
-          - timeout
-          - error
-          - skipped
-        duration_ms:
-          type: integer
-        applied_threshold:
-          type: number
+          - allow
+          - block
+          description: Verdict — `block` means the prompt must not be forwarded to the model
+        response_message:
+          type: string
         scores:
           type: object
           properties:
@@ -104,12 +130,13 @@ components:
           type: array
           items:
             type: string
-        details:
-          type: object
-          additionalProperties: true
-        error:
-          type: string
-        skip_reason:
+        classifiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/AgentGuardClassifierResult'
+        effective_threshold:
+          type: number
+        event_id:
           type: string
     AgentGuardClassifyRequest:
       type: object
@@ -163,25 +190,25 @@ components:
                   type: string
                 src_ip:
                   type: string
-    AgentGuardClassifyResponse:
+    AgentGuardClassifierResult:
       type: object
-      title: AgentGuardClassifyResponse
-      required:
-      - response_action
-      - response_message
-      - scores
-      - block_reasons
-      - classifiers
-      - effective_threshold
+      title: AgentGuardClassifierResult
       properties:
-        response_action:
+        name:
+          type: string
+        type:
+          type: string
+        status:
           type: string
           enum:
-          - allow
-          - block
-          description: Verdict — `block` means the prompt must not be forwarded to the model
-        response_message:
-          type: string
+          - success
+          - timeout
+          - error
+          - skipped
+        duration_ms:
+          type: integer
+        applied_threshold:
+          type: number
         scores:
           type: object
           properties:
@@ -193,40 +220,13 @@ components:
           type: array
           items:
             type: string
-        classifiers:
-          type: array
-          items:
-            $ref: '#/components/schemas/AgentGuardClassifierResult'
-        effective_threshold:
-          type: number
-        event_id:
+        details:
+          type: object
+          additionalProperties: true
+        error:
           type: string
-    Error:
-      type: object
-      title: Error
-      description: Standard Django REST Framework error envelope returned by the AppOmni API.
-      properties:
-        detail:
+        skip_reason:
           type: string
-          description: Human readable error message
-    AgentGuardPrompt:
-      type: object
-      title: AgentGuardPrompt
-      required:
-      - role
-      - content
-      - content_type
-      properties:
-        role:
-          type: string
-          description: Message role, e.g. `user` or `system`
-        content:
-          type: string
-          description: The prompt text to classify
-        content_type:
-          type: string
-          description: Media type of `content`
-          example: text/plain
   securitySchemes:
     bearerAuth:
       type: http

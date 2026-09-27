@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: AppOmni Policies [Beta] Policy Assessment Stats [Beta]……
+  title: AppOmni Policies [Beta] Policy Assessment Stats [Beta]………
   description: 'Security policy and rule configuration, policy assessment and rule-event handling across monitored SaaS services.
 
 
