@@ -74,32 +74,43 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    Error:
+    AgentGuardClassifierResult:
       type: object
-      title: Error
-      description: Standard Django REST Framework error envelope returned by the AppOmni API.
+      title: AgentGuardClassifierResult
       properties:
-        detail:
+        name:
           type: string
-          description: Human readable error message
-    AgentGuardPrompt:
-      type: object
-      title: AgentGuardPrompt
-      required:
-      - role
-      - content
-      - content_type
-      properties:
-        role:
+        type:
           type: string
-          description: Message role, e.g. `user` or `system`
-        content:
+        status:
           type: string
-          description: The prompt text to classify
-        content_type:
+          enum:
+          - success
+          - timeout
+          - error
+          - skipped
+        duration_ms:
+          type: integer
+        applied_threshold:
+          type: number
+        scores:
+          type: object
+          properties:
+            benign:
+              type: number
+            malicious:
+              type: number
+        block_reasons:
+          type: array
+          items:
+            type: string
+        details:
+          type: object
+          additionalProperties: true
+        error:
           type: string
-          description: Media type of `content`
-          example: text/plain
+        skip_reason:
+          type: string
     AgentGuardClassifyResponse:
       type: object
       title: AgentGuardClassifyResponse
@@ -190,43 +201,32 @@ components:
                   type: string
                 src_ip:
                   type: string
-    AgentGuardClassifierResult:
+    Error:
       type: object
-      title: AgentGuardClassifierResult
+      title: Error
+      description: Standard Django REST Framework error envelope returned by the AppOmni API.
       properties:
-        name:
+        detail:
           type: string
-        type:
+          description: Human readable error message
+    AgentGuardPrompt:
+      type: object
+      title: AgentGuardPrompt
+      required:
+      - role
+      - content
+      - content_type
+      properties:
+        role:
           type: string
-        status:
+          description: Message role, e.g. `user` or `system`
+        content:
           type: string
-          enum:
-          - success
-          - timeout
-          - error
-          - skipped
-        duration_ms:
-          type: integer
-        applied_threshold:
-          type: number
-        scores:
-          type: object
-          properties:
-            benign:
-              type: number
-            malicious:
-              type: number
-        block_reasons:
-          type: array
-          items:
-            type: string
-        details:
-          type: object
-          additionalProperties: true
-        error:
+          description: The prompt text to classify
+        content_type:
           type: string
-        skip_reason:
-          type: string
+          description: Media type of `content`
+          example: text/plain
   securitySchemes:
     bearerAuth:
       type: http
