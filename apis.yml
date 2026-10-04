@@ -682,6 +682,9 @@ apis:
   - type: APIReference
     url: https://api.appomni.com/
 common:
+- type: CapabilityMap
+  url: capabilities/appomni-capability-edges.yml
+  name: AppOmni Business Capability Map
 - type: Overlay
   url: overlays/appomni-security-events-api-overlay.yaml
 - type: Overlay

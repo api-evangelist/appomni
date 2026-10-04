@@ -1,0 +1,68 @@
+slug: appomni
+provider: AppOmni
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 5
+edges:
+- tag: Users and Roles
+  spec_file: appomni-users-and-roles-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.82
+  evidence: GET /api/v1/core/group/ listRBACRoles "List RBAC Roles"; PUT /api/v1/core/user/{user_id}/enable_breakglass
+    "Enable breakglass access for emergencies"
+  reason: Platform user accounts, RBAC roles, activation/deactivation and emergency break-glass access
+    are plainly identity and access management (including privileged access), not HR employee records.
+- tag: Identity
+  spec_file: appomni-identity-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.78
+  evidence: '"List unified identities", "List monitored service users linked to a unified identity", description:
+    "Unified identities, AppOmni platform users, groups, roles"'
+  reason: Correlation of user accounts across monitored SaaS services into unified identities is identity
+    governance/federation over access — Identity & Access Management.
+- tag: AO Developer Platform
+  spec_file: appomni-ao-developer-platform-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.72
+  evidence: 'The AppOmni Developer Platform (AODP): custom monitored service types, their settings, permissions
+    and scopes, and the event ingest endpoint'
+  reason: Operations model security settings, permissions and scopes for custom monitored services and
+    ingest security events into an SSPM platform — clearly cybersecurity posture monitoring. Evidence
+    spans posture configuration, permission/scope modelling and event ingest, so no single L2 (governance
+    vs. detection vs. IAM) is cleanly indicated; L1 only.
+- tag: Policies
+  spec_file: appomni-policies-api-openapi.yml
+  capability_id: BC-620.10
+  capability_id_l1: BC-620
+  capability_name: Security Strategy & Governance Management
+  confidence: 0.72
+  evidence: '"Retrieve Posture Policies", "Start Policy Scan", "List Compliance Controls for Policy Rule",
+    "List open policy violations"'
+  reason: Configuration, scanning and violation reporting of security posture policies and their mapped
+    compliance controls is security policy/governance (security GRC), not generic corporate policy management.
+- tag: SCIM User Management
+  spec_file: appomni-scim-user-management-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: '"SCIM 2.0 user and group provisioning endpoints used to connect an identity provider to AppOmni";
+    GET /scim/v2/Users allUsers, GET /scim/v2/Groups listGroups'
+  reason: Standard SCIM user/group provisioning from an IdP — identity lifecycle and federation, i.e.
+    Identity & Access Management. Some ambiguity with the SaaS-specific tenant identity federation capability,
+    hence 0.7.
