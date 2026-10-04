@@ -74,81 +74,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    AgentGuardClassifierResult:
-      type: object
-      title: AgentGuardClassifierResult
-      properties:
-        name:
-          type: string
-        type:
-          type: string
-        status:
-          type: string
-          enum:
-          - success
-          - timeout
-          - error
-          - skipped
-        duration_ms:
-          type: integer
-        applied_threshold:
-          type: number
-        scores:
-          type: object
-          properties:
-            benign:
-              type: number
-            malicious:
-              type: number
-        block_reasons:
-          type: array
-          items:
-            type: string
-        details:
-          type: object
-          additionalProperties: true
-        error:
-          type: string
-        skip_reason:
-          type: string
-    AgentGuardClassifyResponse:
-      type: object
-      title: AgentGuardClassifyResponse
-      required:
-      - response_action
-      - response_message
-      - scores
-      - block_reasons
-      - classifiers
-      - effective_threshold
-      properties:
-        response_action:
-          type: string
-          enum:
-          - allow
-          - block
-          description: Verdict — `block` means the prompt must not be forwarded to the model
-        response_message:
-          type: string
-        scores:
-          type: object
-          properties:
-            benign:
-              type: number
-            malicious:
-              type: number
-        block_reasons:
-          type: array
-          items:
-            type: string
-        classifiers:
-          type: array
-          items:
-            $ref: '#/components/schemas/AgentGuardClassifierResult'
-        effective_threshold:
-          type: number
-        event_id:
-          type: string
     AgentGuardClassifyRequest:
       type: object
       title: AgentGuardClassifyRequest
@@ -201,14 +126,6 @@ components:
                   type: string
                 src_ip:
                   type: string
-    Error:
-      type: object
-      title: Error
-      description: Standard Django REST Framework error envelope returned by the AppOmni API.
-      properties:
-        detail:
-          type: string
-          description: Human readable error message
     AgentGuardPrompt:
       type: object
       title: AgentGuardPrompt
@@ -227,6 +144,89 @@ components:
           type: string
           description: Media type of `content`
           example: text/plain
+    Error:
+      type: object
+      title: Error
+      description: Standard Django REST Framework error envelope returned by the AppOmni API.
+      properties:
+        detail:
+          type: string
+          description: Human readable error message
+    AgentGuardClassifyResponse:
+      type: object
+      title: AgentGuardClassifyResponse
+      required:
+      - response_action
+      - response_message
+      - scores
+      - block_reasons
+      - classifiers
+      - effective_threshold
+      properties:
+        response_action:
+          type: string
+          enum:
+          - allow
+          - block
+          description: Verdict — `block` means the prompt must not be forwarded to the model
+        response_message:
+          type: string
+        scores:
+          type: object
+          properties:
+            benign:
+              type: number
+            malicious:
+              type: number
+        block_reasons:
+          type: array
+          items:
+            type: string
+        classifiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/AgentGuardClassifierResult'
+        effective_threshold:
+          type: number
+        event_id:
+          type: string
+    AgentGuardClassifierResult:
+      type: object
+      title: AgentGuardClassifierResult
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        status:
+          type: string
+          enum:
+          - success
+          - timeout
+          - error
+          - skipped
+        duration_ms:
+          type: integer
+        applied_threshold:
+          type: number
+        scores:
+          type: object
+          properties:
+            benign:
+              type: number
+            malicious:
+              type: number
+        block_reasons:
+          type: array
+          items:
+            type: string
+        details:
+          type: object
+          additionalProperties: true
+        error:
+          type: string
+        skip_reason:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http
