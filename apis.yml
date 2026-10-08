@@ -682,6 +682,8 @@ apis:
   - type: APIReference
     url: https://api.appomni.com/
 common:
+- type: FinOps
+  url: finops/appomni-finops.yml
 - type: CapabilityMap
   url: capabilities/appomni-capability-edges.yml
   name: AppOmni Business Capability Map
