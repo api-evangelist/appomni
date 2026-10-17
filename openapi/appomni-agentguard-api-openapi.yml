@@ -126,24 +126,6 @@ components:
                   type: string
                 src_ip:
                   type: string
-    AgentGuardPrompt:
-      type: object
-      title: AgentGuardPrompt
-      required:
-      - role
-      - content
-      - content_type
-      properties:
-        role:
-          type: string
-          description: Message role, e.g. `user` or `system`
-        content:
-          type: string
-          description: The prompt text to classify
-        content_type:
-          type: string
-          description: Media type of `content`
-          example: text/plain
     Error:
       type: object
       title: Error
@@ -190,6 +172,24 @@ components:
           type: number
         event_id:
           type: string
+    AgentGuardPrompt:
+      type: object
+      title: AgentGuardPrompt
+      required:
+      - role
+      - content
+      - content_type
+      properties:
+        role:
+          type: string
+          description: Message role, e.g. `user` or `system`
+        content:
+          type: string
+          description: The prompt text to classify
+        content_type:
+          type: string
+          description: Media type of `content`
+          example: text/plain
     AgentGuardClassifierResult:
       type: object
       title: AgentGuardClassifierResult
