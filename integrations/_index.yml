@@ -65,3 +65,29 @@
   relationship: platform-app
   status: not-a-workflow
   arazzo: null
+- slug: appomni-slack-own
+  label: Slack (own)
+  partner: slack
+  partner_name: Slack (own)
+  category: Slack app
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://slack.com/marketplace/A017HR72XLL-appomni
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
+- slug: appomni-zoom-own
+  label: Zoom (own)
+  partner: zoom
+  partner_name: Zoom (own)
+  category: Zoom app
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://marketplace.zoom.us/apps/vl2Fvbr9RlO62ygZr5sP0A
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
