@@ -126,6 +126,10 @@ apis:
   baseURL: https://{instance}.appomni.com
   tags:
   - Identity
+  - Identity and Access Management
+  - Zero Trust
+  tags_raw:
+  - Identity
   - Access Management
   - Zero Trust
   properties:
