@@ -3,8 +3,15 @@ method: searched
 checked:
 - crowdstrike/integrations/crowdstrike-integration-edges.yml
 - datadog/integrations/datadog-integration-edges.yml
+- https://api.nuget.org/v3
 - https://aws.amazon.com/marketplace/
 - https://azuremarketplace.microsoft.com/
+- https://crates.io/api/v1
+- https://proxy.golang.org
+- https://pypi.org/pypi
+- https://registry.npmjs.org
+- https://repo1.maven.org/maven2
+- https://rubygems.org/api/v1
 - okta/integrations/okta-integration-edges.yml
 - slack/integrations/slack-integration-edges.yml
 - zoom/integrations/zoom-integration-edges.yml
@@ -129,6 +136,36 @@ edges:
   detected: '2026-10-18'
   detected_by: mirror-platform-listings.py
   category: Zoom app
+- partner_name: npm registry
+  partner: npm
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (JavaScript/TypeScript)
+  evidence: https://www.npmjs.com/package/@appomni/n8n-nodes-agentguard
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: npm registry (public registry JSON)
+    spec_file: null
+    language: JavaScript/TypeScript
+    packages:
+    - name: '@appomni/n8n-nodes-agentguard'
+      version: 0.1.2
+      released: '2026-05-22'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@appomni/n8n-nodes-agentguard
+      repo_leg: domain:appomni.com
+      publisher_leg: email:appomni.com
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  detected_by: sweep-official-sdks.py
+  first_seen: '2026-10-18'
 source:
 - crowdstrike/integrations/crowdstrike-integration-edges.yml
 - datadog/integrations/datadog-integration-edges.yml
