@@ -1,4 +1,4 @@
-# AppOmni (appomni)
+# AppOmni
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,114 +64,209 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-AppOmni is a SaaS and AI security platform (SSPM) that gives security teams continuous visibility into
-the posture, identities, third-party connections and data exposure of the SaaS applications that run an
-enterprise — Salesforce, Microsoft 365, Google Workspace, Slack, ServiceNow, Okta, Workday, GitHub, Box,
-Zoom, and custom applications built on the AppOmni Developer Platform.
+AppOmni is a SaaS and AI security platform (SSPM) that gives security teams continuous visibility into the posture, identities, third-party connections and data exposure of the SaaS applications that run an enterprise — Salesforce, Microsoft 365, Google Workspace, Slack, ServiceNow, Okta, Workday, GitHub, Box, Zoom and custom applications built on its Developer Platform. It publishes a tenant-scoped REST API covering posture findings, policies, compliance reporting, monitored services, identity, discovery, insights, SCIM 2.0 provisioning and AI security, plus AskOmni (an MCP server) and AgentGuard runtime prompt protection for agentic AI.
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/appomni/refs/heads/main/apis.yml)
+**Areas:** SaaS Security · SSPM · Compliance · Threat Detection · CASB · Zero Trust · Identity · SCIM · AI Security · Posture Management
 
-## Where the contract came from
+## AppOmni on APIs.io
 
-AppOmni does **not** publish an OpenAPI document. Its machine-readable contract is a **public Postman
-collection**, served at [https://api.appomni.com/](https://api.appomni.com/) (Postman Documenter,
-`publishedId` `2sBXc7Mjib`, published 2026-02-04) — 144 requests across 18 product areas with 127 saved
-example responses.
+Everything profiled for AppOmni is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/appomni/](https://apis.io/providers/appomni/)** — or go straight to one of the APIs or properties below.
 
-That collection is saved here verbatim at
-[collections/appomni-api.postman_collection.json](collections/appomni-api.postman_collection.json), and
-the nine OpenAPI 3.1.0 documents in `openapi/` were derived from it operation by operation — 132
-operations, every path, method, parameter, request body and example response taken from AppOmni's own
-document. One further operation, the AgentGuard prompt-classification endpoint, is derived from the
-source of AppOmni's own published npm package `@appomni/n8n-nodes-agentguard`.
+### APIs (18)
 
-> **Correction, 2026-09-04.** This repository previously carried a four-operation OpenAPI that was
-> authored from AppOmni marketing prose rather than harvested. It declared a base URL of
-> `https://api.appomni.com/v1` — that host is AppOmni's Postman documenter, not an API host — and paths
-> (`/events`, `/policies`, `/compliance/reports`) that AppOmni does not serve. It has been archived to
-> [openapi/_archive/](openapi/_archive/) as a provenance record and is no longer registered. The JSON
-> Schema, JSON Structure, example, JSON-LD context and vocabulary built on that fabricated model were
-> rebuilt from AppOmni's real response bodies at the same time.
+- [AppOmni Policies API](https://apis.io/apis/appomni/appomni-policies-api/) — Create, read, update and delete AppOmni security policies and the rules inside them, run and inspect policy assessments, and handle rule events — closing…
+- [AppOmni Monitored Services API](https://apis.io/apis/appomni/appomni-monitored-services-api/) — Register and administer the SaaS services AppOmni monitors, inspect their data-sync state, rotate ingest tokens, and manage the tenant-wide custom fields,…
+- [AppOmni Identity and Access API](https://apis.io/apis/appomni/appomni-identity-api/) — Unified identities that stitch a person's monitored-service accounts together by email, plus AppOmni platform users, limited users, groups, roles,…
+- [AppOmni Agent Guard API](https://apis.io/apis/appomni/appomni-agentguard-api/) — AppOmni AgentGuard runtime prompt security — DLP and prompt-firewall classification for AI agent traffic.
+- [AppOmni AO Developer Platform API](https://apis.io/apis/appomni/appomni-ao-developer-platform-api/) — The AppOmni Developer Platform (AODP) enables the creation of custom service types allowing you to monitor the security posture of any application,…
+- [AppOmni Audit Logs API](https://apis.io/apis/appomni/appomni-audit-logs-api/) — The Audit Logs API from AppOmni — 2 operation(s) for audit logs.
+- [AppOmni Authorization Tokens API](https://apis.io/apis/appomni/appomni-authorization-tokens-api/) — The Authorization Tokens API from AppOmni — 7 operation(s) for authorization tokens.
+- [AppOmni [Beta] Policy Assessment Stats API](https://apis.io/apis/appomni/appomni-beta-policy-assessment-stats-api/) — THIS FEATURE IS IN BETA - Please contact Customer Success to enable this early access API Provides a granular breakdown of policy assessments across…
+- [AppOmni Custom Field Values for a Monitored Service API](https://apis.io/apis/appomni/appomni-custom-field-values-for-a-monitored-service-api/) — The Custom Field Values API accesses the value of the custom field associated with a given monitored service.
+- [AppOmni Custom Fields API](https://apis.io/apis/appomni/appomni-custom-fields-api/) — The Custom Fields API controls the tenant-wide fields that can be custom-created and assigned to different monitored services. Note : Delete operations for…
+- [AppOmni Discovery API](https://apis.io/apis/appomni/appomni-discovery-api/) — The Discovery API from AppOmni — 3 operation(s) for discovery.
+- [AppOmni Insights API](https://apis.io/apis/appomni/appomni-insights-api/) — The Insights API from AppOmni — 6 operation(s) for insights.
+- [AppOmni Marlin AI API](https://apis.io/apis/appomni/appomni-marlin-ai-api/) — Marlin AI is an autonomous SaaS security AI that runs platform-wide deep analyses and correlations automatically across security observations in the AppOmni…
+- [AppOmni Posture Findings API](https://apis.io/apis/appomni/appomni-posture-findings-api/) — Posture Findings consolidates policy issues and Insights into a single view, allowing you to efficiently manage and resolve alerts. The Posture Findings API…
+- [AppOmni Reports API](https://apis.io/apis/appomni/appomni-reports-api/) — The Reports API from AppOmni — 6 operation(s) for reports.
+- [AppOmni SCIM User Management API](https://apis.io/apis/appomni/appomni-scim-user-management-api/) — Use SCIM to connect your identity provider to AppOmni, and utilize this API to: - Get all users in a company - Activate or deactivate users - Update a…
+- [AppOmni Users and Roles API](https://apis.io/apis/appomni/appomni-users-and-roles-api/) — The Users and Roles API from AppOmni — 7 operation(s) for users and roles.
+- [AppOmni Value List API](https://apis.io/apis/appomni/appomni-valuelist-api/) — ValueList and ValueListElement are used to manage lists of items used by Insights. ValueLists have a type designation and will be used by Insights on…
 
-**Base URL:** `https://{instance}.appomni.com` — every customer calls the API on their own AppOmni
-subdomain. There is no shared multi-tenant API host. Note that `*.appomni.com` is a wildcard that answers
-`200` with an SPA login shell for any unknown subdomain, so a `200` alone does not prove a tenant, a docs
-host or an MCP endpoint exists.
+### Published properties
 
-## APIs Covered
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-| API | Operations | Spec |
-|---|---|---|
-| AppOmni Posture Findings API | 12 | [openapi/appomni-security-events-api-openapi.yml](openapi/appomni-security-events-api-openapi.yml) |
-| AppOmni Policies API | 23 | [openapi/appomni-policies-api-openapi.yml](openapi/appomni-policies-api-openapi.yml) |
-| AppOmni Compliance and Reports API | 9 | [openapi/appomni-compliance-api-openapi.yml](openapi/appomni-compliance-api-openapi.yml) |
-| AppOmni Monitored Services API | 22 | [openapi/appomni-monitored-services-api-openapi.yml](openapi/appomni-monitored-services-api-openapi.yml) |
-| AppOmni Identity and Access API | 24 | [openapi/appomni-identity-api-openapi.yml](openapi/appomni-identity-api-openapi.yml) |
-| AppOmni SCIM 2.0 API | 5 | [openapi/appomni-scim-api-openapi.yml](openapi/appomni-scim-api-openapi.yml) |
-| AppOmni Discovery, Insights and Audit API | 11 | [openapi/appomni-discovery-insights-api-openapi.yml](openapi/appomni-discovery-insights-api-openapi.yml) |
-| AppOmni Developer Platform API | 24 | [openapi/appomni-developer-platform-api-openapi.yml](openapi/appomni-developer-platform-api-openapi.yml) |
-| AppOmni AI API | 2 | [openapi/appomni-ai-api-openapi.yml](openapi/appomni-ai-api-openapi.yml) |
+#### MCP servers (1)
 
-## What an agent needs to know
+Model Context Protocol servers that expose the API to agents.
 
-- **Auth** — `Authorization: Bearer <token>` from Settings > API Settings. AgentGuard and the Developer
-  Platform ingest endpoint use `X-AppOmni-Ingest-Token` instead. OAuth 2.0 refresh-token grant with
-  RFC 7662 introspection and RFC 7009 revocation. See
-  [authentication/](authentication/appomni-authentication.yml).
-- **No idempotency.** Zero occurrences of `idempot` across the whole published surface — there is no
-  `Idempotency-Key` header and no documented retry-safety guarantee on any of the 69 mutating operations.
-- **Reversibility is real but unbounded.** `restore`, `restore_by_filter`, `bulk_restore` and
-  `disable_breakglass` genuinely undo their counterparts, but AppOmni publishes no window inside which a
-  reversal works. `DELETE /rule/bulk_delete/` has no restore path at all. See
-  [conventions/](conventions/appomni-conventions.yml).
-- **Rate limits** — a single `X-RateLimit: <used>/<limit>` response header, observed limit 2000. No
-  `Retry-After`, no reset timestamp, no published window. See [rate-limits/](rate-limits/appomni-rate-limits.yml).
-- **Errors** — the Django REST Framework envelope `{"detail": "..."}`, not RFC 9457.
-- **MCP** — AppOmni publishes AskOmni as an MCP server, but it runs inside the customer's tenant and no
-  public endpoint or tool list is published. See [mcp/](mcp/appomni-mcp.yml).
-- **No `/.well-known/` document** is served on any AppOmni host. See
-  [well-known/](well-known/appomni-well-known.yml).
+- [AskOmni MCP Server](https://apis.io/servers/appomni/askomni-mcp-server/)
 
-## Artifacts
+#### Agentic access (1)
 
-| Artifact | Path |
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Appomni Agentic Access](https://apis.io/agentic-access/appomni/appomni-agentic-access/)
+
+#### JSON Schema (4)
+
+The data models the API reads and writes.
+
+- [Finding](https://apis.io/schemas/appomni/appomni-finding/)
+- [Occurrence](https://apis.io/schemas/appomni/appomni-occurrence/)
+- [PaginatedList](https://apis.io/schemas/appomni/appomni-paginated-list/)
+- [Moved to /providers/appomni/](https://apis.io/schemas/appomni/security-event/)
+
+#### JSON Structure (2)
+
+Data models expressed in JSON Structure.
+
+- [Appomni Occurrence Structure](https://apis.io/json-structure/appomni/appomni-occurrence-structure/)
+- [Moved to /providers/appomni/](https://apis.io/json-structure/appomni/security-event-structure/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Appomni Context](https://apis.io/jsonld/appomni/appomni-context/)
+
+#### Vocabulary (1)
+
+The provider's domain terms, defined.
+
+- [Appomni Vocabulary](https://apis.io/vocabularies/appomni/appomni-vocabulary/)
+
+#### Examples (2)
+
+Example requests and responses.
+
+- [Appomni Occurrence Example](https://apis.io/examples/appomni/appomni-occurrence-example/)
+- [Moved to /providers/appomni/](https://apis.io/examples/appomni/security-event-example/)
+
+#### Collections (3)
+
+Postman and Open Collection request collections.
+
+- [Moved to /providers/appomni/](https://apis.io/collections/appomni/open-appomni-compliance-api/)
+- [Moved to /providers/appomni/](https://apis.io/collections/appomni/open-appomni-policies-api/)
+- [Moved to /providers/appomni/](https://apis.io/collections/appomni/open-appomni-security-events-api/)
+
+#### Overlays (9)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Appomni Ai Api Overlay](https://apis.io/overlays/appomni/appomni-ai-api-overlay/)
+- [Appomni Compliance Api Overlay](https://apis.io/overlays/appomni/appomni-compliance-api-overlay/)
+- [Appomni Developer Platform Api Overlay](https://apis.io/overlays/appomni/appomni-developer-platform-api-overlay/)
+- [Appomni Discovery Insights Api Overlay](https://apis.io/overlays/appomni/appomni-discovery-insights-api-overlay/)
+- [Appomni Identity Api Overlay](https://apis.io/overlays/appomni/appomni-identity-api-overlay/)
+- [Appomni Monitored Services Api Overlay](https://apis.io/overlays/appomni/appomni-monitored-services-api-overlay/)
+- [Appomni Policies Api Overlay](https://apis.io/overlays/appomni/appomni-policies-api-overlay/)
+- [Appomni Scim Api Overlay](https://apis.io/overlays/appomni/appomni-scim-api-overlay/)
+- [Appomni Security Events Api Overlay](https://apis.io/overlays/appomni/appomni-security-events-api-overlay/)
+
+#### Governance rules (2)
+
+Spectral rulesets for the provider's contracts.
+
+- [AppOmni — jsonschema rules](https://apis.io/rules/appomni/appomni-jsonschema-spectral-rules/)
+- [AppOmni API Rules](https://apis.io/rules/appomni/appomni-spectral-rules/)
+
+#### Security (4)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Appomni Authentication](https://apis.io/security/appomni/appomni-authentication/)
+- [Appomni Domain Security](https://apis.io/security/appomni/appomni-domain-security/)
+- [Appomni Trust Center](https://apis.io/security/appomni/appomni-trust-center/)
+- [Appomni Vulnerability Disclosure](https://apis.io/security/appomni/appomni-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Appomni Plans Pricing](https://apis.io/plans/appomni/appomni-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Appomni Rate Limits](https://apis.io/rate-limits/appomni/appomni-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Appomni Finops](https://apis.io/finops/appomni/appomni-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://appomni.com/)
+- [Documentation](https://appomni.com/resources/)
+- [API reference](https://api.appomni.com/)
+- [Sign up](https://appomni.com/demo-request/)
+- [Support](https://appomni.com/support/)
+- [Blog](https://appomni.com/article-type/blog/)
+- [Security](https://appomni.com/ao-labs-vulnerability-disclosure-policy/)
+- [Terms of service](https://appomni.com/terms-of-service/)
+- [Privacy policy](https://appomni.com/privacy-policy/)
+- [GitHub](https://github.com/appomni)
+- [Status](https://status.appomni.com/)
+
+## API Evangelist rating
+
+**Kin Score 56.3** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
 |---|---|
-| Postman collection (verbatim, first-party) | [collections/appomni-api.postman_collection.json](collections/appomni-api.postman_collection.json) |
-| OpenAPI (9 specs, 132 operations) | [openapi/](openapi/) |
-| Overlays | [overlays/](overlays/) |
-| Agent Skills | [skills/_index.yml](skills/_index.yml) |
-| Agentic access contracts | [agentic-access/appomni-agentic-access.yml](agentic-access/appomni-agentic-access.yml) |
-| MCP server + tool crosswalk | [mcp/](mcp/) |
-| llms.txt | [llms/appomni-llms.txt](llms/appomni-llms.txt) |
-| Authentication | [authentication/appomni-authentication.yml](authentication/appomni-authentication.yml) |
-| Conventions (idempotency, reversibility, pagination) | [conventions/appomni-conventions.yml](conventions/appomni-conventions.yml) |
-| Error catalog | [errors/appomni-problem-types.yml](errors/appomni-problem-types.yml) |
-| Rate limits | [rate-limits/appomni-rate-limits.yml](rate-limits/appomni-rate-limits.yml) |
-| Plans and pricing | [plans/appomni-plans-pricing.yml](plans/appomni-plans-pricing.yml) |
-| Lifecycle, SLA and status | [lifecycle/appomni-lifecycle.yml](lifecycle/appomni-lifecycle.yml) |
-| Conformance and compliance | [conformance/appomni-conformance.yml](conformance/appomni-conformance.yml) |
-| Data model | [data-model/appomni-data-model.yml](data-model/appomni-data-model.yml) |
-| Packages | [packages/appomni-packages.yml](packages/appomni-packages.yml) |
-| Domain security | [security/appomni-domain-security.yml](security/appomni-domain-security.yml) |
-| Vulnerability disclosure | [security/appomni-vulnerability-disclosure.yml](security/appomni-vulnerability-disclosure.yml) |
-| Trust center | [security/appomni-trust-center.yml](security/appomni-trust-center.yml) |
-| Well-known probe | [well-known/appomni-well-known.yml](well-known/appomni-well-known.yml) |
-| JSON Schema | [json-schema/](json-schema/) |
-| JSON Structure | [json-structure/](json-structure/) |
-| JSON-LD context | [json-ld/appomni-context.jsonld](json-ld/appomni-context.jsonld) |
-| Spectral rules | [rules/](rules/) |
-| Vocabulary | [vocabulary/appomni-vocabulary.yaml](vocabulary/appomni-vocabulary.yaml) |
-| FinOps | [finops/appomni-finops.yml](finops/appomni-finops.yml) |
+| Discoverability | 77.5 |
+| Contract quality | 68.1 |
+| Contract governance | 35.6 |
+| Operational transparency | 50.0 |
+| Developer ergonomics | 42.3 |
+| Access clarity | 50.0 |
 
-## What AppOmni does not publish
+**Agent readiness 35.7** — agent-ready
 
-No pricing page, no changelog or release notes, no deprecation or sunset policy, no webhooks or AsyncAPI
-event surface, no CLI, no embeddable components, no client SDK in any language registry, no `llms.txt`,
-no `/.well-known/` documents, and no A2A agent card. Each of those absences is recorded with the URL and
-status code that was probed, in the artifact it belongs to.
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | mostly |
 
-## Maintainers
+**Regulatory alignment 35.3** — Horizontal (data, software, accessibility, platform)
 
-**FN:** API Evangelist
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/appomni/](https://apis.io/providers/appomni/).
 
-**Email:** info@apievangelist.com
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for AppOmni: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/appomni/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
